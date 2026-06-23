@@ -3,11 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { Router } from "@angular/router";
 import { AuthResponse, User, ProfileUpdate } from "../models/api.models";
+import { enviroment } from "../../enviroments/enviroment";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private readonly TOKEN_KEY = "wt_token";
   private readonly USER_KEY = "wt_user";
+
+  private readonly API = enviroment.BaseURL;
 
   private userSubject = new BehaviorSubject<User | null>(this.loadStoredUser());
   user$ = this.userSubject.asObservable();
@@ -38,10 +41,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(
-        "https://376554e4-a589-443a-aee6-696a6a55e252-00-2bfom7xdsl2gz.spock.replit.dev/api/auth/login",
-        { email, password },
-      )
+      .post<AuthResponse>(`${this.API}/auth/login`, { email, password })
       .pipe(
         tap((res) => {
           localStorage.setItem(this.TOKEN_KEY, res.token);

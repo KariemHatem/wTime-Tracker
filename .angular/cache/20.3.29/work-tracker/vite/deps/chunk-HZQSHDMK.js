@@ -11,40 +11,32 @@ import {
 } from "./chunk-PZQPEFOM.js";
 import {
   Button
-} from "./chunk-YKOFSL73.js";
+} from "./chunk-R2IDSHSL.js";
 import {
   DomHandler,
   blockBodyScroll,
   unblockBodyScroll
-} from "./chunk-FBBIOOAC.js";
+} from "./chunk-7MRBFNIP.js";
 import {
   TimesIcon,
   WindowMaximizeIcon,
   WindowMinimizeIcon
-} from "./chunk-2BWHYNIR.js";
+} from "./chunk-IHFVH3BD.js";
 import {
   BaseComponent,
   PARENT_INSTANCE
-} from "./chunk-RKISDVW6.js";
-import {
-  BaseStyle
-} from "./chunk-XJJ3OXF2.js";
+} from "./chunk-2RPJ6FLG.js";
 import {
   Bind
 } from "./chunk-NR7IH7AU.js";
 import {
+  BaseStyle
+} from "./chunk-G4ZVM7M3.js";
+import {
   PrimeTemplate,
   SharedModule,
   TranslationKeys
-} from "./chunk-L7I6F5RC.js";
-import {
-  CommonModule,
-  NgClass,
-  NgIf,
-  NgStyle,
-  NgTemplateOutlet,
-  isPlatformBrowser
-} from "./chunk-UISJT42F.js";
+} from "./chunk-GLSZTZRP.js";
 import {
   C,
   Lt,
@@ -60,6 +52,14 @@ import {
   v,
   vt
 } from "./chunk-TIK557PQ.js";
+import {
+  CommonModule,
+  NgClass,
+  NgIf,
+  NgStyle,
+  NgTemplateOutlet,
+  isPlatformBrowser
+} from "./chunk-UISJT42F.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -2092,4 +2092,4 @@ export {
   Dialog,
   DialogModule
 };
-//# sourceMappingURL=chunk-Q3AQ3V4J.js.map
+//# sourceMappingURL=chunk-HZQSHDMK.js.map

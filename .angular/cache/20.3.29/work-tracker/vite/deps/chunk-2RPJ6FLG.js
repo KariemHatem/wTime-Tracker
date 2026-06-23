@@ -4,10 +4,7 @@ import {
   PrimeNG,
   S,
   base
-} from "./chunk-XJJ3OXF2.js";
-import {
-  isPlatformServer
-} from "./chunk-UISJT42F.js";
+} from "./chunk-G4ZVM7M3.js";
 import {
   C2 as C,
   F,
@@ -20,6 +17,9 @@ import {
   s3 as s2,
   w
 } from "./chunk-TIK557PQ.js";
+import {
+  isPlatformServer
+} from "./chunk-UISJT42F.js";
 import {
   ChangeDetectorRef,
   DOCUMENT,
@@ -568,4 +568,4 @@ export {
   PARENT_INSTANCE,
   BaseComponent
 };
-//# sourceMappingURL=chunk-RKISDVW6.js.map
+//# sourceMappingURL=chunk-2RPJ6FLG.js.map

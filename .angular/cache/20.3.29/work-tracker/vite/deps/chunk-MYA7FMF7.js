@@ -1,6 +1,6 @@
 import {
   BaseModelHolder
-} from "./chunk-W6C3LAOW.js";
+} from "./chunk-RZA334FK.js";
 import {
   Directive,
   Input,
@@ -148,4 +148,4 @@ var BaseEditableHolder = class _BaseEditableHolder extends BaseModelHolder {
 export {
   BaseEditableHolder
 };
-//# sourceMappingURL=chunk-U4DGGOFV.js.map
+//# sourceMappingURL=chunk-MYA7FMF7.js.map
