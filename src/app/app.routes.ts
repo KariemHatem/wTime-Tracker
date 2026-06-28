@@ -23,7 +23,7 @@ export const routes: Routes = [
         canActivate: [adminGuard],
         children: [
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'overview',  loadComponent: () => import('./pages/admin/overview/overview.component').then(m => m.AdminOverviewComponent) },
+          { path: 'overview',  loadComponent: () => import('./pages/admin/overview/overview').then(m => m.AdminOverviewComponent) },
           { path: 'users',     loadComponent: () => import('./pages/admin/users/users.component').then(m => m.AdminUsersComponent) },
           { path: 'reports',   loadComponent: () => import('./pages/admin/reports/admin-reports.component').then(m => m.AdminReportsComponent) },
           { path: 'activity',  loadComponent: () => import('./pages/admin/activity/activity').then(m => m.AdminActivityComponent) },
