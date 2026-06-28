@@ -1,0 +1,63 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="pi pi-clock"></i>
+      <h1>WorkTracker</h1>
+      <p>Sign in to your workspace</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          placeholder="you@company.com"
+          class="w-100"
+          [class.ng-invalid]="
+                form.get('email')?.invalid && form.get('email')?.touched
+              "
+        />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-100"
+          inputStyleClass="w-100"
+          placeholder="Enter your password"
+        />
+      </div>
+      <div
+        *ngIf="error"
+        class="mb-3"
+        style="
+          color: #ef4444;
+          font-size: 13px;
+          padding: 10px;
+          background: rgba(239, 68, 68, 0.08);
+          border-radius: 8px;
+        "
+      >
+        {{ error }}
+      </div>
+      <p-button
+        type="submit"
+        label="Sign in"
+        styleClass="w-100"
+        [loading]="loading"
+        [disabled]="form.invalid"
+      />
+    </form>
+
+    <div class="login-footer">
+      Default admin: <code>admin&#64;company.com</code> /
+      <code>admin123</code>
+    </div>
+  </div>
+</div>
