@@ -26,7 +26,7 @@ export const routes: Routes = [
           { path: 'overview',  loadComponent: () => import('./pages/admin/overview/overview.component').then(m => m.AdminOverviewComponent) },
           { path: 'users',     loadComponent: () => import('./pages/admin/users/users.component').then(m => m.AdminUsersComponent) },
           { path: 'reports',   loadComponent: () => import('./pages/admin/reports/admin-reports.component').then(m => m.AdminReportsComponent) },
-          { path: 'activity',  loadComponent: () => import('./pages/admin/activity/activity.component').then(m => m.AdminActivityComponent) },
+          { path: 'activity',  loadComponent: () => import('./pages/admin/activity/activity').then(m => m.AdminActivityComponent) },
           { path: 'analytics', loadComponent: () => import('./pages/admin/analytics/analytics.component').then(m => m.AdminAnalyticsComponent) },
         ],
       },
