@@ -24,7 +24,7 @@ export const routes: Routes = [
         children: [
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: 'overview',  loadComponent: () => import('./pages/admin/overview/overview').then(m => m.AdminOverviewComponent) },
-          { path: 'users',     loadComponent: () => import('./pages/admin/users/users.component').then(m => m.AdminUsersComponent) },
+          { path: 'users',     loadComponent: () => import('./pages/admin/users/users').then(m => m.AdminUsersComponent) },
           { path: 'reports',   loadComponent: () => import('./pages/admin/reports/admin-reports').then(m => m.AdminReportsComponent) },
           { path: 'activity',  loadComponent: () => import('./pages/admin/activity/activity').then(m => m.AdminActivityComponent) },
           { path: 'analytics', loadComponent: () => import('./pages/admin/analytics/analytics').then(m => m.AdminAnalyticsComponent) },
