@@ -9,7 +9,7 @@ import { User } from "../../models/api.models";
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: "./layout.html",
-  styleUrl: "./layout.css",
+  styleUrl: "./layout.scss",
 })
 export class LayoutComponent implements OnInit {
   user: User | null = null;
