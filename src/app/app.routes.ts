@@ -15,7 +15,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.DashboardComponent) },
-      { path: 'sessions',  loadComponent: () => import('./pages/sessions/sessions.component').then(m => m.SessionsComponent) },
+      { path: 'sessions',  loadComponent: () => import('./pages/sessions/sessions').then(m => m.SessionsComponent) },
       { path: 'reports',   loadComponent: () => import('./pages/reports/reports').then(m => m.ReportsComponent) },
       { path: 'settings',  loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent) },
       {
