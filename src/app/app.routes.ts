@@ -17,7 +17,7 @@ export const routes: Routes = [
       { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.DashboardComponent) },
       { path: 'sessions',  loadComponent: () => import('./pages/sessions/sessions').then(m => m.SessionsComponent) },
       { path: 'reports',   loadComponent: () => import('./pages/reports/reports').then(m => m.ReportsComponent) },
-      { path: 'settings',  loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent) },
+      { path: 'settings',  loadComponent: () => import('./pages/settings/settings').then(m => m.SettingsComponent) },
       {
         path: 'admin',
         canActivate: [adminGuard],
