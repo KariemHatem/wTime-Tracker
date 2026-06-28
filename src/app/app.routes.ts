@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: LayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
+      { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.DashboardComponent) },
       { path: 'sessions',  loadComponent: () => import('./pages/sessions/sessions.component').then(m => m.SessionsComponent) },
       { path: 'reports',   loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent) },
       { path: 'settings',  loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent) },
