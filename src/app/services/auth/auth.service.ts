@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { Router } from "@angular/router";
-import { AuthResponse, User, ProfileUpdate } from "../models/api.models";
-import { enviroment } from "../../enviroments/enviroment";
+import {  ProfileUpdate } from "../../models/api.models";
+import { enviroment } from "../../../enviroments/enviroment";
+import { User,AuthResponse } from "./user";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {

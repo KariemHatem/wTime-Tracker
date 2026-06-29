@@ -12,10 +12,10 @@ import {
   LoginActivity,
   WeeklyAnalytics,
   MonthlyAnalytics,
-  User,
   UserCreate,
   UserUpdate,
 } from "../models/api.models";
+import { User } from "./auth/user";
 import { enviroment } from "src/enviroments/enviroment";
 
 @Injectable({ providedIn: "root" })
