@@ -1,100 +1,148 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
 import {
-  WorkSession, TodayProgress, WeeklyReport, MonthlyReport,
-  DailyReportRow, AdminStats, UserMonitoring, LoginActivity,
-  WeeklyAnalytics, MonthlyAnalytics, User, UserCreate, UserUpdate
-} from '../models/api.models';
+  WorkSession,
+  TodayProgress,
+  WeeklyReport,
+  MonthlyReport,
+  DailyReportRow,
+  AdminStats,
+  UserMonitoring,
+  LoginActivity,
+  WeeklyAnalytics,
+  MonthlyAnalytics,
+  User,
+  UserCreate,
+  UserUpdate,
+} from "../models/api.models";
+import { enviroment } from "src/enviroments/enviroment";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  private httpCall = inject(HttpClient);
+  private readonly endPoint = enviroment.BaseURL;
 
-  // ── Sessions ────────────────────────────────────────────────────────────────
+  // Sessions API Calls
   listSessions(from?: string, to?: string): Observable<WorkSession[]> {
     let params = new HttpParams();
-    if (from) params = params.set('from', from);
-    if (to)   params = params.set('to', to);
-    return this.http.get<WorkSession[]>('/api/sessions', { params });
+    if (from) params = params.set("from", from);
+    if (to) params = params.set("to", to);
+    return this.httpCall.get<WorkSession[]>(`${this.endPoint}/sessions`, {
+      params,
+    });
   }
 
   getActiveSession(): Observable<WorkSession | null> {
-    return this.http.get<WorkSession | null>('/api/sessions/active');
+    return this.httpCall.get<WorkSession | null>(
+      `${this.endPoint}/sessions/active`,
+    );
   }
 
   getTodayProgress(): Observable<TodayProgress> {
-    return this.http.get<TodayProgress>('/api/sessions/today');
+    return this.httpCall.get<TodayProgress>(`${this.endPoint}/sessions/today`);
   }
 
   startSession(notes?: string): Observable<WorkSession> {
-    return this.http.post<WorkSession>('/api/sessions/start', { notes });
+    return this.httpCall.post<WorkSession>(`${this.endPoint}/sessions/start`, {
+      notes,
+    });
   }
 
   endSession(): Observable<WorkSession> {
-    return this.http.post<WorkSession>('/api/sessions/end', {});
+    return this.httpCall.post<WorkSession>(`${this.endPoint}/sessions/end`, {});
   }
 
-  // ── Reports ─────────────────────────────────────────────────────────────────
+  // Reports API Calls
   getDailyReport(date: string): Observable<DailyReportRow[]> {
-    return this.http.get<DailyReportRow[]>('/api/reports/daily', { params: { date } });
+    return this.httpCall.get<DailyReportRow[]>(
+      `${this.endPoint}/reports/daily`,
+      {
+        params: { date },
+      },
+    );
   }
 
   getWeeklyReport(week?: string): Observable<WeeklyReport> {
     let params = new HttpParams();
-    if (week) params = params.set('week', week);
-    return this.http.get<WeeklyReport>('/api/reports/weekly', { params });
+    if (week) params = params.set("week", week);
+    return this.httpCall.get<WeeklyReport>(`${this.endPoint}/reports/weekly`, {
+      params,
+    });
   }
 
   getMonthlyReport(year?: number, month?: number): Observable<MonthlyReport> {
     let params = new HttpParams();
-    if (year)  params = params.set('year', year);
-    if (month) params = params.set('month', month);
-    return this.http.get<MonthlyReport>('/api/reports/monthly', { params });
+    if (year) params = params.set("year", year);
+    if (month) params = params.set("month", month);
+    return this.httpCall.get<MonthlyReport>(
+      `${this.endPoint}/reports/monthly`,
+      { params },
+    );
   }
 
-  // ── Admin ───────────────────────────────────────────────────────────────────
+  // Admin API Calls
   getAdminStats(): Observable<AdminStats> {
-    return this.http.get<AdminStats>('/api/admin/stats');
+    return this.httpCall.get<AdminStats>(`${this.endPoint}/admin/stats`);
   }
 
   getUsersMonitoring(): Observable<UserMonitoring[]> {
-    return this.http.get<UserMonitoring[]>('/api/admin/users/monitoring');
+    return this.httpCall.get<UserMonitoring[]>(
+      `${this.endPoint}/admin/users/monitoring`,
+    );
   }
 
-  // ── Users ───────────────────────────────────────────────────────────────────
+  // Users API Calls
   listUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users');
+    return this.httpCall.get<User[]>(`${this.endPoint}/users`);
   }
 
   createUser(data: UserCreate): Observable<User> {
-    return this.http.post<User>('/api/users', data);
+    return this.httpCall.post<User>(`${this.endPoint}/users`, data);
   }
 
   updateUser(id: number, data: UserUpdate): Observable<User> {
-    return this.http.put<User>(`/api/users/${id}`, data);
+    return this.httpCall.put<User>(`${this.endPoint}/users/${id}`, data);
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/users/${id}`);
+    return this.httpCall.delete<void>(`${this.endPoint}/users/${id}`);
   }
 
-  // ── Login Activity ──────────────────────────────────────────────────────────
+  //  Login Activity API Calls
   getLoginActivity(limit = 50): Observable<LoginActivity[]> {
-    return this.http.get<LoginActivity[]>('/api/activity/login', { params: { limit } });
+    return this.httpCall.get<LoginActivity[]>(
+      `${this.endPoint}/activity/login`,
+      {
+        params: { limit },
+      },
+    );
   }
 
-  // ── Analytics ───────────────────────────────────────────────────────────────
+  //  Analytics API Calls
   getWeeklyAnalytics(week?: string): Observable<WeeklyAnalytics> {
     let params = new HttpParams();
-    if (week) params = params.set('week', week);
-    return this.http.get<WeeklyAnalytics>('/api/admin/analytics/weekly', { params });
+    if (week) params = params.set("week", week);
+    return this.httpCall.get<WeeklyAnalytics>(
+      `${this.endPoint}/admin/analytics/weekly`,
+      {
+        params,
+      },
+    );
   }
 
-  getMonthlyAnalytics(year?: number, month?: number): Observable<MonthlyAnalytics> {
+  getMonthlyAnalytics(
+    year?: number,
+    month?: number,
+  ): Observable<MonthlyAnalytics> {
     let params = new HttpParams();
-    if (year)  params = params.set('year', year);
-    if (month) params = params.set('month', month);
-    return this.http.get<MonthlyAnalytics>('/api/admin/analytics/monthly', { params });
+    if (year) params = params.set("year", year);
+    if (month) params = params.set("month", month);
+    return this.httpCall.get<MonthlyAnalytics>(
+      `${this.endPoint}/admin/analytics/monthly`,
+      {
+        params,
+      },
+    );
   }
 }

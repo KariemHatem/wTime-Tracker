@@ -52,7 +52,9 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http.post("/api/auth/logout", {}).subscribe({ error: () => {} });
+    this.http
+      .post(`${this.API}/auth/logout`, {})
+      .subscribe({ error: () => {} });
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.userSubject.next(null);
@@ -60,7 +62,7 @@ export class AuthService {
   }
 
   refreshUser(): Observable<User> {
-    return this.http.get<User>("/api/auth/me").pipe(
+    return this.http.get<User>(`${this.API}/auth/me`).pipe(
       tap((u) => {
         localStorage.setItem(this.USER_KEY, JSON.stringify(u));
         this.userSubject.next(u);
@@ -69,7 +71,7 @@ export class AuthService {
   }
 
   updateProfile(data: ProfileUpdate): Observable<User> {
-    return this.http.put<User>("/api/users/profile", data).pipe(
+    return this.http.put<User>(`${this.API}/users/profile`, data).pipe(
       tap((u) => {
         localStorage.setItem(this.USER_KEY, JSON.stringify(u));
         this.userSubject.next(u);
