@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -12,6 +12,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
 import { MessageModule } from "primeng/message";
 import { AuthService } from "../../services/auth/auth.service";
+import { Toater } from "src/app/services/toater";
 
 @Component({
   selector: "app-login",
@@ -32,6 +33,8 @@ export class LoginComponent {
   loading = false;
   error = "";
 
+  private toast = inject(Toater);
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -49,9 +52,13 @@ export class LoginComponent {
     this.error = "";
     const { email, password } = this.form.value;
     this.auth.login(email, password).subscribe({
-      next: () => this.router.navigate(["/dashboard"]),
+      next: (res: any) => {
+        this.toast.succesToaster("Login successful");
+        this.router.navigate(["/dashboard"]);
+      },
       error: () => {
-        this.error = "Invalid email or password.";
+        this.error = "Invalid credentials.";
+        this.toast.errorToaster("Invalid credentials");
         this.loading = false;
       },
     });
