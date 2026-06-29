@@ -66,6 +66,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.buildForm();
     this.load();
   }
   ngOnDestroy(): void {
@@ -96,6 +97,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
       targetHoursPerDay: [u?.targetHoursPerDay ?? 8, Validators.required],
       isAdmin: [u?.isAdmin ?? false],
     });
+
     this.workingDays = u ? [...u.workingDays] : [1, 2, 3, 4, 5];
   }
 
@@ -123,6 +125,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
+    console.log(this.form.value);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
