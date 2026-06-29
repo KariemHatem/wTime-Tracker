@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -13,7 +13,8 @@ import { PasswordModule } from "primeng/password";
 import { CheckboxModule } from "primeng/checkbox";
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
+import { Users } from "src/app/services/profile/users";
 
 const DAYS = [
   { label: "Sun", value: 0 },
@@ -57,6 +58,8 @@ export class SettingsComponent implements OnInit {
     private msg: MessageService,
   ) {}
 
+  private profile =  inject(Users)
+
   get user() {
     return this.auth.currentUser;
   }
@@ -91,7 +94,7 @@ export class SettingsComponent implements OnInit {
   saveProfile(): void {
     if (this.profileForm.invalid) return;
     this.savingProfile = true;
-    this.auth
+    this.profile
       .updateProfile({
         ...this.profileForm.value,
         workingDays: this.workingDays,
@@ -125,7 +128,7 @@ export class SettingsComponent implements OnInit {
       return;
     }
     this.savingPassword = true;
-    this.auth.updateProfile({ currentPassword, newPassword }).subscribe({
+    this.profile.updateProfile({ currentPassword, newPassword }).subscribe({
       next: () => {
         this.savingPassword = false;
         this.passwordForm.reset();

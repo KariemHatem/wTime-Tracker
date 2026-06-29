@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { AuthService } from "../../services/auth.service";
-import { User } from "../../models/api.models";
+import { AuthService } from "../../services/auth/auth.service";
+import { User } from "src/app/services/auth/user";
 
 @Component({
   selector: "app-layout",

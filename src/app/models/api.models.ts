@@ -1,19 +1,3 @@
-export interface User {
-  id: number;
-  fullName: string;
-  email: string;
-  targetHoursPerDay: number;
-  workingDays: number[];
-  isAdmin: boolean;
-  isActive: boolean;
-  createdAt: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: User;
-}
-
 export interface WorkSession {
   id: number;
   userId: number;
@@ -90,7 +74,7 @@ export interface UserMonitoring {
   fullName: string;
   email: string;
   isActive: boolean;
-  status?: 'working' | 'idle' | 'offline';
+  status?: "working" | "idle" | "offline";
   hoursToday: number;
   hoursThisWeek: number;
   lastLogin?: string | null;
@@ -146,13 +130,4 @@ export interface UserUpdate {
   workingDays?: number[];
   isActive?: boolean;
   isAdmin?: boolean;
-}
-
-export interface ProfileUpdate {
-  fullName?: string;
-  email?: string;
-  targetHoursPerDay?: number;
-  workingDays?: number[];
-  currentPassword?: string;
-  newPassword?: string;
 }

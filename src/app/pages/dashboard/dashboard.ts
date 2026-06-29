@@ -8,7 +8,7 @@ import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { ApiService } from "../../services/api.service";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
 import {
   TodayProgress,
   WorkSession,

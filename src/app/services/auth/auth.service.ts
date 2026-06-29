@@ -1,24 +1,20 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { Router } from "@angular/router";
-import { AuthResponse, User, ProfileUpdate } from "../models/api.models";
-import { enviroment } from "../../enviroments/enviroment";
+import { enviroment } from "../../../enviroments/enviroment";
+import { User, AuthResponse } from "./user";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private readonly TOKEN_KEY = "wt_token";
   private readonly USER_KEY = "wt_user";
-
+  private http = inject(HttpClient);
+  private router = inject(Router);
   private readonly API = enviroment.BaseURL;
 
   private userSubject = new BehaviorSubject<User | null>(this.loadStoredUser());
   user$ = this.userSubject.asObservable();
-
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
 
   get currentUser(): User | null {
     return this.userSubject.value;
@@ -52,7 +48,9 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http.post("/api/auth/logout", {}).subscribe({ error: () => {} });
+    this.http
+      .post(`${this.API}/auth/logout`, {})
+      .subscribe({ error: () => {} });
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.userSubject.next(null);
@@ -60,16 +58,7 @@ export class AuthService {
   }
 
   refreshUser(): Observable<User> {
-    return this.http.get<User>("/api/auth/me").pipe(
-      tap((u) => {
-        localStorage.setItem(this.USER_KEY, JSON.stringify(u));
-        this.userSubject.next(u);
-      }),
-    );
-  }
-
-  updateProfile(data: ProfileUpdate): Observable<User> {
-    return this.http.put<User>("/api/users/profile", data).pipe(
+    return this.http.get<User>(`${this.API}/auth/me`).pipe(
       tap((u) => {
         localStorage.setItem(this.USER_KEY, JSON.stringify(u));
         this.userSubject.next(u);
