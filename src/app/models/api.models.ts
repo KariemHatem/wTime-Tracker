@@ -131,12 +131,3 @@ export interface UserUpdate {
   isActive?: boolean;
   isAdmin?: boolean;
 }
-
-export interface ProfileUpdate {
-  fullName?: string;
-  email?: string;
-  targetHoursPerDay?: number;
-  workingDays?: number[];
-  currentPassword?: string;
-  newPassword?: string;
-}

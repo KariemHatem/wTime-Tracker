@@ -17,7 +17,7 @@ import { CheckboxModule } from "primeng/checkbox";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { ApiService } from "../../../services/api.service";
-import { User } from "../../../models/api.models";
+import { User } from "src/app/services/auth/user";
 
 const DAYS = [
   { label: "Sun", v: 0 },
