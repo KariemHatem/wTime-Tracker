@@ -1,10 +1,10 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { AuthService } from "../services/auth/auth.service";
 
 export const adminGuard: CanActivateFn = () => {
-  const auth   = inject(AuthService);
+  const auth = inject(AuthService);
   const router = inject(Router);
-  if (!auth.isAdmin) return router.createUrlTree(['/dashboard']);
+  if (!auth.isAdmin) return router.createUrlTree(["/dashboard"]);
   return true;
 };
