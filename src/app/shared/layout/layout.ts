@@ -1,9 +1,7 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../../services/auth/auth.service";
-import { User } from "src/app/services/auth/user";
-
 @Component({
   selector: "app-layout",
   standalone: true,

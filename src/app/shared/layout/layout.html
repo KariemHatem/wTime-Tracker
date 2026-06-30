@@ -35,8 +35,9 @@
       >
         <i class="pi pi-cog"></i> Settings
       </a>
-
-      <ng-container *ngIf="userSignal()?.isAdmin">
+      <!-- Admin -->
+      @if(userSignal()?.isAdmin){
+      <ng-container>
         <div class="wt-sidebar__section-label">Admin</div>
         <a
           class="wt-sidebar__link"
@@ -74,18 +75,22 @@
           <i class="pi pi-chart-line"></i> Analytics
         </a>
       </ng-container>
+      }
     </nav>
 
     <div class="wt-sidebar__footer">
-      <div class="user-info" *ngIf="userSignal() as user">
+      @if(userSignal()){
+      <div class="user-info">
         <div class="avatar">{{ initials }}</div>
         <div>
-          <div class="user-name">{{ user.fullName }}</div>
-          <div class="user-email" title="{{ user.email }}">
-            {{ user.email }}
+          <div class="user-name">{{ userSignal()?.fullName }}</div>
+          <div class="user-email" title="{{ userSignal()?.email }}">
+            {{ userSignal()?.email }}
           </div>
         </div>
       </div>
+      }
+
       <button class="logout-btn" (click)="logout()">
         <i class="pi pi-sign-out"></i> Sign out
       </button>
