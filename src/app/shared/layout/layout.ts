@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../../services/auth/auth.service";
@@ -11,17 +11,16 @@ import { User } from "src/app/services/auth/user";
   templateUrl: "./layout.html",
   styleUrl: "./layout.scss",
 })
-export class LayoutComponent implements OnInit {
-  user: User | null = null;
+export class LayoutComponent {
+  // Priv Prop
+  private auth = inject(AuthService);
 
-  constructor(private auth: AuthService) {}
-
-  ngOnInit(): void {
-    this.auth.user$.subscribe((u) => (this.user = u));
-  }
+  // Data Source
+  userSignal = this.auth.userSignal;
 
   get initials(): string {
-    return (this.user?.fullName ?? "")
+    const user = this.userSignal();
+    return (user?.fullName ?? "")
       .split(" ")
       .map((n) => n[0])
       .join("")

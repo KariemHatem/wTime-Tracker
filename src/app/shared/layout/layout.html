@@ -36,7 +36,7 @@
         <i class="pi pi-cog"></i> Settings
       </a>
 
-      <ng-container *ngIf="user?.isAdmin">
+      <ng-container *ngIf="userSignal()?.isAdmin">
         <div class="wt-sidebar__section-label">Admin</div>
         <a
           class="wt-sidebar__link"
@@ -77,7 +77,7 @@
     </nav>
 
     <div class="wt-sidebar__footer">
-      <div class="user-info" *ngIf="user">
+      <div class="user-info" *ngIf="userSignal() as user">
         <div class="avatar">{{ initials }}</div>
         <div>
           <div class="user-name">{{ user.fullName }}</div>
