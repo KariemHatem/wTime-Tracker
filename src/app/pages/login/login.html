@@ -33,8 +33,8 @@
           placeholder="Enter your password"
         />
       </div>
+      @if(error()){
       <div
-        *ngIf="error"
         class="mb-3"
         style="
           color: #ef4444;
@@ -44,20 +44,16 @@
           border-radius: 8px;
         "
       >
-        {{ error }}
+        {{ error() }}
       </div>
+      }
       <p-button
         type="submit"
         label="Sign in"
         styleClass="w-100"
-        [loading]="loading"
+        [loading]="loading()"
         [disabled]="form.invalid"
       />
     </form>
-
-    <div class="login-footer">
-      Default admin: <code>admin&#64;company.com</code> /
-      <code>admin123</code>
-    </div>
   </div>
 </div>

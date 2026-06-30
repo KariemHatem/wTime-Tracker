@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -13,6 +13,7 @@ import { PasswordModule } from "primeng/password";
 import { MessageModule } from "primeng/message";
 import { AuthService } from "../../services/auth/auth.service";
 import { Toater } from "src/app/services/toater";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-login",
@@ -28,18 +29,21 @@ import { Toater } from "src/app/services/toater";
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
 })
-export class LoginComponent {
-  form: FormGroup;
-  loading = false;
-  error = "";
+export class LoginComponent implements OnInit {
+  // Priv Prop
+  private toastServices = inject(Toater);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
-  private toast = inject(Toater);
+  // Data Source
+  form!: FormGroup;
+  loading = signal(false);
+  error = signal("");
 
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private router: Router,
-  ) {
+  // Lifecycle
+  ngOnInit(): void {
     this.form = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", Validators.required],
@@ -48,19 +52,26 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.form.invalid) return;
-    this.loading = true;
-    this.error = "";
+    this.loading.set(true);
+    this.error.set("");
     const { email, password } = this.form.value;
-    this.auth.login(email, password).subscribe({
-      next: (res: any) => {
-        this.toast.succesToaster("Login successful");
-        this.router.navigate(["/dashboard"]);
-      },
-      error: () => {
-        this.error = "Invalid credentials.";
-        this.toast.errorToaster("Invalid credentials");
-        this.loading = false;
-      },
-    });
+
+    this.auth
+      .login(email, password)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          this.loading.set(false);
+          this.toastServices.succesToaster("Login successful");
+          this.router.navigate(["/dashboard"]);
+        },
+
+        // Handle Error
+        error: () => {
+          this.error.set("Invalid credentials.");
+          this.toastServices.errorToaster("Invalid credentials");
+          this.loading.set(false);
+        },
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { Router } from "@angular/router";
@@ -13,14 +13,13 @@ export class AuthService {
   private router = inject(Router);
   private readonly API = enviroment.BaseURL;
 
-  private userSubject = new BehaviorSubject<User | null>(this.loadStoredUser());
-  user$ = this.userSubject.asObservable();
+  userSignal = signal<User | null>(this.loadStoredUser());
 
   get currentUser(): User | null {
-    return this.userSubject.value;
+    return this.userSignal();
   }
   get isAdmin(): boolean {
-    return this.userSubject.value?.isAdmin ?? false;
+    return this.userSignal()?.isAdmin ?? false;
   }
   get token(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
@@ -42,7 +41,7 @@ export class AuthService {
         tap((res) => {
           localStorage.setItem(this.TOKEN_KEY, res.token);
           localStorage.setItem(this.USER_KEY, JSON.stringify(res.user));
-          this.userSubject.next(res.user);
+          this.userSignal.set(res.user);
         }),
       );
   }
@@ -53,7 +52,7 @@ export class AuthService {
       .subscribe({ error: () => {} });
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
-    this.userSubject.next(null);
+    this.userSignal.set(null);
     this.router.navigate(["/login"]);
   }
 
@@ -61,7 +60,7 @@ export class AuthService {
     return this.http.get<User>(`${this.API}/auth/me`).pipe(
       tap((u) => {
         localStorage.setItem(this.USER_KEY, JSON.stringify(u));
-        this.userSubject.next(u);
+        this.userSignal.set(u);
       }),
     );
   }
