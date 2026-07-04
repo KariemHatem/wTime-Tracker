@@ -9,7 +9,6 @@ import {
   DailyReportRow,
   AdminStats,
   UserMonitoring,
-  LoginActivity,
   WeeklyAnalytics,
   MonthlyAnalytics,
   UserCreate,
@@ -107,16 +106,6 @@ export class ApiService {
 
   deleteUser(id: number): Observable<void> {
     return this.httpCall.delete<void>(`${this.endPoint}/users/${id}`);
-  }
-
-  //  Login Activity API Calls
-  getLoginActivity(limit = 50): Observable<LoginActivity[]> {
-    return this.httpCall.get<LoginActivity[]>(
-      `${this.endPoint}/activity/login`,
-      {
-        params: { limit },
-      },
-    );
   }
 
   //  Analytics API Calls
