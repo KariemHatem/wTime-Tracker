@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { enviroment } from "src/enviroments/enviroment";
 import { ActivityModel } from "./activity-model";
 
+export interface queryParams {}
+
 @Injectable({
   providedIn: "root",
 })
@@ -12,12 +14,9 @@ export class Activity {
   private readonly endPoint = enviroment.BaseURL;
 
   //  Login Activity API Calls
-  getLoginActivity(limit = 50): Observable<ActivityModel[]> {
+  getLoginActivity(): Observable<ActivityModel[]> {
     return this.httpCall.get<ActivityModel[]>(
       `${this.endPoint}/activity/login`,
-      {
-        params: { limit },
-      },
     );
   }
 }

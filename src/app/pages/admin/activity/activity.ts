@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  DestroyRef,
-  signal,
-} from "@angular/core";
+import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -13,6 +6,8 @@ import { SelectModule } from "primeng/select";
 import { ActivityModel } from "./../../../services/activity/activity-model";
 import { Activity } from "./../../../services/activity/activity";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { TablePageEvent } from "primeng/table";
+
 @Component({
   selector: "app-admin-activity",
   standalone: true,
@@ -28,22 +23,26 @@ export class AdminActivityComponent implements OnInit {
   // Data
   activity: ActivityModel[] = [];
   loading = signal(true);
-  limit = 50;
-  limitOptions = [
-    { label: "25 records", value: 25 },
-    { label: "50 records", value: 50 },
-    { label: "100 records", value: 100 },
-    { label: "200 records", value: 200 },
-  ];
+
+  params = {
+    pageSize: signal<number>(10),
+    pageNumber: signal<number>(1),
+  };
 
   ngOnInit(): void {
     this.load();
   }
 
+  pageChange(event: TablePageEvent) {
+    this.params.pageNumber.set(event.first);
+    this.params.pageSize.set(event.rows);
+  }
+
   load(): void {
     this.loading.set(true);
+    this.params.pageNumber.set(0);
     this.activityServices
-      .getLoginActivity(this.limit)
+      .getLoginActivity()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
@@ -60,6 +59,9 @@ export class AdminActivityComponent implements OnInit {
   }
 
   browserLabel(a: ActivityModel): string {
-    return [a.browser, a.operatingSystem].filter(Boolean).join(" / ") || "—";
+    return (
+      [a.browser, a.device, a.operatingSystem].filter(Boolean).join(" / ") ||
+      "—"
+    );
   }
 }
