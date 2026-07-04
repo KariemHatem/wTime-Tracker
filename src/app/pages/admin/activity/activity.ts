@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
 import { TableModule } from "primeng/table";
 import { SelectModule } from "primeng/select";
-import { ApiService } from "../../../services/api.service";
-import { LoginActivity } from "../../../models/api.models";
+import { ActivityModel } from "./../../../services/activity/activity-model";
+import { Activity } from "./../../../services/activity/activity";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { TablePageEvent } from "primeng/table";
 
 @Component({
   selector: "app-admin-activity",
@@ -14,37 +15,41 @@ import { LoginActivity } from "../../../models/api.models";
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
 })
-export class AdminActivityComponent implements OnInit, OnDestroy {
-  activity: LoginActivity[] = [];
-  loading = true;
-  limit = 50;
-  limitOptions = [
-    { label: "25 records", value: 25 },
-    { label: "50 records", value: 50 },
-    { label: "100 records", value: 100 },
-    { label: "200 records", value: 200 },
-  ];
-  private sub?: Subscription;
+export class AdminActivityComponent implements OnInit {
+  // Priv Properties
+  private activityServices = inject(Activity);
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private api: ApiService) {}
+  // Data
+  activity: ActivityModel[] = [];
+  loading = signal(true);
+
+  params = {
+    pageSize: signal<number>(10),
+    pageNumber: signal<number>(1),
+  };
 
   ngOnInit(): void {
     this.load();
   }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+
+  pageChange(event: TablePageEvent) {
+    this.params.pageNumber.set(event.first);
+    this.params.pageSize.set(event.rows);
   }
 
   load(): void {
-    this.loading = true;
-    this.sub?.unsubscribe();
-    this.sub = this.api.getLoginActivity(this.limit).subscribe({
-      next: (a) => {
-        this.activity = a;
-        this.loading = false;
-      },
-      error: () => (this.loading = false),
-    });
+    this.loading.set(true);
+    this.params.pageNumber.set(0);
+    this.activityServices
+      .getLoginActivity()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.activity = res;
+          this.loading.set(false);
+        },
+      });
   }
 
   deviceIcon(device?: string | null): string {
@@ -53,7 +58,10 @@ export class AdminActivityComponent implements OnInit, OnDestroy {
       : "pi pi-desktop";
   }
 
-  browserLabel(a: LoginActivity): string {
-    return [a.browser, a.operatingSystem].filter(Boolean).join(" / ") || "—";
+  browserLabel(a: ActivityModel): string {
+    return (
+      [a.browser, a.device, a.operatingSystem].filter(Boolean).join(" / ") ||
+      "—"
+    );
   }
 }

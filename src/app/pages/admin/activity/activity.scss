@@ -1,0 +1,26 @@
+.table-mail,
+.table-address {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+.font-mono {
+  font-size: 12px;
+}
+
+.active-label {
+  color: #22c55e !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: inherit;
+}
+
+i {
+  font-size: 13px;
+}
+
+// Empty Message
+:host .empty-message {
+  color: var(--text-color-secondary) !important;
+  font-size: 18px;
+}

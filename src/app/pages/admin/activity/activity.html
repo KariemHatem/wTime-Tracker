@@ -3,31 +3,19 @@
   <p class="wt-section-sub">Recent authentication events across your team</p>
 </div>
 <div class="page-body">
-  <div class="wt-card mb-4">
-    <div class="d-flex align-items-center gap-4 flex-wrap">
-      <div class="d-flex align-items-center gap-2">
-        <i class="pi pi-clock text-muted" style="font-size: 14px"></i>
-        <span class="text-muted" style="font-size: 13px">Show last</span>
-        <p-select
-          [options]="limitOptions"
-          [(ngModel)]="limit"
-          optionLabel="label"
-          optionValue="value"
-          (ngModelChange)="load()"
-          [style]="{width:'140px'}"
-        />
-      </div>
-      <span
-        *ngIf="activity.length"
-        class="ms-auto text-muted"
-        style="font-size: 13px"
-        >{{ activity.length }} records</span
-      >
-    </div>
-  </div>
-
   <div class="wt-card">
-    <p-table [value]="activity" [loading]="loading" responsiveLayout="scroll">
+    <!-- Table -->
+    <p-table
+      [value]="activity"
+      [paginator]="true"
+      [rows]="params.pageSize()"
+      [first]="params.pageNumber()"
+      [showCurrentPageReport]="true"
+      (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [loading]="loading()"
+    >
       <ng-template pTemplate="header">
         <tr>
           <th>User</th>
@@ -40,56 +28,33 @@
       <ng-template pTemplate="body" let-a>
         <tr>
           <td>
-            <div style="font-weight: 500">
+            <div class="fw-medium">
               {{ a.userFullName || 'User ' + a.userId }}
             </div>
-            <div style="font-size: 12px; color: var(--text-color-secondary)">
-              {{ a.userEmail }}
-            </div>
+            <div class="table-mail">{{ a.userEmail }}</div>
           </td>
-          <td class="font-mono" style="font-size: 12px">
-            {{ a.loginTime | date:'MMM d, HH:mm:ss' }}
-          </td>
-          <td class="font-mono" style="font-size: 12px">
+          <td class="font-mono">{{ a.loginTime | date:'MMM d, HH:mm:ss' }}</td>
+          <td class="font-mono">
             <span *ngIf="a.logoutTime; else active"
               >{{ a.logoutTime | date:'MMM d, HH:mm:ss' }}</span
             >
             <ng-template #active
-              ><span
-                style="
-                  color: #22c55e;
-                  font-size: 12px;
-                  font-weight: 600;
-                  font-family: inherit;
-                "
-                >Active</span
-              ></ng-template
+              ><span class="active-label">Active</span></ng-template
             >
           </td>
-          <td
-            class="font-mono"
-            style="font-size: 12px; color: var(--text-color-secondary)"
-          >
-            {{ a.ipAddress || '—' }}
-          </td>
-          <td style="font-size: 12px; color: var(--text-color-secondary)">
+          <td class="font-mono table-address">{{ a.ipAddress || '—' }}</td>
+          <td class="table-address">
             <div class="d-flex align-items-center gap-1">
-              <i [class]="deviceIcon(a.device)" style="font-size: 13px"></i>
+              <i [class]="deviceIcon(a.device)" class="mx-2"></i>
               {{ browserLabel(a) }}
             </div>
           </td>
         </tr>
       </ng-template>
+      <!-- Empty message -->
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td
-            colspan="5"
-            style="
-              text-align: center;
-              padding: 40px;
-              color: var(--text-color-secondary);
-            "
-          >
+          <td colspan="5" class="empty-message text-center p-4">
             No activity found.
           </td>
         </tr>
