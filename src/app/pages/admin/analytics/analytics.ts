@@ -1,11 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { TabsModule } from "primeng/tabs";
 import { ChartModule } from "primeng/chart";
 import { TableModule } from "primeng/table";
 import { ApiService } from "../../../services/api.service";
-import { WeeklyAnalytics, MonthlyAnalytics } from "../../../models/api.models";
+import {
+  WeeklyAnalytics,
+  MonthlyAnalytics,
+} from "../../../services/analytics/analytics-model";
+import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 
 const CHART_OPTS = {
   responsive: true,
@@ -36,6 +40,8 @@ const LINE_OPTS = {
   styleUrl: "./analytics.scss",
 })
 export class AdminAnalyticsComponent implements OnInit, OnDestroy {
+  // Priv Properties
+  private analyticsService = inject(AnalyticsService);
   weekly?: WeeklyAnalytics;
   monthly?: MonthlyAnalytics;
   weeklyBarData: any = null;
@@ -53,12 +59,10 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     return m.toString().padStart(2, "0");
   }
 
-  constructor(private api: ApiService) {}
-
   ngOnInit(): void {
     const now = new Date();
     this.subs.add(
-      this.api
+      this.analyticsService
         .getWeeklyAnalytics(now.toISOString().split("T")[0])
         .subscribe((w) => {
           this.weekly = w;
@@ -92,7 +96,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
         }),
     );
     this.subs.add(
-      this.api
+      this.analyticsService
         .getMonthlyAnalytics(now.getFullYear(), now.getMonth() + 1)
         .subscribe((m) => {
           this.monthly = m;

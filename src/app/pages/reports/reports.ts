@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -8,11 +8,9 @@ import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { ChartModule } from "primeng/chart";
 import { ApiService } from "../../services/api.service";
-import {
-  DailyReportRow,
-  WeeklyReport,
-  MonthlyReport,
-} from "../../models/api.models";
+import { DailyReportRow, WeeklyReport } from "../../models/api.models";
+import { MonthlyReport } from "../../services/analytics/analytics-model";
+import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 
 const CHART_OPTS = {
   responsive: true,
@@ -47,6 +45,8 @@ const CHART_OPTS = {
   styleUrl: "./reports.scss",
 })
 export class ReportsComponent implements OnInit, OnDestroy {
+  // Priv Properties
+  private analyticsService = inject(AnalyticsService);
   dailyDate = new Date();
   weekDate = this.startOfWeek(new Date());
   daily = new Date();
@@ -115,7 +115,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   loadMonthly(): void {
     const now = new Date();
     this.subs.add(
-      this.api
+      this.analyticsService
         .getMonthlyReport(now.getFullYear(), now.getMonth() + 1)
         .subscribe((m) => {
           this.monthly = m;

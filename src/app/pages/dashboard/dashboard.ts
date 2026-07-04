@@ -13,8 +13,8 @@ import {
   TodayProgress,
   WorkSession,
   WeeklyReport,
-  MonthlyReport,
 } from "../../models/api.models";
+import { MonthlyReport } from "src/app/services/analytics/analytics-model";
 
 @Component({
   selector: "app-dashboard",

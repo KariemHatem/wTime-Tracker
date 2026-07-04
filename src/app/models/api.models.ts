@@ -33,22 +33,6 @@ export interface DailyBreakdownItem {
   targetMinutes: number;
 }
 
-export interface MonthlyReport {
-  year: number;
-  month: number;
-  totalWorkedMinutes: number;
-  totalTargetMinutes: number;
-  overtimeMinutes?: number;
-  productivityPercent?: number;
-  weeklyBreakdown: WeeklyBreakdown[];
-}
-
-export interface WeeklyBreakdown {
-  weekNumber: number;
-  workedMinutes: number;
-  targetMinutes: number;
-}
-
 export interface DailyReportRow {
   userId: number;
   userFullName: string;
@@ -78,27 +62,6 @@ export interface UserMonitoring {
   hoursToday: number;
   hoursThisWeek: number;
   lastLogin?: string | null;
-}
-
-export interface WeeklyAnalytics {
-  weekStart: string;
-  days: DayAnalytics[];
-}
-
-export interface DayAnalytics {
-  date: string;
-  dayName: string;
-  workedMinutes: number;
-  targetMinutes: number;
-  productivityPercent: number;
-}
-
-export interface MonthlyAnalytics {
-  year: number;
-  month: number;
-  weeks: WeeklyBreakdown[];
-  mostProductiveDays: string[];
-  avgHoursWorked?: number;
 }
 
 export interface UserCreate {
