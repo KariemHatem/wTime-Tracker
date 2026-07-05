@@ -9,6 +9,7 @@
   <div class="row g-3 mb-4">
     @for(s of statCards(); track s.label){
     <div class="col-6 col-lg-3">
+      <!-- Stat Card  -->
       <div class="wt-stat-card">
         <div class="stat-icon" [style.color]="s.color">
           <i [class]="'pi ' + s.icon"></i>
@@ -19,72 +20,37 @@
     </div>
     }
 
-    <app-user-monitoring></app-user-monitoring>
-
     <!-- Hours summary -->
     @if(stats()){
-    <div class="row g-3">
+    <div class="row g-3 mt-1 m-auto w-100">
       <div class="col-12 col-md-6">
+        <!-- Hours this week -->
         <div class="wt-card">
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-color-secondary);
-              margin-bottom: 8px;
-              text-transform: uppercase;
-              letter-spacing: 0.06em;
-            "
-          >
-            This Week
-          </div>
-          <div style="font-size: 32px; font-weight: 700; color: #3b82f6">
-            {{ stats()?.totalHoursThisWeek?.toFixed(1) }}<span
-              style="font-size: 16px"
+          <div class="stats-w mt-2 text-uppercase">This Week</div>
+          <div class="stats-h fw-bold">
+            {{ stats()?.totalHoursThisWeek?.toFixed(1) }}<span class="h"
               >h</span
             >
           </div>
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-color-secondary);
-              margin-top: 4px;
-            "
-          >
-            Total team hours
-          </div>
+          <div class="total-h mt-1">Total team hours</div>
         </div>
       </div>
+
       <div class="col-12 col-md-6">
+        <!-- Hours this month -->
         <div class="wt-card">
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-color-secondary);
-              margin-bottom: 8px;
-              text-transform: uppercase;
-              letter-spacing: 0.06em;
-            "
-          >
-            This Month
-          </div>
-          <div style="font-size: 32px; font-weight: 700; color: #22c55e">
-            {{ stats()?.totalHoursThisMonth?.toFixed(1) }}<span
-              style="font-size: 16px"
+          <div class="stats-m mt-2 text-uppercase">This Month</div>
+          <div class="stats-h-m fw-bold text-success">
+            {{ stats()?.totalHoursThisMonth?.toFixed(1) }}<span class="h"
               >h</span
             >
           </div>
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-color-secondary);
-              margin-top: 4px;
-            "
-          >
-            Total team hours
-          </div>
+          <div class="total-teams mt-1">Total team hours</div>
         </div>
       </div>
     </div>
     }
+    <!-- User monitoring -->
+    <app-user-monitoring></app-user-monitoring>
   </div>
 </div>
