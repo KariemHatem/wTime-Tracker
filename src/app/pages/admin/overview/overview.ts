@@ -25,7 +25,8 @@ import { AdminStats, UserMonitoring } from "../../../models/api.models";
     `,
   ],
 })
-export class AdminOverviewComponent implements OnInit, OnDestroy {
+export class AdminOverviewComponent implements OnInit {
+  // Priv Properties
   stats?: AdminStats;
   monitoring: UserMonitoring[] = [];
   loading = true;

@@ -44,15 +44,6 @@ export interface DailyReportRow {
   completionPercent?: number;
 }
 
-export interface AdminStats {
-  totalUsers: number;
-  activeUsersToday: number;
-  totalHoursThisWeek: number;
-  totalHoursThisMonth: number;
-  totalLogins: number;
-  avgDailyProductivity: number;
-}
-
 export interface UserMonitoring {
   userId: number;
   fullName: string;
