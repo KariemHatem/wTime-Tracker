@@ -1,27 +1,27 @@
 import {
   Ripple,
   RippleModule
-} from "./chunk-TIUHY24M.js";
+} from "./chunk-GOLIUMVP.js";
 import {
   ChevronLeftIcon,
   ChevronRightIcon
-} from "./chunk-24YTBIN2.js";
-import "./chunk-GZWIKBNS.js";
+} from "./chunk-7MNC5NXP.js";
+import "./chunk-2YOS6N5Y.js";
 import {
   BaseComponent,
   PARENT_INSTANCE
-} from "./chunk-6AR43D2B.js";
-import {
-  BaseStyle
-} from "./chunk-JFGZ6CED.js";
-import {
-  PrimeTemplate,
-  SharedModule
-} from "./chunk-ITX27GZ3.js";
+} from "./chunk-5DEUA4QB.js";
 import {
   Bind,
   BindModule
-} from "./chunk-EL4E3VYY.js";
+} from "./chunk-MQSTENXX.js";
+import {
+  BaseStyle
+} from "./chunk-EV24JKCH.js";
+import {
+  PrimeTemplate,
+  SharedModule
+} from "./chunk-YILZXKZR.js";
 import {
   K,
   Q,
@@ -37,7 +37,7 @@ import {
   CommonModule,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-V5ZXCBUL.js";
+} from "./chunk-EH2WBPHU.js";
 import "./chunk-IYEWMFKI.js";
 import {
   ChangeDetectionStrategy,
@@ -89,7 +89,7 @@ import {
   ɵɵtemplate,
   ɵɵtemplateRefExtractor,
   ɵɵviewQuery
-} from "./chunk-7VOBFNWW.js";
+} from "./chunk-JBDCYFW6.js";
 import {
   InjectionToken,
   computed,
@@ -102,8 +102,9 @@ import {
   ɵɵnamespaceSVG,
   ɵɵresetView,
   ɵɵrestoreView
-} from "./chunk-A4MTEHOI.js";
-import "./chunk-RSS3ODKE.js";
+} from "./chunk-KDQCMWH5.js";
+import "./chunk-Y72XGDAT.js";
+import "./chunk-HSWANC32.js";
 import "./chunk-WDMUDEB6.js";
 
 // node_modules/@primeuix/styles/dist/tabs/index.mjs
