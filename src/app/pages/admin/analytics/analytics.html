@@ -11,7 +11,8 @@
     <p-tabpanels>
       <!-- WEEKLY -->
       <p-tabpanel [value]="0">
-        <ng-container *ngIf="weekly; else loadingTpl">
+        @if(weekly; as w){
+        <ng-container>
           <div class="row g-3 mb-4" style="padding-top: 16px">
             <div class="col-12 col-lg-8">
               <div class="wt-card">
@@ -105,11 +106,15 @@
             </p-table>
           </div>
         </ng-container>
+        }@else {
+        <ng-container [ngTemplateOutlet]="loadingTpl" />
+        }
       </p-tabpanel>
 
       <!-- MONTHLY -->
       <p-tabpanel [value]="1">
-        <ng-container *ngIf="monthly; else loadingTpl">
+        @if(monthly; as m){
+        <ng-container>
           <div class="row g-3 mb-4" style="padding-top: 16px">
             <div class="col-12 col-lg-8">
               <div class="wt-card">
@@ -158,8 +163,8 @@
                   Most Productive Days
                 </div>
                 <div class="d-flex flex-wrap gap-2">
+                  @for(d of monthly.mostProductiveDays; track d){
                   <span
-                    *ngFor="let d of monthly.mostProductiveDays"
                     style="
                       padding: 4px 12px;
                       border-radius: 20px;
@@ -171,12 +176,11 @@
                   >
                     {{ d }}
                   </span>
-                  <span
-                    *ngIf="!monthly.mostProductiveDays.length"
-                    class="text-muted"
-                    style="font-size: 13px"
+                  }@empty {
+                  <span class="text-muted" style="font-size: 13px"
                     >No data yet</span
                   >
+                  }
                 </div>
               </div>
             </div>
@@ -214,6 +218,9 @@
             </p-table>
           </div>
         </ng-container>
+        }@else {
+        <ng-container [ngTemplateOutlet]="loadingTpl" />
+        }
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
