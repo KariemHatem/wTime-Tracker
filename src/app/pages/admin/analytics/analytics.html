@@ -43,8 +43,9 @@
           </div>
           <div class="wt-card">
             <h6 class="mb-3 fw-semibold">Day-by-Day Breakdown</h6>
-            <p-table [value]="weekly.days" responsiveLayout="scroll">
-              <ng-template pTemplate="header">
+            <!-- TABLE -->
+            <app-data-table [value]="weekly.days">
+              <ng-template #header>
                 <tr>
                   <th>Day</th>
                   <th>Date</th>
@@ -53,7 +54,7 @@
                   <th>Productivity</th>
                 </tr>
               </ng-template>
-              <ng-template pTemplate="body" let-d>
+              <ng-template #body let-d>
                 <tr>
                   <td><strong>{{ d.dayName }}</strong></td>
                   <td class="text-muted date">{{ fmtDay(d.date) }}</td>
@@ -78,7 +79,7 @@
                   </td>
                 </tr>
               </ng-template>
-            </p-table>
+            </app-data-table>
           </div>
         </ng-container>
         }@else {
@@ -129,8 +130,9 @@
           </div>
           <div class="wt-card">
             <h6 class="mb-3 fw-semibold">Weekly Breakdown</h6>
-            <p-table [value]="monthly.weeks" responsiveLayout="scroll">
-              <ng-template pTemplate="header">
+            <!-- TABLE -->
+            <app-data-table [value]="monthly.weeks">
+              <ng-template #header>
                 <tr>
                   <th>Week</th>
                   <th>Worked</th>
@@ -138,7 +140,7 @@
                   <th>Difference</th>
                 </tr>
               </ng-template>
-              <ng-template pTemplate="body" let-w>
+              <ng-template #body let-w>
                 <tr>
                   <td><strong>Week {{ w.weekNumber }}</strong></td>
                   <td>
@@ -155,7 +157,7 @@
                   </td>
                 </tr>
               </ng-template>
-            </p-table>
+            </app-data-table>
           </div>
         </ng-container>
         }@else {

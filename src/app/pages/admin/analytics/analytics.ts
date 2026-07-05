@@ -11,11 +11,12 @@ import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 import { CHART_OPTS, LINE_OPTS, CHART_COLORS } from "../../../shared/const";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ChartData } from "chart.js";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-admin-analytics",
   standalone: true,
-  imports: [CommonModule, TabsModule, ChartModule, TableModule],
+  imports: [CommonModule, TabsModule, ChartModule, TableModule, DataTable],
   templateUrl: "./analytics.html",
   styleUrl: "./analytics.scss",
 })
