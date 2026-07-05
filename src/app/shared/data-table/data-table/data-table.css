@@ -1,0 +1,4 @@
+:host .empty-message {
+  color: var(--text-color-secondary) !important;
+  font-size: 18px;
+}

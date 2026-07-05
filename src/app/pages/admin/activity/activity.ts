@@ -7,11 +7,12 @@ import { ActivityModel } from "./../../../services/activity/activity-model";
 import { Activity } from "./../../../services/activity/activity";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { TablePageEvent } from "primeng/table";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-admin-activity",
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, TableModule, SelectModule],
+  imports: [CommonModule, DatePipe, FormsModule, TableModule, SelectModule, DataTable],
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
 })
