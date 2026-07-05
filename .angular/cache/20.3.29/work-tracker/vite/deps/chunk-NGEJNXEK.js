@@ -11,11 +11,11 @@ import {
   BaseStyle
 } from "./chunk-JFGZ6CED.js";
 import {
-  Bind
-} from "./chunk-EL4E3VYY.js";
-import {
   NgControl
 } from "./chunk-AVQG2KDI.js";
+import {
+  Bind
+} from "./chunk-EL4E3VYY.js";
 import {
   Directive,
   HostListener,
@@ -306,4 +306,4 @@ export {
   InputText,
   InputTextModule
 };
-//# sourceMappingURL=chunk-7DV3VLQ5.js.map
+//# sourceMappingURL=chunk-NGEJNXEK.js.map

@@ -10,7 +10,7 @@ import {
 } from "./chunk-TIUHY24M.js";
 import {
   TimesIcon
-} from "./chunk-24YTBIN2.js";
+} from "./chunk-GA5KFTVN.js";
 import "./chunk-GZWIKBNS.js";
 import {
   BaseComponent,

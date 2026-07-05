@@ -5,7 +5,7 @@ import {
 import {
   ChevronLeftIcon,
   ChevronRightIcon
-} from "./chunk-24YTBIN2.js";
+} from "./chunk-GA5KFTVN.js";
 import "./chunk-GZWIKBNS.js";
 import {
   BaseComponent,
