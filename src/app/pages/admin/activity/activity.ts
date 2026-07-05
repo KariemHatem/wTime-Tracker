@@ -6,7 +6,6 @@ import { SelectModule } from "primeng/select";
 import { ActivityModel } from "./../../../services/activity/activity-model";
 import { Activity } from "./../../../services/activity/activity";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { TablePageEvent } from "primeng/table";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 
@@ -20,8 +19,8 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
     TableModule,
     SelectModule,
     DataTable,
-    HeaderSection
-],
+    HeaderSection,
+  ],
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
 })

@@ -6,7 +6,6 @@ import {
   TodayProgress,
   WeeklyReport,
   DailyReportRow,
-  AdminStats,
   UserMonitoring,
   UserCreate,
   UserUpdate,
@@ -67,13 +66,6 @@ export class ApiService {
     });
   }
 
-
-
-  // Admin API Calls
-  getAdminStats(): Observable<AdminStats> {
-    return this.httpCall.get<AdminStats>(`${this.endPoint}/admin/stats`);
-  }
-
   getUsersMonitoring(): Observable<UserMonitoring[]> {
     return this.httpCall.get<UserMonitoring[]>(
       `${this.endPoint}/admin/users/monitoring`,
@@ -96,6 +88,4 @@ export class ApiService {
   deleteUser(id: number): Observable<void> {
     return this.httpCall.delete<void>(`${this.endPoint}/users/${id}`);
   }
-
-
 }
