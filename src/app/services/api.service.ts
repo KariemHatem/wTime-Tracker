@@ -82,7 +82,7 @@ export class ApiService {
   }
 
   updateUser(id: number, data: UserUpdate): Observable<User> {
-    return this.httpCall.put<User>(`${this.endPoint}/users/${id}`, data);
+    return this.httpCall.patch<User>(`${this.endPoint}/users/${id}`, data);
   }
 
   deleteUser(id: number): Observable<void> {
