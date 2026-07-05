@@ -5,12 +5,9 @@ import {
   WorkSession,
   TodayProgress,
   WeeklyReport,
-  MonthlyReport,
   DailyReportRow,
   AdminStats,
   UserMonitoring,
-  WeeklyAnalytics,
-  MonthlyAnalytics,
   UserCreate,
   UserUpdate,
 } from "../models/api.models";
@@ -70,15 +67,7 @@ export class ApiService {
     });
   }
 
-  getMonthlyReport(year?: number, month?: number): Observable<MonthlyReport> {
-    let params = new HttpParams();
-    if (year) params = params.set("year", year);
-    if (month) params = params.set("month", month);
-    return this.httpCall.get<MonthlyReport>(
-      `${this.endPoint}/reports/monthly`,
-      { params },
-    );
-  }
+
 
   // Admin API Calls
   getAdminStats(): Observable<AdminStats> {
@@ -108,30 +97,5 @@ export class ApiService {
     return this.httpCall.delete<void>(`${this.endPoint}/users/${id}`);
   }
 
-  //  Analytics API Calls
-  getWeeklyAnalytics(week?: string): Observable<WeeklyAnalytics> {
-    let params = new HttpParams();
-    if (week) params = params.set("week", week);
-    return this.httpCall.get<WeeklyAnalytics>(
-      `${this.endPoint}/admin/analytics/weekly`,
-      {
-        params,
-      },
-    );
-  }
 
-  getMonthlyAnalytics(
-    year?: number,
-    month?: number,
-  ): Observable<MonthlyAnalytics> {
-    let params = new HttpParams();
-    if (year) params = params.set("year", year);
-    if (month) params = params.set("month", month);
-    return this.httpCall.get<MonthlyAnalytics>(
-      `${this.endPoint}/admin/analytics/monthly`,
-      {
-        params,
-      },
-    );
-  }
 }

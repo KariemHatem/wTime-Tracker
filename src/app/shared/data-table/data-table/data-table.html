@@ -1,0 +1,29 @@
+<p-table
+  [value]="value()"
+  [loading]="loading()"
+  [paginator]="paginated()"
+  [rows]="pageSize()"
+  [first]="pageNumber()"
+  [showCurrentPageReport]="showCurrentPageReport()"
+  [rowsPerPageOptions]="rowsPerPageOptions()"
+  [tableStyle]="{ 'min-width': '100%' }"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  (onPage)="onPageChange($event)"
+>
+  <ng-template pTemplate="header">
+    <ng-container *ngTemplateOutlet="headerTpl()"></ng-container>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <ng-container
+      *ngTemplateOutlet="bodyTpl(); context: { $implicit: row }"
+    ></ng-container>
+  </ng-template>
+  <!-- Empty message -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="colspan()" class="empty-message text-center p-4">
+        {{ emptyMessage() || "No data found." }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
