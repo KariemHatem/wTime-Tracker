@@ -1,11 +1,22 @@
-<p-table [value]="value()" [loading]="loading()">
+<p-table
+  [value]="value()"
+  [loading]="loading()"
+  [paginator]="paginated()"
+  [rows]="pageSize()"
+  [first]="pageNumber()"
+  [showCurrentPageReport]="showCurrentPageReport()"
+  [rowsPerPageOptions]="rowsPerPageOptions()"
+  [tableStyle]="{ 'min-width': '100%' }"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  (onPage)="onPageChange($event)"
+>
   <ng-template pTemplate="header">
-    <ng-content *ngTemplateOutlet="headerTpl()"></ng-content>
+    <ng-container *ngTemplateOutlet="headerTpl()"></ng-container>
   </ng-template>
   <ng-template pTemplate="body" let-row>
-    <ng-content
+    <ng-container
       *ngTemplateOutlet="bodyTpl(); context: { $implicit: row }"
-    ></ng-content>
+    ></ng-container>
   </ng-template>
   <!-- Empty message -->
   <ng-template pTemplate="emptymessage">
