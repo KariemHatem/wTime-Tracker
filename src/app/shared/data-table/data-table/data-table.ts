@@ -13,7 +13,7 @@ import { PaginatorState } from "primeng/paginator";
   selector: "app-data-table",
   imports: [CommonModule, TableModule],
   templateUrl: "./data-table.html",
-  styleUrl: "./data-table.css",
+  styleUrl: "./data-table.scss",
 })
 export class DataTable<T> {
   // Table Inputs
