@@ -184,6 +184,58 @@ body {
   background: var(--surface-ground);
 }
 
+// Analytics
+$fs: 13px;
+
+h6,
+.date {
+  font-size: var($fs);
+}
+
+p,
+.prod-span {
+  font-size: var(calc($fs - 1px));
+}
+
+.progress-bar {
+  width: 60px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.avg-hours-label,
+.ms-prod {
+  font-size: var(calc($fs - 2px));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.monthly-avg-hours {
+  font-size: var(calc($fs + 15px));
+  color: var(--primary-color);
+}
+
+.no-data {
+  font-size: var(--fs);
+}
+
+.loading-spinner {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-color-secondary);
+}
+
+.pi-spinner {
+  font-size: 28px;
+}
+
 // ── Utility cards ──────────────────────────────────────────────────────────────
 .wt-card {
   background: var(--card-bg);

@@ -1,0 +1,71 @@
+@if(monthly(); as m){
+<ng-container>
+  <div class="row g-3 mb-4 pt-3">
+    <div class="col-12 col-lg-8">
+      <div class="wt-card">
+        <h6 class="mb-1 fw-semibold">
+          Hours by Week — {{ monthly()?.year }}/{{ fmtMonth(monthly()?.month) }}
+        </h6>
+        <p class="text-muted mb-4">Worked vs. target per week</p>
+        <p-chart
+          type="bar"
+          [data]="monthlyBarData"
+          [options]="chartOpts"
+          height="220"
+        />
+      </div>
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="wt-card mb-3">
+        <div class="text-muted mb-2 avg-hours-label">Avg Hours / Day</div>
+        <div class="monthly-avg-hours fw-bold">
+          {{ monthly()?.avgHoursWorked?.toFixed(1) ?? '—' }}h
+        </div>
+      </div>
+      <div class="wt-card">
+        <div class="text-muted mb-3 ms-prod">Most Productive Days</div>
+        <div class="d-flex flex-wrap gap-2">
+          @for(d of monthly()?.mostProductiveDays; track d){
+          <span class="fw-semibold prod-span"> {{ d }} </span>
+          }@empty {
+          <span class="text-muted no-data">No data yet</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wt-card">
+    <h6 class="mb-3 fw-semibold">Weekly Breakdown</h6>
+    <!-- TABLE -->
+    <app-data-table [value]="monthly().weeks">
+      <ng-template #header>
+        <tr>
+          <th>Week</th>
+          <th>Worked</th>
+          <th>Target</th>
+          <th>Difference</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-w>
+        <tr>
+          <td><strong>Week {{ w.weekNumber }}</strong></td>
+          <td>
+            <strong>{{ (w.workedMinutes/60).toFixed(1) }}h</strong>
+          </td>
+          <td class="text-muted">{{ (w.targetMinutes/60).toFixed(1) }}h</td>
+          <td
+            [style.color]="(w.workedMinutes-w.targetMinutes)>=0?'#22c55e':'#f59e0b'"
+          >
+            {{ (w.workedMinutes-w.targetMinutes) >= 0 ? '+' : '' }}{{
+            ((w.workedMinutes-w.targetMinutes)/60).toFixed(1) }}h
+          </td>
+        </tr>
+      </ng-template>
+    </app-data-table>
+  </div>
+</ng-container>
+}@else {
+<div class="loading-spinner">
+  <i class="pi pi-spin pi-spinner"></i>
+</div>
+}
