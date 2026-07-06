@@ -9,20 +9,11 @@
     />
   </div>
 </div>
+
 <!-- WEEKLY -->
-@if(weekly){
-<div class="row g-3 mb-4">
-  @for(summary of weeklySummary; track summary.label){
-  <div class="col-6 col-md-3">
-    <div class="wt-card text-center">
-      <div class="fw-bold sum-color" [style.color]="summary.color">
-        {{ summary.val }}
-      </div>
-      <div class="text-muted sum-label mt-1">{{ summary.label }}</div>
-    </div>
-  </div>
-  }
-</div>
+@if(weekly()){
+<app-summary-cards [cards]="weeklySummary()"></app-summary-cards>
+
 <!-- CHART -->
 } @if(weeklyChartData){
 <div class="wt-card">

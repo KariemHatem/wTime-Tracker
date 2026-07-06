@@ -1,4 +1,11 @@
-import { Component, DestroyRef, OnInit, inject, signal } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from "@angular/core";
 import { AdminReports } from "src/app/services/reports/admin-reports";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { buildBarData } from "src/app/shared/utils/builder-bar.util";
@@ -12,10 +19,12 @@ import { CHART_COLORS, CHART_OPTS } from "src/app/shared/const";
 import { DatePicker } from "primeng/datepicker";
 import { FormsModule } from "@angular/forms";
 import { ChartModule } from "primeng/chart";
+import { SummaryCards } from "src/app/shared/summary-cards/summary-cards";
+import { Summary } from "src/app/shared/model";
 
 @Component({
   selector: "app-weekly-report",
-  imports: [DatePicker, FormsModule, ChartModule],
+  imports: [DatePicker, FormsModule, ChartModule, SummaryCards],
   templateUrl: "./weekly-report.html",
   styleUrl: "./weekly-report.scss",
 })
@@ -27,7 +36,7 @@ export class WeeklyReport implements OnInit {
   // Data
   weekDate = this.startOfWeek(new Date());
   weeklyChartData?: ChartData<"bar">;
-  weekly?: weekReport;
+  weekly = signal<weekReport | undefined>(undefined);
   chartColors = CHART_COLORS;
   chartOpts = CHART_OPTS;
 
@@ -39,7 +48,6 @@ export class WeeklyReport implements OnInit {
   // Lifecycle
   ngOnInit(): void {
     this.loadWeekly();
-    this.buildHoursBarData;
   }
 
   // Weekly Report
@@ -48,7 +56,7 @@ export class WeeklyReport implements OnInit {
       .getWeeklyReport(this.fmt(this.weekDate))
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((w) => {
-        this.weekly = w;
+        this.weekly.set(w);
 
         const labels = w.dailyBreakdown.map((d) => d.dayName.slice(0, 3));
         this.weeklyChartData = this.buildHoursBarData(
@@ -68,31 +76,32 @@ export class WeeklyReport implements OnInit {
   }
 
   // Summary
-  get weeklySummary() {
-    if (!this.weekly) return [];
+  weeklySummary = computed<Summary[]>(() => {
+    const sw = this.weekly();
+    if (!sw) return [];
     return [
       {
         label: "Worked",
-        val: this.fmtMins(this.weekly.totalWorkedMinutes),
-        color: "#3b82f6",
+        value: this.fmtMins(sw.totalWorkedMinutes),
+        color: this.chartColors.workedBlue,
       },
       {
         label: "Target",
-        val: this.fmtMins(this.weekly.totalTargetMinutes),
+        value: this.fmtMins(sw.totalTargetMinutes),
         color: "var(--text-color)",
       },
       {
         label: "Missing",
-        val: this.fmtMins(this.weekly.missingMinutes ?? 0),
-        color: "#f59e0b",
+        value: this.fmtMins(sw.missingMinutes ?? 0),
+        color: "var(--text-warning)",
       },
       {
         label: "Overtime",
-        val: this.fmtMins(this.weekly.overtimeMinutes ?? 0),
-        color: "#22c55e",
+        value: this.fmtMins(sw.overtimeMinutes ?? 0),
+        color: this.chartColors.workedGreen,
       },
     ];
-  }
+  });
 
   startOfWeek(d: Date): Date {
     const day = d.getDay(),
