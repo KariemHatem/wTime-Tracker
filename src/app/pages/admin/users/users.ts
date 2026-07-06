@@ -28,6 +28,7 @@ import { Toater } from "src/app/services/toater";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DAYS } from "src/app/shared/const";
 import { AuthService } from "src/app/services/auth/auth.service";
+import { Badge } from "src/app/shared/badge/badge";
 
 @Component({
   selector: "app-admin-users",
@@ -43,6 +44,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
     PasswordModule,
     CheckboxModule,
     ConfirmDialogModule,
+    Badge,
   ],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",
