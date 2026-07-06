@@ -12,7 +12,7 @@ import { TableModule } from "primeng/table";
 import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { AdminReports } from "src/app/services/reports/admin-reports";
-import { AdminReport } from "src/app/services/reports/admin-report";
+import { Report } from "src/app/services/reports/admin-report";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
@@ -28,8 +28,8 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     DatePickerModule,
     ButtonModule,
     HeaderSection,
-    DataTable
-],
+    DataTable,
+  ],
   templateUrl: "./admin-reports.html",
   styleUrl: "./admin-reports.scss",
 })
@@ -39,7 +39,7 @@ export class AdminReportsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   // Data
-  report = signal<AdminReport[]>([]);
+  report = signal<Report[]>([]);
   loading = signal(true);
   selectedDate = new Date();
   Math = Math;

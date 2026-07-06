@@ -1,4 +1,4 @@
-export interface AdminReport {
+export interface Report {
   userId: number;
   userFullName: string;
   date: string;
