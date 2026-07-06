@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy, inject, signal } from "@angular/core";
+import { Component, DestroyRef, OnInit, inject, signal } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
 import { TabsModule } from "primeng/tabs";
 import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { ChartModule } from "primeng/chart";
-import { ApiService } from "../../services/api.service";
 import { MonthlyReport } from "../../services/analytics/analytics-model";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 import { Report, WeeklyReport } from "src/app/services/reports/admin-report";
@@ -16,22 +14,10 @@ import {
   formatMinutes,
   formatDateForApi,
 } from "src/app/shared/utils/date-time.util";
-
-const CHART_OPTS = {
-  responsive: true,
-  plugins: { legend: { labels: { color: "#94a3b8" } } },
-  scales: {
-    x: {
-      ticks: { color: "#94a3b8" },
-      grid: { color: "rgba(148,163,184,0.08)" },
-    },
-    y: {
-      ticks: { color: "#94a3b8" },
-      grid: { color: "rgba(148,163,184,0.08)" },
-      beginAtZero: true,
-    },
-  },
-};
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { CHART_COLORS, CHART_OPTS } from "src/app/shared/const";
+import { ChartData } from "chart.js";
+import { buildBarData } from "src/app/shared/utils/builder-bar.util";
 
 @Component({
   selector: "app-reports",
@@ -49,10 +35,11 @@ const CHART_OPTS = {
   templateUrl: "./reports.html",
   styleUrl: "./reports.scss",
 })
-export class ReportsComponent implements OnInit, OnDestroy {
+export class ReportsComponent implements OnInit {
   // Priv Properties
   private analyticsService = inject(AnalyticsService);
   private report = inject(AdminReports);
+  private destroyRef = inject(DestroyRef);
 
   // Data
   dailyDate = new Date();
@@ -62,95 +49,85 @@ export class ReportsComponent implements OnInit, OnDestroy {
   weekly?: WeeklyReport;
   monthly?: MonthlyReport;
   loadingDaily = signal(true);
-  weeklyChartData: any = null;
-  monthlyChartData: any = null;
+  weeklyChartData?: ChartData<"bar">;
+  monthlyChartData?: ChartData<"bar">;
   chartOpts = CHART_OPTS;
+  chartColors = CHART_COLORS;
   Math = Math;
+
+  // Utils
   fmt = formatDateForApi;
   fmtMins = formatMinutes;
-
-  private subs = new Subscription();
-
-  constructor(private api: ApiService) {}
+  buildHoursBarData = buildBarData;
 
   ngOnInit(): void {
     this.loadDaily();
     this.loadWeekly();
     this.loadMonthly();
   }
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
 
   // Daily Report
   loadDaily(): void {
     this.loadingDaily.set(true);
-    this.subs.add(
-      this.report.getDailyReport(this.fmt(this.dailyDate)).subscribe({
+    this.report
+      .getDailyReport(this.fmt(this.dailyDate))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: (res) => {
           this.dailyRows.set(res);
           this.loadingDaily.set(false);
         },
-      }),
-    );
+      });
   }
 
   // Weekly Report
   loadWeekly(): void {
-    this.subs.add(
-      this.report.getWeeklyReport(this.fmt(this.weekDate)).subscribe((w) => {
+    this.report
+      .getWeeklyReport(this.fmt(this.weekDate))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((w) => {
         this.weekly = w;
-        this.weeklyChartData = {
-          labels: w.dailyBreakdown.map((d) => d.dayName.slice(0, 3)),
-          datasets: [
-            {
-              label: "Target (h)",
-              data: w.dailyBreakdown.map(
-                (d) => +(d.targetMinutes / 60).toFixed(1),
-              ),
-              backgroundColor: "rgba(148,163,184,0.2)",
-            },
-            {
-              label: "Worked (h)",
-              data: w.dailyBreakdown.map(
-                (d) => +(d.workedMinutes / 60).toFixed(1),
-              ),
-              backgroundColor: "#3b82f6",
-            },
-          ],
-        };
-      }),
-    );
+
+        const labels = w.dailyBreakdown.map((d) => d.dayName.slice(0, 3));
+        this.weeklyChartData = this.buildHoursBarData(
+          labels,
+          w.dailyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
+          w.dailyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
+          this.chartColors.target,
+        );
+
+        this.weeklyChartData = this.buildHoursBarData(
+          labels,
+          w.dailyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
+          w.dailyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
+          this.chartColors.workedBlue,
+        );
+      });
   }
 
+  // Monthly Report
   loadMonthly(): void {
     const now = new Date();
-    this.subs.add(
-      this.analyticsService
-        .getMonthlyReport(now.getFullYear(), now.getMonth() + 1)
-        .subscribe((m) => {
-          this.monthly = m;
-          this.monthlyChartData = {
-            labels: m.weeklyBreakdown.map((w) => `W${w.weekNumber}`),
-            datasets: [
-              {
-                label: "Target (h)",
-                data: m.weeklyBreakdown.map(
-                  (w) => +(w.targetMinutes / 60).toFixed(1),
-                ),
-                backgroundColor: "rgba(148,163,184,0.2)",
-              },
-              {
-                label: "Worked (h)",
-                data: m.weeklyBreakdown.map(
-                  (w) => +(w.workedMinutes / 60).toFixed(1),
-                ),
-                backgroundColor: "#22c55e",
-              },
-            ],
-          };
-        }),
-    );
+    this.analyticsService
+      .getMonthlyReport(now.getFullYear(), now.getMonth() + 1)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((m) => {
+        this.monthly = m;
+        const labels = m.weeklyBreakdown.map((w) => `W${w.weekNumber}`);
+        this.monthlyChartData = this.buildHoursBarData(
+          labels,
+          m.weeklyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
+          m.weeklyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
+          this.chartColors.target,
+        );
+
+        this.monthlyChartData = this.buildHoursBarData(
+          labels,
+          m.weeklyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
+          m.weeklyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
+          this.chartColors.workedGreen,
+        );
+      });
   }
 
   get weeklySummary() {

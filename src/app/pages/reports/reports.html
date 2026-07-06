@@ -35,13 +35,13 @@
             severity="secondary"
             size="small"
             (click)="exportDaily()"
-            [disabled]="!dailyRows.length"
+            [disabled]="!dailyRows().length"
           />
         </div>
         <div class="wt-card">
           <p-table
-            [value]="dailyRows"
-            [loading]="loadingDaily"
+            [value]="dailyRows()"
+            [loading]="loadingDaily()"
             responsiveLayout="scroll"
           >
             <ng-template pTemplate="header">
