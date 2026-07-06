@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -6,7 +6,6 @@ import {
   Validators,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { Subscription } from "rxjs";
 import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
@@ -15,19 +14,16 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { PasswordModule } from "primeng/password";
 import { CheckboxModule } from "primeng/checkbox";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
-import { MessageService, ConfirmationService } from "primeng/api";
-import { ApiService } from "../../../services/api.service";
+import { ConfirmationService } from "primeng/api";
 import { User } from "src/app/services/auth/user";
-
-const DAYS = [
-  { label: "Sun", v: 0 },
-  { label: "Mon", v: 1 },
-  { label: "Tue", v: 2 },
-  { label: "Wed", v: 3 },
-  { label: "Thu", v: 4 },
-  { label: "Fri", v: 5 },
-  { label: "Sat", v: 6 },
-];
+import { AdminUsers } from "src/app/services/users/admin-users";
+import { Toater } from "src/app/services/toater";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { DAYS } from "src/app/shared/const";
+import { AuthService } from "src/app/services/auth/auth.service";
+import { Badge } from "src/app/shared/badge/badge";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-admin-users",
@@ -43,144 +39,155 @@ const DAYS = [
     PasswordModule,
     CheckboxModule,
     ConfirmDialogModule,
+    Badge,
+    HeaderSection,
+    DataTable,
   ],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",
 })
-export class AdminUsersComponent implements OnInit, OnDestroy {
-  users: User[] = [];
-  loading = true;
-  showDialog = false;
-  editId: number | null = null;
-  form!: FormGroup;
-  saving = false;
-  workingDays: number[] = [1, 2, 3, 4, 5];
-  days = DAYS;
-  private subs = new Subscription();
+export class AdminUsersComponent implements OnInit {
+  // Priv Properties
+  private usersServices = inject(AdminUsers);
+  private destroyRef = inject(DestroyRef);
+  private toasterServices = inject(Toater);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private confirm = inject(ConfirmationService);
 
-  constructor(
-    private api: ApiService,
-    private fb: FormBuilder,
-    private msg: MessageService,
-    private confirm: ConfirmationService,
-  ) {}
+  // Data
+  users = signal<User[]>([]);
+  loading = signal(true);
+  showDialog = signal(false);
+  saving = signal(false);
+  editId = signal<number | null>(null);
+  workingDays = signal<number[]>([1, 2, 3, 4, 5]);
+  form!: FormGroup;
+  days = DAYS;
 
   ngOnInit(): void {
     this.buildForm();
     this.load();
   }
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
 
+  // List OF Users
   load(): void {
-    this.loading = true;
-    this.subs.add(
-      this.api.listUsers().subscribe({
-        next: (u) => {
-          this.users = u;
-          this.loading = false;
+    this.loading.set(true);
+    this.usersServices
+      .listUsers()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.users.set(res);
+          this.loading.set(false);
         },
-        error: () => (this.loading = false),
-      }),
-    );
+      });
   }
 
+  // Form
   buildForm(u?: User): void {
     this.form = this.fb.group({
       fullName: [u?.fullName ?? "", Validators.required],
-      email: [u?.email ?? "", [Validators.required, Validators.email]],
+      email: [
+        u?.email ?? "",
+        [Validators.required, Validators.email, Validators.minLength(10)],
+      ],
       password: [
-        this.editId ? "" : "",
-        this.editId ? [] : [Validators.required, Validators.minLength(6)],
+        this.editId() ? "" : "",
+        this.editId() ? [] : [Validators.required, Validators.minLength(6)],
       ],
       targetHoursPerDay: [u?.targetHoursPerDay ?? 8, Validators.required],
       isAdmin: [u?.isAdmin ?? false],
     });
 
-    this.workingDays = u ? [...u.workingDays] : [1, 2, 3, 4, 5];
-  }
-
-  openCreate(): void {
-    this.editId = null;
-    this.buildForm();
-    this.showDialog = true;
-  }
-  openEdit(u: User): void {
-    this.editId = u.id;
-    this.buildForm(u);
-    this.showDialog = true;
-  }
-  closeDialog(): void {
-    this.showDialog = false;
+    this.workingDays.set(u ? [...u.workingDays] : [1, 2, 3, 4, 5]);
   }
 
   isWD(d: number): boolean {
-    return this.workingDays.includes(d);
-  }
-  toggleWD(d: number): void {
-    this.workingDays = this.isWD(d)
-      ? this.workingDays.filter((x) => x !== d)
-      : [...this.workingDays, d].sort();
+    return this.workingDays().includes(d);
   }
 
+  // Working Days
+  toggleWD(d: number): void {
+    const current = this.workingDays();
+    this.workingDays.set(
+      this.isWD(d) ? current.filter((x) => x !== d) : [...current, d].sort(),
+    );
+  }
+
+  // Dialog Edit
+  openEdit(u: User): void {
+    this.editId.set(u.id);
+    this.buildForm(u);
+    this.showDialog.set(true);
+  }
+
+  // Dialog Create
+  openCreate(): void {
+    this.editId.set(null);
+    this.buildForm();
+    this.showDialog.set(true);
+  }
+
+  closeDialog(): void {
+    this.showDialog.set(false);
+  }
+
+  // Save User
   save(): void {
-    console.log(this.form.value);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    this.saving = true;
+    this.saving.set(true);
     const v = this.form.value;
-    const obs = this.editId
-      ? this.api.updateUser(this.editId, {
+    const id = this.editId();
+    const obs = id
+      ? this.usersServices.updateUser(id, {
           fullName: v.fullName,
           email: v.email,
           targetHoursPerDay: v.targetHoursPerDay,
-          workingDays: this.workingDays,
+          workingDays: this.workingDays(),
           isAdmin: v.isAdmin,
         })
-      : this.api.createUser({ ...v, workingDays: this.workingDays });
+      : this.usersServices.createUser({
+          ...v,
+          workingDays: this.workingDays(),
+        });
 
-    obs.subscribe({
+    obs.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
-        this.saving = false;
-        this.showDialog = false;
+        this.saving.set(false);
+        this.showDialog.set(false);
         this.load();
-        this.msg.add({
-          severity: "success",
-          summary: "Saved",
-          detail: "User saved.",
-        });
-      },
-      error: (e) => {
-        this.saving = false;
-        this.msg.add({
-          severity: "error",
-          summary: "Error",
-          detail: e?.error?.message || "Failed to save.",
-        });
+
+        // Refresh User Data
+        if (id && this.auth.currentUser?.id === id) {
+          this.auth
+            .refreshUser()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+        }
+        this.toasterServices.succesToaster(
+          id ? "User edited successfully." : "User created successfully.",
+        );
       },
     });
   }
 
+  // Delete Confirmation
   confirmDelete(u: User): void {
     this.confirm.confirm({
-      message: `Delete ${u.fullName}? This cannot be undone.`,
+      message: `Delete ${u.fullName}! Are You Sure To Delete this user?`,
       header: "Delete User",
       icon: "pi pi-exclamation-triangle",
       acceptButtonStyleClass: "p-button-danger",
       accept: () =>
-        this.api.deleteUser(u.id).subscribe({
+        this.usersServices.deleteUser(u.id).subscribe({
           next: () => {
             this.load();
-            this.msg.add({
-              severity: "success",
-              summary: "Deleted",
-              detail: "User deleted.",
-            });
+            this.toasterServices.warToaster("User Deleted Successfully.");
           },
-          error: () => {},
         }),
     });
   }
