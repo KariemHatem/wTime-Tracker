@@ -21,9 +21,9 @@ import { Toater } from "src/app/services/toater";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DAYS } from "src/app/shared/const";
 import { AuthService } from "src/app/services/auth/auth.service";
-import { Badge } from "src/app/shared/badge/badge";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { Badge } from "src/app/shared/badge/badge";
 
 @Component({
   selector: "app-admin-users",
@@ -39,10 +39,10 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     PasswordModule,
     CheckboxModule,
     ConfirmDialogModule,
-    Badge,
     HeaderSection,
     DataTable,
-  ],
+    Badge
+],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",
 })

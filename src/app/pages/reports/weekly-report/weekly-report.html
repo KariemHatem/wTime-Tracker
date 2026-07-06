@@ -1,0 +1,28 @@
+<div class="d-flex align-items-center gap-3 mb-4 pt-3">
+  <div>
+    <label class="d-block text-muted mb-1">Week starting</label>
+    <p-datepicker
+      [(ngModel)]="weekDate"
+      dateFormat="yy-mm-dd"
+      [showIcon]="true"
+      (ngModelChange)="loadWeekly()"
+    />
+  </div>
+</div>
+
+<!-- WEEKLY -->
+@if(weekly()){
+<app-summary-cards [cards]="weeklySummary()"></app-summary-cards>
+
+<!-- CHART -->
+} @if(weeklyChartData){
+<div class="wt-card">
+  <h6 class="fw-semibold mb-3">Hours per Day</h6>
+  <p-chart
+    type="bar"
+    [data]="weeklyChartData"
+    [options]="chartOpts"
+    height="220"
+  />
+</div>
+}
