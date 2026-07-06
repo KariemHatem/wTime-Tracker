@@ -1,12 +1,6 @@
 import { Component, DestroyRef, OnInit, inject, signal } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
-import { FormsModule } from "@angular/forms";
 import { TabsModule } from "primeng/tabs";
-import { DatePickerModule } from "primeng/datepicker";
-import { ButtonModule } from "primeng/button";
-import { TableModule } from "primeng/table";
-import { ChartModule } from "primeng/chart";
-import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 import { Report } from "src/app/services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
 import {
@@ -14,10 +8,11 @@ import {
   formatDateForApi,
 } from "src/app/shared/utils/date-time.util";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { buildBarData } from "src/app/shared/utils/builder-bar.util";
+import { DailyReport } from "./daily-report/daily-report";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { WeeklyReport } from "./weekly-report/weekly-report";
 import { MonthlyReport } from "./monthly-report/monthly-report";
-import { DailyReport } from "./daily-report/daily-report";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
 
 @Component({
   selector: "app-reports",
@@ -25,16 +20,13 @@ import { DailyReport } from "./daily-report/daily-report";
   imports: [
     CommonModule,
     DatePipe,
-    FormsModule,
     TabsModule,
-    DatePickerModule,
-    ButtonModule,
-    TableModule,
-    ChartModule,
+    DailyReport,
+    DataTable,
     WeeklyReport,
     MonthlyReport,
-    DailyReport,
-  ],
+    HeaderSection
+],
   templateUrl: "./reports.html",
   styleUrl: "./reports.scss",
 })

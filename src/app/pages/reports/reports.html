@@ -1,9 +1,10 @@
-<div class="page-header d-flex align-items-start justify-content-between">
-  <div>
-    <h1 class="wt-section-title">Reports</h1>
-    <p class="wt-section-sub">Track your productivity over time</p>
-  </div>
-</div>
+<!-- Page Header -->
+<app-header-section
+  title="Reports"
+  subtitle="Track your productivity over time"
+></app-header-section>
+
+<!-- Page Body -->
 <div class="page-body">
   <p-tabs [value]="0">
     <p-tablist>
@@ -17,12 +18,14 @@
         <app-daily-report></app-daily-report>
         <!-- TABLE -->
         <div class="wt-card">
-          <p-table
+          <app-data-table
             [value]="dailyRows()"
             [loading]="loadingDaily()"
-            responsiveLayout="scroll"
+            [paginated]="true"
+            [colspan]="5"
+            emptyMessage="No data for this date."
           >
-            <ng-template pTemplate="header">
+            <ng-template #header>
               <tr>
                 <th>Employee</th>
                 <th>Start</th>
@@ -32,7 +35,7 @@
                 <th>Completion</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-r>
+            <ng-template #body let-r>
               <tr>
                 <td>
                   <strong>{{ r.userFullName }}</strong>
@@ -49,47 +52,22 @@
                 <td class="text-muted">{{ fmtMins(r.targetMinutes) }}</td>
                 <td>
                   <div class="d-flex align-items-center gap-2">
-                    <div
-                      style="
-                        width: 60px;
-                        height: 5px;
-                        background: rgba(255, 255, 255, 0.08);
-                        border-radius: 3px;
-                      "
-                    >
+                    <div class="completion-bar">
                       <div
-                        style="
-                          height: 100%;
-                          background: #3b82f6;
-                          border-radius: 3px;
-                        "
+                        class="completion-fill"
                         [style.width.%]="
                               Math.min(100, r.completionPercent ?? 0)
                             "
                       ></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 600"
+                    <span class="fw-semibold"
                       >{{ (r.completionPercent ?? 0).toFixed(0) }}%</span
                     >
                   </div>
                 </td>
               </tr>
             </ng-template>
-            <ng-template pTemplate="emptymessage">
-              <tr>
-                <td
-                  colspan="6"
-                  style="
-                    text-align: center;
-                    padding: 40px;
-                    color: var(--text-color-secondary);
-                  "
-                >
-                  No data for this date.
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+          </app-data-table>
         </div>
       </p-tabpanel>
 
