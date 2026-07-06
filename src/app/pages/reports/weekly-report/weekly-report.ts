@@ -39,6 +39,7 @@ export class WeeklyReport implements OnInit {
   // Lifecycle
   ngOnInit(): void {
     this.loadWeekly();
+    this.buildHoursBarData;
   }
 
   // Weekly Report
