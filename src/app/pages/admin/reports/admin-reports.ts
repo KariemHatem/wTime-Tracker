@@ -1,12 +1,21 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+  signal,
+  computed,
+} from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
 import { TableModule } from "primeng/table";
 import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
-import { ApiService } from "../../../services/api.service";
-import { DailyReportRow } from "../../../models/api.models";
+import { AdminReports } from "src/app/services/reports/admin-reports";
+import { AdminReport } from "src/app/services/reports/admin-report";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-admin-reports",
@@ -18,48 +27,52 @@ import { DailyReportRow } from "../../../models/api.models";
     TableModule,
     DatePickerModule,
     ButtonModule,
-  ],
+    HeaderSection,
+    DataTable
+],
   templateUrl: "./admin-reports.html",
   styleUrl: "./admin-reports.scss",
 })
-export class AdminReportsComponent implements OnInit, OnDestroy {
-  report: DailyReportRow[] = [];
-  loading = true;
+export class AdminReportsComponent implements OnInit {
+  // Priv Prop
+  private reports = inject(AdminReports);
+  private destroyRef = inject(DestroyRef);
+
+  // Data
+  report = signal<AdminReport[]>([]);
+  loading = signal(true);
   selectedDate = new Date();
   Math = Math;
-  private sub?: Subscription;
 
-  constructor(private api: ApiService) {}
-
+  // Lifecycle
   ngOnInit(): void {
     this.load();
   }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
 
   load(): void {
-    this.loading = true;
-    this.sub?.unsubscribe();
-    this.sub = this.api.getDailyReport(this.fmt(this.selectedDate)).subscribe({
-      next: (r) => {
-        this.report = r;
-        this.loading = false;
-      },
-      error: () => (this.loading = false),
-    });
+    this.loading.set(true);
+    this.reports
+      .getDailyReport(this.fmt(this.selectedDate))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.report.set(res);
+          this.loading.set(false);
+        },
+      });
   }
 
-  get totalWorked(): number {
-    return this.report.reduce((s, r) => s + r.workedMinutes, 0);
-  }
-  get avgCompletion(): number {
-    if (!this.report.length) return 0;
+  totalWorked = computed(() =>
+    this.report().reduce((s, r) => s + r.workedMinutes, 0),
+  );
+
+  avgCompletion = computed(() => {
+    const r = this.report();
+    if (!r.length) return 0;
     return Math.round(
-      this.report.reduce((s, r) => s + (r.completionPercent ?? 0), 0) /
-        this.report.length,
+      r.reduce((s, x) => s + (x.completionPercent ?? 0), 0) / r.length,
     );
-  }
+  });
 
   fmtMins(n?: number | null): string {
     const v = n ?? 0;
@@ -73,7 +86,8 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   }
 
   exportCsv(): void {
-    const rows = this.report.map(
+    const escape = (v: string) => `"${String(v).replace(/"/g, '""')}"`;
+    const rows = this.report().map(
       (r) =>
         `"${r.userFullName}","${r.date}","${r.workedMinutes}","${r.targetMinutes}","${(r.completionPercent ?? 0).toFixed(0)}"`,
     );
@@ -81,8 +95,10 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       "\n",
     );
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.href = url;
     a.download = `admin-report-${this.fmt(this.selectedDate)}.csv`;
     a.click();
+    URL.revokeObjectURL(url);
   }
 }
