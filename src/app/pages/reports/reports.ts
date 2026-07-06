@@ -12,6 +12,10 @@ import { MonthlyReport } from "../../services/analytics/analytics-model";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 import { Report, WeeklyReport } from "src/app/services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
+import {
+  formatMinutes,
+  formatDateForApi,
+} from "src/app/shared/utils/date-time.util";
 
 const CHART_OPTS = {
   responsive: true,
@@ -62,6 +66,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   monthlyChartData: any = null;
   chartOpts = CHART_OPTS;
   Math = Math;
+  fmt = formatDateForApi;
+  fmtMins = formatMinutes;
 
   private subs = new Subscription();
 
@@ -76,10 +82,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  // Priv Methods
-
   // Daily Report
-  private loadDaily(): void {
+  loadDaily(): void {
     this.loadingDaily.set(true);
     this.subs.add(
       this.report.getDailyReport(this.fmt(this.dailyDate)).subscribe({
@@ -92,7 +96,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   // Weekly Report
-  private loadWeekly(): void {
+  loadWeekly(): void {
     this.subs.add(
       this.report.getWeeklyReport(this.fmt(this.weekDate)).subscribe((w) => {
         this.weekly = w;
@@ -215,20 +219,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
     a.click();
   }
 
-  fmtMins(n?: number | null): string {
-    const v = n ?? 0;
-    const h = Math.floor(v / 60),
-      m = v % 60;
-    return h === 0 ? `${m}m` : m === 0 ? `${h}h` : `${h}h ${m}m`;
-  }
-
   startOfWeek(d: Date): Date {
     const day = d.getDay(),
       diff = d.getDate() - day;
     return new Date(d.setDate(diff));
-  }
-
-  fmt(d: Date): string {
-    return d.toISOString().split("T")[0];
   }
 }

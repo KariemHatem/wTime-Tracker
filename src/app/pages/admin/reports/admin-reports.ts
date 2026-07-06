@@ -16,6 +16,10 @@ import { Report } from "src/app/services/reports/admin-report";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import {
+  formatMinutes,
+  formatDateForApi,
+} from "src/app/shared/utils/date-time.util";
 
 @Component({
   selector: "app-admin-reports",
@@ -43,6 +47,8 @@ export class AdminReportsComponent implements OnInit {
   loading = signal(true);
   selectedDate = new Date();
   Math = Math;
+  fmt = formatDateForApi;
+  fmtMins = formatMinutes;
 
   // Lifecycle
   ngOnInit(): void {
@@ -73,17 +79,6 @@ export class AdminReportsComponent implements OnInit {
       r.reduce((s, x) => s + (x.completionPercent ?? 0), 0) / r.length,
     );
   });
-
-  fmtMins(n?: number | null): string {
-    const v = n ?? 0;
-    const h = Math.floor(v / 60),
-      m = v % 60;
-    return h === 0 ? `${m}m` : m === 0 ? `${h}h` : `${h}h ${m}m`;
-  }
-
-  fmt(d: Date): string {
-    return d.toISOString().split("T")[0];
-  }
 
   exportCsv(): void {
     const escape = (v: string) => `"${String(v).replace(/"/g, '""')}"`;
