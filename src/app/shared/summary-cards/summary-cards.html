@@ -1,0 +1,12 @@
+<div class="row g-3 mb-4">
+  @for(card of cards(); track card.label){
+  <div class="col-6 col-md-3">
+    <div class="wt-card text-center">
+      <div class="fw-bold sum-color" [style.color]="card.color">
+        {{ card.value }}
+      </div>
+      <div class="text-muted sum-label mt-1">{{ card.label }}</div>
+    </div>
+  </div>
+  }
+</div>

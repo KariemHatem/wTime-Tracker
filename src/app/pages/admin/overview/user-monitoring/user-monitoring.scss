@@ -1,0 +1,38 @@
+$fs: 14px;
+
+h6 {
+  font-size: var(--fs);
+}
+
+.content {
+  color: var(--text-color-secondary);
+  font-size: var(calc(--fs - 2px));
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+.login-content {
+  font-size: var(calc(--fs - 1px));
+}
+
+.login-content,
+.hours-content {
+  color: var(--text-color-secondary);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
