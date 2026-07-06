@@ -5,10 +5,7 @@ import {
   WorkSession,
   TodayProgress,
   UserMonitoring,
-  UserCreate,
-  UserUpdate,
 } from "../models/api.models";
-import { User } from "./auth/user";
 import { enviroment } from "src/enviroments/enviroment";
 
 @Injectable({ providedIn: "root" })
@@ -50,22 +47,5 @@ export class ApiService {
     return this.httpCall.get<UserMonitoring[]>(
       `${this.endPoint}/admin/users/monitoring`,
     );
-  }
-
-  // Users API Calls
-  listUsers(): Observable<User[]> {
-    return this.httpCall.get<User[]>(`${this.endPoint}/users`);
-  }
-
-  createUser(data: UserCreate): Observable<User> {
-    return this.httpCall.post<User>(`${this.endPoint}/users`, data);
-  }
-
-  updateUser(id: number, data: UserUpdate): Observable<User> {
-    return this.httpCall.patch<User>(`${this.endPoint}/users/${id}`, data);
-  }
-
-  deleteUser(id: number): Observable<void> {
-    return this.httpCall.delete<void>(`${this.endPoint}/users/${id}`);
   }
 }

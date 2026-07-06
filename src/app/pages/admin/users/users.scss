@@ -1,0 +1,27 @@
+:host ::ng-deep .p-button {
+  margin: 0 25px;
+}
+.e-text,
+.d-labels {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+label,
+.t-WD {
+  font-size: 12px;
+}
+
+.admin-label {
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.t-WD {
+  padding: 4px 10px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}

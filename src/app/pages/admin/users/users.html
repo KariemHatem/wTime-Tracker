@@ -1,51 +1,52 @@
-<div class="page-header d-flex align-items-start justify-content-between">
-  <div>
-    <h1 class="wt-section-title">Users</h1>
-    <p class="wt-section-sub">Manage your team members</p>
-  </div>
+<div class="d-flex align-items-center justify-content-between">
+  <!-- Page Header -->
+  <app-header-section
+    title="Users"
+    subtitle="Manage your team members"
+  ></app-header-section>
+  <!-- Button -->
   <p-button label="Add User" icon="pi pi-plus" (click)="openCreate()" />
 </div>
 
+<!-- Page Body -->
 <div class="page-body">
   <div class="wt-card">
-    <p-table [value]="users" [loading]="loading" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
+    <app-data-table
+      [value]="users()"
+      [paginated]="true"
+      [colspan]="5"
+      emptyMessage="No users found."
+      [loading]="loading()"
+      responsiveLayout="scroll"
+    >
+      <ng-template #header>
         <tr>
           <th>User</th>
           <th>Role</th>
           <th>Target</th>
           <th>Working Days</th>
+          <th>Create Date</th>
           <th>Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-u>
+      <ng-template #body let-u>
         <tr>
           <td>
-            <div style="font-weight: 500">{{ u.fullName }}</div>
-            <div style="font-size: 12px; color: var(--text-color-secondary)">
-              {{ u.email }}
-            </div>
+            <div class="fw-semibold">{{ u.fullName }}</div>
+            <div class="e-text">{{ u.email }}</div>
           </td>
           <td>
-            <span
-              style="
-                padding: 3px 10px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-              "
-              [style.background]="
-                    u.isAdmin ? 'rgba(59,130,246,.15)' : 'rgba(148,163,184,.1)'
-                  "
-              [style.color]="u.isAdmin ? '#60a5fa' : '#94a3b8'"
-            >
-              {{ u.isAdmin ? "Admin" : "Employee" }}
-            </span>
+            <!-- Badges -->
+            <app-badge
+              [background]="u.isAdmin ? 'rgba(59,130,246,.15)' : 'rgba(148,163,184,.1)'"
+              [color]="u.isAdmin ? '#60a5fa' : '#94a3b8'"
+              [label]="u.isAdmin ? 'Admin' : 'Employee'"
+            ></app-badge>
           </td>
+
           <td>{{ u.targetHoursPerDay }}h/day</td>
-          <td style="font-size: 12px; color: var(--text-color-secondary)">
-            {{ dayLabels(u.workingDays) }}
-          </td>
+          <td class="d-labels">{{ dayLabels(u.workingDays) }}</td>
+          <td>{{ u.createdAt | date:'MMM d, y, h:mm:ss a' }}</td>
           <td>
             <p-button
               icon="pi pi-pencil"
@@ -64,21 +65,7 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td
-            colspan="5"
-            style="
-              text-align: center;
-              padding: 40px;
-              color: var(--text-color-secondary);
-            "
-          >
-            No users found.
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    </app-data-table>
   </div>
 </div>
 
@@ -86,27 +73,28 @@
 <p-dialog
   [(visible)]="showDialog"
   [modal]="true"
-  [header]="editId ? 'Edit User' : 'Add User'"
+  [header]="editId() ? 'Edit User' : 'Add User'"
   [style]="{ width: '460px' }"
   [draggable]="false"
 >
   <form [formGroup]="form" (ngSubmit)="save()">
+    <!-- Form  Name -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-1" style="font-size: 12px"
-        >Full Name</label
-      >
+      <label class="text-muted d-block mb-1">Full Name</label>
       <input pInputText formControlName="fullName" class="w-100" />
     </div>
+    <!-- Form Email -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-1" style="font-size: 12px"
-        >Email</label
-      >
+      <label class="text-muted d-block mb-1">Email</label>
       <input pInputText type="email" formControlName="email" class="w-100" />
+      @if(form.get('email')?.invalid && form.get('email')?.touched){
+      <small class="text-danger"> Please enter a valid email address. </small>
+      }
     </div>
-    <div *ngIf="!editId" class="field mb-3">
-      <label class="text-muted d-block mb-1" style="font-size: 12px"
-        >Password</label
-      >
+    <!-- Form Password -->
+    @if(!editId()){
+    <div class="field mb-3">
+      <label class="text-muted d-block mb-1">Password</label>
       <p-password
         formControlName="password"
         [feedback]="false"
@@ -114,12 +102,18 @@
         styleClass="w-100"
         inputStyleClass="w-100"
       />
+      @if(form.get('password')?.invalid && form.get('password')?.touched){
+      <small class="text-danger">
+        Password must be at least 6 characters.
+      </small>
+
+      }
     </div>
+    }
     <div class="row g-3 mb-3">
       <div class="col">
-        <label class="text-muted d-block mb-1" style="font-size: 12px"
-          >Daily Target (h)</label
-        >
+        <!-- Form Target -->
+        <label class="text-muted d-block mb-1">Daily Target (h)</label>
         <p-inputNumber
           formControlName="targetHoursPerDay"
           [min]="1"
@@ -128,33 +122,31 @@
           inputStyleClass="w-100"
         />
       </div>
+      <!-- Form Admin -->
       <div class="col d-flex align-items-end">
-        <label
-          class="d-flex align-items-center gap-2"
-          style="cursor: pointer; font-size: 13px"
-        >
+        <label class="d-flex align-items-center gap-2 admin-label">
           <p-checkbox formControlName="isAdmin" [binary]="true" />
           Admin access
         </label>
       </div>
     </div>
+    <!-- Form Working Days -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-2" style="font-size: 12px"
-        >Working Days</label
-      >
+      <label class="text-muted d-block mb-2">Working Days</label>
       <div class="d-flex gap-2 flex-wrap">
+        @for(day of days;track day.v){
         <button
-          *ngFor="let d of days"
           type="button"
           [class]="
                 'btn btn-sm ' +
-                (isWD(d.v) ? 'btn-primary' : 'btn-outline-secondary')
+                (isWD(day.v) ? 'btn-primary' : 'btn-outline-secondary')
               "
-          style="font-size: 12px; padding: 4px 10px; border-radius: 6px"
-          (click)="toggleWD(d.v)"
+          class="t-WD"
+          (click)="toggleWD(day.v)"
         >
-          {{ d.label }}
+          {{ day.label }}
         </button>
+        }
       </div>
     </div>
   </form>
@@ -166,9 +158,9 @@
       (click)="closeDialog()"
     />
     <p-button
-      [label]="editId ? 'Save Changes' : 'Create User'"
+      [label]="editId() ? 'Save Changes' : 'Create User'"
       (click)="save()"
-      [loading]="saving"
+      [loading]="saving()"
     />
   </ng-template>
 </p-dialog>
