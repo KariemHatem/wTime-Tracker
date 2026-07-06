@@ -5,7 +5,6 @@ import {
   WorkSession,
   TodayProgress,
   WeeklyReport,
-  DailyReportRow,
   UserMonitoring,
   UserCreate,
   UserUpdate,
@@ -49,15 +48,6 @@ export class ApiService {
   }
 
   // Reports API Calls
-  getDailyReport(date: string): Observable<DailyReportRow[]> {
-    return this.httpCall.get<DailyReportRow[]>(
-      `${this.endPoint}/reports/daily`,
-      {
-        params: { date },
-      },
-    );
-  }
-
   getWeeklyReport(week?: string): Observable<WeeklyReport> {
     let params = new HttpParams();
     if (week) params = params.set("week", week);

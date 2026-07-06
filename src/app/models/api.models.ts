@@ -33,17 +33,6 @@ export interface DailyBreakdownItem {
   targetMinutes: number;
 }
 
-export interface DailyReportRow {
-  userId: number;
-  userFullName: string;
-  date: string;
-  startTime?: string | null;
-  endTime?: string | null;
-  workedMinutes: number;
-  targetMinutes: number;
-  completionPercent?: number;
-}
-
 export interface UserMonitoring {
   userId: number;
   fullName: string;

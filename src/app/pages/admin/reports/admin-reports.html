@@ -1,14 +1,14 @@
-<div class="page-header">
-  <h1 class="wt-section-title">Admin Reports</h1>
-  <p class="wt-section-sub">Daily team work summary</p>
-</div>
+<!-- Page Header -->
+<app-header-section
+  title="Admin Reports"
+  subtitle="Daily team work summary"
+></app-header-section>
+<!-- Page Body -->
 <div class="page-body">
   <div class="wt-card mb-4">
     <div class="d-flex align-items-center gap-3 flex-wrap">
       <div>
-        <label class="text-muted d-block mb-1" style="font-size: 12px"
-          >Date</label
-        >
+        <label class="text-muted d-block mb-1">Date</label>
         <p-datepicker
           [(ngModel)]="selectedDate"
           dateFormat="yy-mm-dd"
@@ -17,13 +17,13 @@
         />
       </div>
       <div class="ms-auto d-flex align-items-center gap-3">
-        <span
-          *ngIf="report.length"
-          style="font-size: 13px; color: var(--text-color-secondary)"
-        >
-          {{ report.length }} employees · {{ fmtMins(totalWorked) }} worked ·
-          avg {{ avgCompletion }}%
+        @if(report().length){
+        <span class="report-info">
+          {{ report().length }} employees · {{ fmtMins(totalWorked()) }} worked
+          · avg {{ avgCompletion() }}%
         </span>
+        }
+
         <p-button
           icon="pi pi-download"
           label="Export CSV"
@@ -37,8 +37,15 @@
   </div>
 
   <div class="wt-card">
-    <p-table [value]="report" [loading]="loading" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
+    <!-- Table -->
+    <app-data-table
+      [value]="report()"
+      [loading]="loading()"
+      [paginated]="true"
+      [colspan]="5"
+      emptyMessage="No data for this date."
+    >
+      <ng-template #header>
         <tr>
           <th>Employee</th>
           <th>Start</th>
@@ -48,7 +55,7 @@
           <th>Completion</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-r>
+      <ng-template #body let-r>
         <tr>
           <td><strong>{{ r.userFullName }}</strong></td>
           <td class="font-mono">
@@ -61,40 +68,19 @@
           <td class="text-muted">{{ fmtMins(r.targetMinutes) }}</td>
           <td>
             <div class="d-flex align-items-center gap-2">
-              <div
-                style="
-                  width: 60px;
-                  height: 5px;
-                  background: rgba(255, 255, 255, 0.08);
-                  border-radius: 3px;
-                "
-              >
+              <div class="t-stroke">
                 <div
                   [style.width.%]="Math.min(100, r.completionPercent ?? 0)"
-                  style="height: 100%; background: #3b82f6; border-radius: 3px"
+                  class="comp-percent"
                 ></div>
               </div>
-              <span style="font-size: 12px; font-weight: 600"
+              <span class="percent fw-semibold"
                 >{{ (r.completionPercent ?? 0).toFixed(0) }}%</span
               >
             </div>
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td
-            colspan="6"
-            style="
-              text-align: center;
-              padding: 40px;
-              color: var(--text-color-secondary);
-            "
-          >
-            No data for this date.
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    </app-data-table>
   </div>
 </div>

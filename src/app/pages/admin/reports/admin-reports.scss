@@ -1,0 +1,27 @@
+$fs: 12px;
+
+label,
+.percent {
+  font-size: $fs;
+}
+.report-info {
+  font-size: calc($fs + 1px);
+  color: var(--text-color-secondary);
+}
+
+.t-stroke {
+  width: 60px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.comp-percent {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
