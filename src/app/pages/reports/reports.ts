@@ -8,7 +8,7 @@ import { TableModule } from "primeng/table";
 import { ChartModule } from "primeng/chart";
 import { MonthlyReport } from "../../services/analytics/analytics-model";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
-import { Report, WeeklyReport } from "src/app/services/reports/admin-report";
+import { Report } from "src/app/services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
 import {
   formatMinutes,
@@ -18,6 +18,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { CHART_COLORS, CHART_OPTS } from "src/app/shared/const";
 import { ChartData } from "chart.js";
 import { buildBarData } from "src/app/shared/utils/builder-bar.util";
+import { WeeklyReport } from "./weekly-report/weekly-report";
 
 @Component({
   selector: "app-reports",
@@ -31,6 +32,7 @@ import { buildBarData } from "src/app/shared/utils/builder-bar.util";
     ButtonModule,
     TableModule,
     ChartModule,
+    WeeklyReport,
   ],
   templateUrl: "./reports.html",
   styleUrl: "./reports.scss",
@@ -43,10 +45,9 @@ export class ReportsComponent implements OnInit {
 
   // Data
   dailyDate = new Date();
-  weekDate = this.startOfWeek(new Date());
+  // weekDate = this.startOfWeek(new Date());
   daily = new Date();
   dailyRows = signal<Report[]>([]);
-  weekly?: WeeklyReport;
   monthly?: MonthlyReport;
   loadingDaily = signal(true);
   weeklyChartData?: ChartData<"bar">;
@@ -62,7 +63,6 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDaily();
-    this.loadWeekly();
     this.loadMonthly();
   }
 
@@ -77,31 +77,6 @@ export class ReportsComponent implements OnInit {
           this.dailyRows.set(res);
           this.loadingDaily.set(false);
         },
-      });
-  }
-
-  // Weekly Report
-  loadWeekly(): void {
-    this.report
-      .getWeeklyReport(this.fmt(this.weekDate))
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((w) => {
-        this.weekly = w;
-
-        const labels = w.dailyBreakdown.map((d) => d.dayName.slice(0, 3));
-        this.weeklyChartData = this.buildHoursBarData(
-          labels,
-          w.dailyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
-          w.dailyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
-          this.chartColors.target,
-        );
-
-        this.weeklyChartData = this.buildHoursBarData(
-          labels,
-          w.dailyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
-          w.dailyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
-          this.chartColors.workedBlue,
-        );
       });
   }
 
@@ -128,32 +103,6 @@ export class ReportsComponent implements OnInit {
           this.chartColors.workedGreen,
         );
       });
-  }
-
-  get weeklySummary() {
-    if (!this.weekly) return [];
-    return [
-      {
-        label: "Worked",
-        val: this.fmtMins(this.weekly.totalWorkedMinutes),
-        color: "#3b82f6",
-      },
-      {
-        label: "Target",
-        val: this.fmtMins(this.weekly.totalTargetMinutes),
-        color: "var(--text-color)",
-      },
-      {
-        label: "Missing",
-        val: this.fmtMins(this.weekly.missingMinutes ?? 0),
-        color: "#f59e0b",
-      },
-      {
-        label: "Overtime",
-        val: this.fmtMins(this.weekly.overtimeMinutes ?? 0),
-        color: "#22c55e",
-      },
-    ];
   }
 
   get monthlySummary() {
@@ -194,11 +143,5 @@ export class ReportsComponent implements OnInit {
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     a.download = `report-${this.fmt(this.dailyDate)}.csv`;
     a.click();
-  }
-
-  startOfWeek(d: Date): Date {
-    const day = d.getDay(),
-      diff = d.getDate() - day;
-    return new Date(d.setDate(diff));
   }
 }
