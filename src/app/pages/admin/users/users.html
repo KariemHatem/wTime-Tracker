@@ -8,13 +8,14 @@
 
 <div class="page-body">
   <div class="wt-card">
-    <p-table [value]="users" [loading]="loading" responsiveLayout="scroll">
+    <p-table [value]="users()" [loading]="loading()" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>User</th>
           <th>Role</th>
           <th>Target</th>
           <th>Working Days</th>
+          <th>Create Date</th>
           <th>Actions</th>
         </tr>
       </ng-template>
@@ -27,6 +28,7 @@
             </div>
           </td>
           <td>
+            <!-- cuttt -->
             <span
               style="
                 padding: 3px 10px;
@@ -41,11 +43,14 @@
             >
               {{ u.isAdmin ? "Admin" : "Employee" }}
             </span>
+            <!-- ===== -->
           </td>
+
           <td>{{ u.targetHoursPerDay }}h/day</td>
           <td style="font-size: 12px; color: var(--text-color-secondary)">
             {{ dayLabels(u.workingDays) }}
           </td>
+          <td>{{ u.createdAt | date:'MMM d, y, h:mm:ss a' }}</td>
           <td>
             <p-button
               icon="pi pi-pencil"
@@ -86,7 +91,7 @@
 <p-dialog
   [(visible)]="showDialog"
   [modal]="true"
-  [header]="editId ? 'Edit User' : 'Add User'"
+  [header]="editId() ? 'Edit User' : 'Add User'"
   [style]="{ width: '460px' }"
   [draggable]="false"
 >
@@ -103,7 +108,7 @@
       >
       <input pInputText type="email" formControlName="email" class="w-100" />
     </div>
-    <div *ngIf="!editId" class="field mb-3">
+    <div *ngIf="!editId()" class="field mb-3">
       <label class="text-muted d-block mb-1" style="font-size: 12px"
         >Password</label
       >
@@ -142,6 +147,7 @@
       <label class="text-muted d-block mb-2" style="font-size: 12px"
         >Working Days</label
       >
+      <!-- Cuttt -->
       <div class="d-flex gap-2 flex-wrap">
         <button
           *ngFor="let d of days"
@@ -156,6 +162,7 @@
           {{ d.label }}
         </button>
       </div>
+      <!-- ===== -->
     </div>
   </form>
   <ng-template pTemplate="footer">
@@ -166,9 +173,9 @@
       (click)="closeDialog()"
     />
     <p-button
-      [label]="editId ? 'Save Changes' : 'Create User'"
+      [label]="editId() ? 'Save Changes' : 'Create User'"
       (click)="save()"
-      [loading]="saving"
+      [loading]="saving()"
     />
   </ng-template>
 </p-dialog>

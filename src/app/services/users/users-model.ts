@@ -14,4 +14,5 @@ export interface UserUpdate {
   workingDays?: number[];
   isActive?: boolean;
   isAdmin?: boolean;
+  
 }

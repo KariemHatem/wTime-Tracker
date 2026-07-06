@@ -28,3 +28,14 @@ export const CHART_COLORS = {
   productivity: "#22c55e",
   productivityFill: "rgba(34,197,94,.1)",
 };
+
+// Days
+export const DAYS = [
+  { label: "Sun", v: 0 },
+  { label: "Mon", v: 1 },
+  { label: "Tue", v: 2 },
+  { label: "Wed", v: 3 },
+  { label: "Thu", v: 4 },
+  { label: "Fri", v: 5 },
+  { label: "Sat", v: 6 },
+];
