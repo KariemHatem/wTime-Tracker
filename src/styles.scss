@@ -185,16 +185,14 @@ body {
 }
 
 // Analytics
-$fs: 13px;
-
 h6,
 .date {
-  font-size: var($fs);
+  font-size: 13px;
 }
 
 p,
 .prod-span {
-  font-size: var(calc($fs - 1px));
+  font-size: 12px;
 }
 
 .progress-bar {
@@ -212,18 +210,18 @@ p,
 
 .avg-hours-label,
 .ms-prod {
-  font-size: var(calc($fs - 2px));
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .monthly-avg-hours {
-  font-size: var(calc($fs + 15px));
+  font-size: 28px;
   color: var(--primary-color);
 }
 
 .no-data {
-  font-size: var(--fs);
+  font-size: 13px;
 }
 
 .loading-spinner {
