@@ -13,11 +13,18 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ChartData } from "chart.js";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
-
+import { buildBarData } from "../../../shared/utils/builder-bar.util";
 @Component({
   selector: "app-admin-analytics",
   standalone: true,
-  imports: [CommonModule, TabsModule, ChartModule, TableModule, DataTable, HeaderSection],
+  imports: [
+    CommonModule,
+    TabsModule,
+    ChartModule,
+    TableModule,
+    DataTable,
+    HeaderSection,
+  ],
   templateUrl: "./analytics.html",
   styleUrl: "./analytics.scss",
 })
@@ -37,6 +44,7 @@ export class AdminAnalyticsComponent implements OnInit {
   chartColors = CHART_COLORS;
   Math = Math;
   now = new Date();
+  buildHoursBarData = buildBarData;
 
   fmtDay(d: string): string {
     return d.slice(5, 10).replace("-", "/");
@@ -53,28 +61,6 @@ export class AdminAnalyticsComponent implements OnInit {
   // Private Methods
 
   // Building Bars
-  private buildHoursBarData(
-    labels: string[],
-    targetMinutes: number[],
-    workedMinutes: number[],
-    workedColor: string,
-  ): ChartData<"bar"> {
-    return {
-      labels,
-      datasets: [
-        {
-          label: "Target (h)",
-          data: targetMinutes,
-          backgroundColor: this.chartColors.target,
-        },
-        {
-          label: "Worked (h)",
-          data: workedMinutes,
-          backgroundColor: workedColor,
-        },
-      ],
-    };
-  }
 
   private getWeeklyAnalytics() {
     this.analyticsService

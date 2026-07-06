@@ -12,10 +12,14 @@ import { TableModule } from "primeng/table";
 import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { AdminReports } from "src/app/services/reports/admin-reports";
-import { AdminReport } from "src/app/services/reports/admin-report";
+import { Report } from "src/app/services/reports/admin-report";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import {
+  formatMinutes,
+  formatDateForApi,
+} from "src/app/shared/utils/date-time.util";
 
 @Component({
   selector: "app-admin-reports",
@@ -28,8 +32,8 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     DatePickerModule,
     ButtonModule,
     HeaderSection,
-    DataTable
-],
+    DataTable,
+  ],
   templateUrl: "./admin-reports.html",
   styleUrl: "./admin-reports.scss",
 })
@@ -39,10 +43,12 @@ export class AdminReportsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   // Data
-  report = signal<AdminReport[]>([]);
+  report = signal<Report[]>([]);
   loading = signal(true);
   selectedDate = new Date();
   Math = Math;
+  fmt = formatDateForApi;
+  fmtMins = formatMinutes;
 
   // Lifecycle
   ngOnInit(): void {
@@ -74,22 +80,11 @@ export class AdminReportsComponent implements OnInit {
     );
   });
 
-  fmtMins(n?: number | null): string {
-    const v = n ?? 0;
-    const h = Math.floor(v / 60),
-      m = v % 60;
-    return h === 0 ? `${m}m` : m === 0 ? `${h}h` : `${h}h ${m}m`;
-  }
-
-  fmt(d: Date): string {
-    return d.toISOString().split("T")[0];
-  }
-
   exportCsv(): void {
     const escape = (v: string) => `"${String(v).replace(/"/g, '""')}"`;
     const rows = this.report().map(
       (r) =>
-        `"${r.userFullName}","${r.date}","${r.workedMinutes}","${r.targetMinutes}","${(r.completionPercent ?? 0).toFixed(0)}"`,
+        `${escape(r.userFullName)},${escape(r.date)},${r.workedMinutes},${r.targetMinutes},${(r.completionPercent ?? 0).toFixed(0)}`,
     );
     const csv = ["Name,Date,Worked(min),Target(min),Completion%", ...rows].join(
       "\n",

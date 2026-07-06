@@ -4,3 +4,9 @@ export interface StatCard {
   icon: string;
   color: string;
 }
+
+export interface Summary {
+  label: string;
+  value: string;
+  color: string;
+}

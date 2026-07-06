@@ -1,4 +1,4 @@
-export interface AdminReport {
+export interface Report {
   userId: number;
   userFullName: string;
   date: string;
@@ -7,4 +7,21 @@ export interface AdminReport {
   workedMinutes: number;
   targetMinutes: number;
   completionPercent?: number;
+}
+
+export interface WeeklyReport {
+  weekStart: string;
+  weekEnd: string;
+  totalWorkedMinutes: number;
+  totalTargetMinutes: number;
+  overtimeMinutes?: number;
+  missingMinutes?: number;
+  dailyBreakdown: DailyBreakdownItem[];
+}
+
+export interface DailyBreakdownItem {
+  date: string;
+  dayName: string;
+  workedMinutes: number;
+  targetMinutes: number;
 }
