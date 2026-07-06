@@ -6,7 +6,6 @@ import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { ChartModule } from "primeng/chart";
-import { MonthlyReport } from "../../services/analytics/analytics-model";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
 import { Report } from "src/app/services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
@@ -19,6 +18,7 @@ import { CHART_COLORS, CHART_OPTS } from "src/app/shared/const";
 import { ChartData } from "chart.js";
 import { buildBarData } from "src/app/shared/utils/builder-bar.util";
 import { WeeklyReport } from "./weekly-report/weekly-report";
+import { MonthlyReport } from "./monthly-report/monthly-report";
 
 @Component({
   selector: "app-reports",
@@ -33,13 +33,13 @@ import { WeeklyReport } from "./weekly-report/weekly-report";
     TableModule,
     ChartModule,
     WeeklyReport,
-  ],
+    MonthlyReport
+],
   templateUrl: "./reports.html",
   styleUrl: "./reports.scss",
 })
 export class ReportsComponent implements OnInit {
   // Priv Properties
-  private analyticsService = inject(AnalyticsService);
   private report = inject(AdminReports);
   private destroyRef = inject(DestroyRef);
 
@@ -48,12 +48,9 @@ export class ReportsComponent implements OnInit {
   // weekDate = this.startOfWeek(new Date());
   daily = new Date();
   dailyRows = signal<Report[]>([]);
-  monthly?: MonthlyReport;
+
   loadingDaily = signal(true);
-  weeklyChartData?: ChartData<"bar">;
-  monthlyChartData?: ChartData<"bar">;
-  chartOpts = CHART_OPTS;
-  chartColors = CHART_COLORS;
+
   Math = Math;
 
   // Utils
@@ -63,7 +60,6 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDaily();
-    this.loadMonthly();
   }
 
   // Daily Report
@@ -78,57 +74,6 @@ export class ReportsComponent implements OnInit {
           this.loadingDaily.set(false);
         },
       });
-  }
-
-  // Monthly Report
-  loadMonthly(): void {
-    const now = new Date();
-    this.analyticsService
-      .getMonthlyReport(now.getFullYear(), now.getMonth() + 1)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((m) => {
-        this.monthly = m;
-        const labels = m.weeklyBreakdown.map((w) => `W${w.weekNumber}`);
-        this.monthlyChartData = this.buildHoursBarData(
-          labels,
-          m.weeklyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
-          m.weeklyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
-          this.chartColors.target,
-        );
-
-        this.monthlyChartData = this.buildHoursBarData(
-          labels,
-          m.weeklyBreakdown.map((d) => +(d.targetMinutes / 60).toFixed(1)),
-          m.weeklyBreakdown.map((d) => +(d.workedMinutes / 60).toFixed(1)),
-          this.chartColors.workedGreen,
-        );
-      });
-  }
-
-  get monthlySummary() {
-    if (!this.monthly) return [];
-    return [
-      {
-        label: "Total Worked",
-        val: this.fmtMins(this.monthly.totalWorkedMinutes),
-        color: "#3b82f6",
-      },
-      {
-        label: "Target",
-        val: this.fmtMins(this.monthly.totalTargetMinutes),
-        color: "var(--text-color)",
-      },
-      {
-        label: "Overtime",
-        val: this.fmtMins(this.monthly.overtimeMinutes ?? 0),
-        color: "#22c55e",
-      },
-      {
-        label: "Productivity",
-        val: `${(this.monthly.productivityPercent ?? 0).toFixed(0)}%`,
-        color: "#a78bfa",
-      },
-    ];
   }
 
   exportDaily(): void {

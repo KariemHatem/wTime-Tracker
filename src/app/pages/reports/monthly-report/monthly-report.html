@@ -1,0 +1,18 @@
+<!-- SUMMARY -->
+<div class="mt-4">
+  <app-summary-cards [cards]="monthlySummary()"></app-summary-cards>
+</div>
+<!-- CHART -->
+@if(monthlyChartData){
+<div class="wt-card">
+  <h6 style="font-size: 13px; font-weight: 600; margin-bottom: 16px">
+    Hours by Week
+  </h6>
+  <p-chart
+    type="bar"
+    [data]="monthlyChartData"
+    [options]="chartOpts"
+    height="220"
+  />
+</div>
+}
