@@ -14,11 +14,10 @@ import {
   formatDateForApi,
 } from "src/app/shared/utils/date-time.util";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { CHART_COLORS, CHART_OPTS } from "src/app/shared/const";
-import { ChartData } from "chart.js";
 import { buildBarData } from "src/app/shared/utils/builder-bar.util";
 import { WeeklyReport } from "./weekly-report/weekly-report";
 import { MonthlyReport } from "./monthly-report/monthly-report";
+import { DailyReport } from "./daily-report/daily-report";
 
 @Component({
   selector: "app-reports",
@@ -33,8 +32,9 @@ import { MonthlyReport } from "./monthly-report/monthly-report";
     TableModule,
     ChartModule,
     WeeklyReport,
-    MonthlyReport
-],
+    MonthlyReport,
+    DailyReport,
+  ],
   templateUrl: "./reports.html",
   styleUrl: "./reports.scss",
 })
@@ -45,18 +45,14 @@ export class ReportsComponent implements OnInit {
 
   // Data
   dailyDate = new Date();
-  // weekDate = this.startOfWeek(new Date());
   daily = new Date();
   dailyRows = signal<Report[]>([]);
-
   loadingDaily = signal(true);
-
   Math = Math;
 
   // Utils
   fmt = formatDateForApi;
   fmtMins = formatMinutes;
-  buildHoursBarData = buildBarData;
 
   ngOnInit(): void {
     this.loadDaily();
@@ -74,19 +70,5 @@ export class ReportsComponent implements OnInit {
           this.loadingDaily.set(false);
         },
       });
-  }
-
-  exportDaily(): void {
-    const rows = this.dailyRows().map(
-      (r) =>
-        `"${r.userFullName}","${r.date}","${r.workedMinutes}","${r.targetMinutes}","${(r.completionPercent ?? 0).toFixed(0)}"`,
-    );
-    const csv = ["Name,Date,Worked(min),Target(min),Completion%", ...rows].join(
-      "\n",
-    );
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-    a.download = `report-${this.fmt(this.dailyDate)}.csv`;
-    a.click();
   }
 }
