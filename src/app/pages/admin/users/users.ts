@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
-  DestroyRef,
-  signal,
-} from "@angular/core";
+import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -29,6 +22,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DAYS } from "src/app/shared/const";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { Badge } from "src/app/shared/badge/badge";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-admin-users",
@@ -45,6 +40,8 @@ import { Badge } from "src/app/shared/badge/badge";
     CheckboxModule,
     ConfirmDialogModule,
     Badge,
+    HeaderSection,
+    DataTable,
   ],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",
@@ -91,7 +88,10 @@ export class AdminUsersComponent implements OnInit {
   buildForm(u?: User): void {
     this.form = this.fb.group({
       fullName: [u?.fullName ?? "", Validators.required],
-      email: [u?.email ?? "", [Validators.required, Validators.email]],
+      email: [
+        u?.email ?? "",
+        [Validators.required, Validators.email, Validators.minLength(10)],
+      ],
       password: [
         this.editId() ? "" : "",
         this.editId() ? [] : [Validators.required, Validators.minLength(6)],
@@ -168,7 +168,9 @@ export class AdminUsersComponent implements OnInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
         }
-        this.toasterServices.succesToaster("User Edited Successfully.");
+        this.toasterServices.succesToaster(
+          id ? "User edited successfully." : "User created successfully.",
+        );
       },
     });
   }
@@ -184,7 +186,7 @@ export class AdminUsersComponent implements OnInit {
         this.usersServices.deleteUser(u.id).subscribe({
           next: () => {
             this.load();
-            this.toasterServices.succesToaster("User Deleted Successfully.");
+            this.toasterServices.warToaster("User Deleted Successfully.");
           },
         }),
     });
