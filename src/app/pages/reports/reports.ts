@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject, signal } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -8,9 +8,10 @@ import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { ChartModule } from "primeng/chart";
 import { ApiService } from "../../services/api.service";
-import { DailyReportRow, WeeklyReport } from "../../models/api.models";
 import { MonthlyReport } from "../../services/analytics/analytics-model";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
+import { Report, WeeklyReport } from "src/app/services/reports/admin-report";
+import { AdminReports } from "src/app/services/reports/admin-reports";
 
 const CHART_OPTS = {
   responsive: true,
@@ -47,13 +48,16 @@ const CHART_OPTS = {
 export class ReportsComponent implements OnInit, OnDestroy {
   // Priv Properties
   private analyticsService = inject(AnalyticsService);
+  private report = inject(AdminReports);
+
+  // Data
   dailyDate = new Date();
   weekDate = this.startOfWeek(new Date());
   daily = new Date();
-  dailyRows: DailyReportRow[] = [];
+  dailyRows = signal<Report[]>([]);
   weekly?: WeeklyReport;
   monthly?: MonthlyReport;
-  loadingDaily = true;
+  loadingDaily = signal(true);
   weeklyChartData: any = null;
   monthlyChartData: any = null;
   chartOpts = CHART_OPTS;
@@ -72,22 +76,25 @@ export class ReportsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  loadDaily(): void {
-    this.loadingDaily = true;
+  // Priv Methods
+
+  // Daily Report
+  private loadDaily(): void {
+    this.loadingDaily.set(true);
     this.subs.add(
-      this.api.getDailyReport(this.fmt(this.dailyDate)).subscribe({
-        next: (r) => {
-          this.dailyRows = r;
-          this.loadingDaily = false;
+      this.report.getDailyReport(this.fmt(this.dailyDate)).subscribe({
+        next: (res) => {
+          this.dailyRows.set(res);
+          this.loadingDaily.set(false);
         },
-        error: () => (this.loadingDaily = false),
       }),
     );
   }
 
-  loadWeekly(): void {
+  // Weekly Report
+  private loadWeekly(): void {
     this.subs.add(
-      this.api.getWeeklyReport(this.fmt(this.weekDate)).subscribe((w) => {
+      this.report.getWeeklyReport(this.fmt(this.weekDate)).subscribe((w) => {
         this.weekly = w;
         this.weeklyChartData = {
           labels: w.dailyBreakdown.map((d) => d.dayName.slice(0, 3)),
@@ -195,7 +202,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   exportDaily(): void {
-    const rows = this.dailyRows.map(
+    const rows = this.dailyRows().map(
       (r) =>
         `"${r.userFullName}","${r.date}","${r.workedMinutes}","${r.targetMinutes}","${(r.completionPercent ?? 0).toFixed(0)}"`,
     );

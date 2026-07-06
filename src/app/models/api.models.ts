@@ -16,23 +16,6 @@ export interface TodayProgress {
   isGoalReached: boolean;
 }
 
-export interface WeeklyReport {
-  weekStart: string;
-  weekEnd: string;
-  totalWorkedMinutes: number;
-  totalTargetMinutes: number;
-  overtimeMinutes?: number;
-  missingMinutes?: number;
-  dailyBreakdown: DailyBreakdownItem[];
-}
-
-export interface DailyBreakdownItem {
-  date: string;
-  dayName: string;
-  workedMinutes: number;
-  targetMinutes: number;
-}
-
 export interface UserMonitoring {
   userId: number;
   fullName: string;

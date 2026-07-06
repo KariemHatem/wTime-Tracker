@@ -89,7 +89,7 @@ export class AdminReportsComponent implements OnInit {
     const escape = (v: string) => `"${String(v).replace(/"/g, '""')}"`;
     const rows = this.report().map(
       (r) =>
-        `"${r.userFullName}","${r.date}","${r.workedMinutes}","${r.targetMinutes}","${(r.completionPercent ?? 0).toFixed(0)}"`,
+        `${escape(r.userFullName)},${escape(r.date)},${r.workedMinutes},${r.targetMinutes},${(r.completionPercent ?? 0).toFixed(0)}`,
     );
     const csv = ["Name,Date,Worked(min),Target(min),Completion%", ...rows].join(
       "\n",

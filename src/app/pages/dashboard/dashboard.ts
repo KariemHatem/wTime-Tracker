@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription, interval } from "rxjs";
 import { ButtonModule } from "primeng/button";
@@ -9,12 +9,10 @@ import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { ApiService } from "../../services/api.service";
 import { AuthService } from "../../services/auth/auth.service";
-import {
-  TodayProgress,
-  WorkSession,
-  WeeklyReport,
-} from "../../models/api.models";
+import { TodayProgress, WorkSession } from "../../models/api.models";
 import { MonthlyReport } from "src/app/services/analytics/analytics-model";
+import { WeeklyReport } from "../..//services/reports/admin-report";
+import { AdminReports } from "src/app/services/reports/admin-reports";
 
 @Component({
   selector: "app-dashboard",
@@ -33,6 +31,7 @@ import { MonthlyReport } from "src/app/services/analytics/analytics-model";
   styleUrl: "./dashboard.scss",
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  private report = inject(AdminReports);
   progress?: TodayProgress;
   weekly?: WeeklyReport;
   todaySessions: WorkSession[] = [];
@@ -69,7 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.api.getTodayProgress().subscribe((p) => (this.progress = p)),
     );
     this.subs.add(
-      this.api.getWeeklyReport().subscribe((w) => (this.weekly = w)),
+      this.report.getWeeklyReport().subscribe((w) => (this.weekly = w)),
     );
     this.subs.add(
       this.api

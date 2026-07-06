@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import {
   WorkSession,
   TodayProgress,
-  WeeklyReport,
   UserMonitoring,
   UserCreate,
   UserUpdate,
@@ -45,15 +44,6 @@ export class ApiService {
 
   endSession(): Observable<WorkSession> {
     return this.httpCall.post<WorkSession>(`${this.endPoint}/sessions/end`, {});
-  }
-
-  // Reports API Calls
-  getWeeklyReport(week?: string): Observable<WeeklyReport> {
-    let params = new HttpParams();
-    if (week) params = params.set("week", week);
-    return this.httpCall.get<WeeklyReport>(`${this.endPoint}/reports/weekly`, {
-      params,
-    });
   }
 
   getUsersMonitoring(): Observable<UserMonitoring[]> {
