@@ -54,23 +54,15 @@
     <!-- Timer -->
     <div class="col-12 col-lg-4">
       <div
-        class="wt-card h-100 text-center d-flex flex-column align-items-center justify-content-center"
-        style="min-height: 200px"
+        class="wt-card t-card h-100 text-center d-flex flex-column align-items-center justify-content-center"
       >
-        <h6
-          class="text-muted mb-2"
-          style="
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-          "
-        >
+        <h6 class="text-muted mb-2 text-uppercase sesion-timer-label">
           Session Timer
         </h6>
         <div class="timer-display" [class.timer-running]="isRunning()">
           {{ timerDisplay() }}
         </div>
-        <p class="text-muted" style="font-size: 12px; margin: 4px 0 16px">
+        <p class="text-muted s-progress">
           {{ isRunning() ? 'Session in progress' : 'No active session' }}
         </p>
         <p-button
