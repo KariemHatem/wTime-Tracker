@@ -1,17 +1,16 @@
-<div class="page-header">
-  <h1 class="wt-section-title">Sessions</h1>
-  <p class="wt-section-sub">Your work session history</p>
-</div>
+<!-- Page Header -->
+<app-header-section
+  title="Sessions"
+  subtitle="Your work session history"
+></app-header-section>
+
+<!-- Page Body -->
 <div class="page-body">
   <!-- Filters -->
   <div class="wt-card mb-4">
     <div class="row g-3 align-items-end">
       <div class="col-auto">
-        <label
-          class="d-block text-muted mb-1"
-          style="font-size: 12px; font-weight: 500"
-          >From</label
-        >
+        <label class="d-block text-muted mb-1">From</label>
         <p-datepicker
           [(ngModel)]="fromDate"
           dateFormat="yy-mm-dd"
@@ -20,11 +19,7 @@
         />
       </div>
       <div class="col-auto">
-        <label
-          class="d-block text-muted mb-1"
-          style="font-size: 12px; font-weight: 500"
-          >To</label
-        >
+        <label class="d-block text-muted mb-1">To</label>
         <p-datepicker
           [(ngModel)]="toDate"
           dateFormat="yy-mm-dd"
@@ -35,24 +30,26 @@
       <div class="col-auto">
         <p-button icon="pi pi-refresh" severity="secondary" (click)="load()" />
       </div>
-      <div class="col ms-auto text-end" *ngIf="sessions.length">
-        <span style="font-size: 13px; color: var(--text-color-secondary)">
-          {{ sessions.length }} sessions · {{ fmtMins(totalMinutes) }} total
+      @if(sessions().length){
+      <div class="col ms-auto text-end">
+        <span>
+          {{ sessions().length }} sessions · {{ fmtMins(totalMinutes()) }} total
         </span>
       </div>
+      }
     </div>
   </div>
 
   <!-- Table -->
   <div class="wt-card">
-    <p-table
-      [value]="sessions"
-      [loading]="loading"
-      [paginator]="sessions.length > 20"
-      [rows]="20"
-      responsiveLayout="scroll"
+    <app-data-table
+      [value]="sessions()"
+      [loading]="loading()"
+      [paginated]="true"
+      [colspan]="5"
+      emptyMessage="No sessions found for this period."
     >
-      <ng-template pTemplate="header">
+      <ng-template #header>
         <tr>
           <th pSortableColumn="startTime">
             Start <p-sortIcon field="startTime" />
@@ -61,43 +58,23 @@
           <th pSortableColumn="totalMinutes">
             Duration <p-sortIcon field="totalMinutes" />
           </th>
-          <th>Notes</th>
-          <th>Status</th>
+          <th>Date</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-s>
+      <ng-template #body let-s>
         <tr>
-          <td class="font-mono">{{ s.startTime | date: "MMM d, HH:mm:ss" }}</td>
           <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date: "MMM d, HH:mm:ss") : "—" }}
+            {{ s.startTime | date: "MMM d, h:mm:ss a" }}
+          </td>
+          <td class="font-mono">
+            {{ s.endTime ? (s.endTime | date: "MMM d, h:mm:ss a") : "—" }}
           </td>
           <td>
             <strong>{{ fmtMins(s.totalMinutes) }}</strong>
           </td>
-          <td style="color: var(--text-color-secondary); font-size: 13px">
-            {{ s.notes || "—" }}
-          </td>
-          <td>
-            <span [class]="s.isActive ? 'badge-working' : 'badge-offline'">
-              {{ s.isActive ? "Active" : "Completed" }}
-            </span>
-          </td>
+          <td class="font-mono">{{ s.date }}</td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td
-            colspan="5"
-            style="
-              text-align: center;
-              padding: 40px;
-              color: var(--text-color-secondary);
-            "
-          >
-            No sessions found for this period.
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    </app-data-table>
   </div>
 </div>

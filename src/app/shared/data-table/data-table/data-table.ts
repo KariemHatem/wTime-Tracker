@@ -4,9 +4,13 @@ import {
   contentChild,
   TemplateRef,
   signal,
+  viewChild,
+  computed,
+  inject,
+  Injector,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TableModule } from "primeng/table";
+import { Table, TableModule } from "primeng/table";
 import { PaginatorState } from "primeng/paginator";
 
 @Component({
@@ -36,4 +40,14 @@ export class DataTable<T> {
 
   headerTpl = contentChild<TemplateRef<any>>("header");
   bodyTpl = contentChild<TemplateRef<any>>("body");
+
+  private tableRef = viewChild.required(Table);
+  private parentInjector = inject(Injector);
+
+  templateInjector = computed(() =>
+    Injector.create({
+      providers: [{ provide: Table, useValue: this.tableRef() }],
+      parent: this.parentInjector,
+    }),
+  );
 }

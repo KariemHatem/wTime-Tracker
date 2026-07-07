@@ -11,11 +11,13 @@
   (onPage)="onPageChange($event)"
 >
   <ng-template pTemplate="header">
-    <ng-container *ngTemplateOutlet="headerTpl()"></ng-container>
+    <ng-container
+      *ngTemplateOutlet="headerTpl();injector: templateInjector()"
+    ></ng-container>
   </ng-template>
   <ng-template pTemplate="body" let-row>
     <ng-container
-      *ngTemplateOutlet="bodyTpl(); context: { $implicit: row }"
+      *ngTemplateOutlet="bodyTpl(); context: { $implicit: row };injector: templateInjector()"
     ></ng-container>
   </ng-template>
   <!-- Empty message -->

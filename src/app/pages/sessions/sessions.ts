@@ -1,13 +1,23 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+  signal,
+  computed,
+} from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
 import { TableModule } from "primeng/table";
 import { DatePickerModule } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { TagModule } from "primeng/tag";
 import { ApiService } from "../../services/api.service";
 import { WorkSession } from "../../models/api.models";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { formatMinutes } from "src/app/shared/utils/date-time.util";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-sessions",
@@ -20,54 +30,51 @@ import { WorkSession } from "../../models/api.models";
     DatePickerModule,
     ButtonModule,
     TagModule,
+    HeaderSection,
+    DataTable,
   ],
   templateUrl: "./sessions.html",
   styleUrl: "./sessions.scss",
 })
-export class SessionsComponent implements OnInit, OnDestroy {
-  sessions: WorkSession[] = [];
-  loading = true;
-  fromDate: Date;
-  toDate: Date;
-  private sub?: Subscription;
+export class SessionsComponent implements OnInit {
+  // Priv Properties
+  private apiService = inject(ApiService);
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private api: ApiService) {
-    const now = new Date();
-    this.toDate = now;
-    this.fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
-  }
+  // Data
+  sessions = signal<WorkSession[]>([]);
+  loading = signal(false);
 
+  private readonly now = new Date();
+  fromDate: Date = new Date(this.now.getFullYear(), this.now.getMonth(), 1);
+  toDate: Date = this.now;
+
+  // Helper Utils
+  fmtMins = formatMinutes;
+
+  // Lifecycle
   ngOnInit(): void {
     this.load();
   }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
 
   load(): void {
-    this.loading = true;
-    this.sub?.unsubscribe();
-    this.sub = this.api
+    this.loading.set(true);
+    this.apiService
       .listSessions(this.fmt(this.fromDate), this.fmt(this.toDate))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (s) => {
-          this.sessions = s;
-          this.loading = false;
+        next: (res) => {
+          this.sessions.set(res);
+          this.loading.set(false);
         },
-        error: () => (this.loading = false),
+        error: () => this.loading.set(false),
       });
   }
 
-  get totalMinutes(): number {
-    return this.sessions.reduce((s, x) => s + (x.totalMinutes ?? 0), 0);
-  }
-
-  fmtMins(mins?: number | null): string {
-    const n = mins ?? 0;
-    const h = Math.floor(n / 60),
-      m = n % 60;
-    return h === 0 ? `${m}m` : m === 0 ? `${h}h` : `${h}h ${m}m`;
-  }
+  totalMinutes = computed(() => {
+    const s = this.sessions();
+    return s.reduce((r, x) => r + (x.totalMinutes ?? 0), 0);
+  });
 
   fmt(d: Date): string {
     return d.toISOString().split("T")[0];
