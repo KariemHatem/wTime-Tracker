@@ -77,20 +77,8 @@
     <!-- Progress ring / progress bar -->
     <div class="col-12 col-lg-4">
       <div class="wt-card h-100" style="min-height: 200px">
-        <h6
-          class="text-muted mb-3"
-          style="
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-          "
-        >
-          Today's Progress
-        </h6>
-        <div
-          class="mb-2 d-flex justify-content-between"
-          style="font-size: 13px"
-        >
+        <h6 class="text-muted mb-3 p-label text-uppercase">Today's Progress</h6>
+        <div class="mb-2 d-flex justify-content-between p-content">
           <span class="text-muted"
             >{{ fmtMins(progress()?.workedMinutes) }} worked</span
           >
@@ -102,12 +90,9 @@
           [value]="progress()?.completionPercent ?? 0"
           [showValue]="false"
         />
-        <div
-          class="mt-3 d-flex justify-content-between"
-          style="font-size: 12px; color: var(--text-color-secondary)"
-        >
+        <div class="mt-3 d-flex justify-content-between p-content">
           <span>Target: {{ fmtMins(progress()?.targetMinutes) }}</span>
-          <span *ngIf="progress()?.isGoalReached" style="color: #22c55e"
+          <span *ngIf="progress()?.isGoalReached" class="text-success"
             >🎯 Goal reached!</span
           >
         </div>
