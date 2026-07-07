@@ -1,26 +1,23 @@
-<div class="page-header">
-  <h1 class="wt-section-title">Settings</h1>
-  <p class="wt-section-sub">Manage your profile and preferences</p>
-</div>
+<!-- Page Header -->
+<app-header-section
+  title="Settings"
+  subtitle="Manage your profile and preferences"
+></app-header-section>
+
+<!-- Page Body -->
 <div class="page-body">
   <div class="row g-4">
     <!-- Profile -->
     <div class="col-12 col-lg-6">
       <div class="wt-card">
-        <h6 style="font-size: 14px; font-weight: 600; margin-bottom: 20px">
-          Profile
-        </h6>
+        <h6 class="fw-semibold">Profile</h6>
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >Full Name</label
-            >
+            <label class="text-muted mb-1 d-block">Full Name</label>
             <input pInputText formControlName="fullName" class="w-100" />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >Email</label
-            >
+            <label class="text-muted mb-1 d-block">Email</label>
             <input
               pInputText
               type="email"
@@ -29,9 +26,7 @@
             />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >Daily Target (hours)</label
-            >
+            <label class="text-muted mb-1 d-block">Daily Target (hours)</label>
             <p-inputNumber
               formControlName="targetHoursPerDay"
               [min]="1"
@@ -42,21 +37,18 @@
             />
           </div>
           <div class="field mb-4">
-            <label class="text-muted mb-2 d-block" style="font-size: 12px"
-              >Working Days</label
-            >
+            <label class="text-muted mb-2 d-block">Working Days</label>
             <div class="d-flex gap-2 flex-wrap">
               <button
                 *ngFor="let d of days"
                 type="button"
                 [class]="
                       'btn btn-sm ' +
-                      (isWorkingDay(d.value)
+                      (isWorkingDay(d.v)
                         ? 'btn-primary'
                         : 'btn-outline-secondary')
                     "
-                style="font-size: 12px; padding: 4px 10px; border-radius: 6px"
-                (click)="toggleDay(d.value)"
+                (click)="toggleDay(d.v)"
               >
                 {{ d.label }}
               </button>
@@ -65,7 +57,7 @@
           <p-button
             type="submit"
             label="Save Profile"
-            [loading]="savingProfile"
+            [loading]="savingProfile()"
           />
         </form>
       </div>
@@ -74,14 +66,10 @@
     <!-- Password -->
     <div class="col-12 col-lg-6">
       <div class="wt-card">
-        <h6 style="font-size: 14px; font-weight: 600; margin-bottom: 20px">
-          Change Password
-        </h6>
+        <h6>Change Password</h6>
         <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >Current Password</label
-            >
+            <label class="text-muted mb-1 d-block">Current Password</label>
             <p-password
               formControlName="currentPassword"
               [feedback]="false"
@@ -91,9 +79,7 @@
             />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >New Password</label
-            >
+            <label class="text-muted mb-1 d-block">New Password</label>
             <p-password
               formControlName="newPassword"
               [toggleMask]="true"
@@ -102,9 +88,7 @@
             />
           </div>
           <div class="field mb-4">
-            <label class="text-muted mb-1 d-block" style="font-size: 12px"
-              >Confirm New Password</label
-            >
+            <label class="text-muted mb-1 d-block">Confirm New Password</label>
             <p-password
               formControlName="confirmPassword"
               [feedback]="false"
@@ -113,47 +97,20 @@
               inputStyleClass="w-100"
             />
           </div>
-          <div
-            *ngIf="passwordError"
-            style="color: #ef4444; font-size: 13px; margin-bottom: 12px"
-          >
-            {{ passwordError }}
-          </div>
+          @if(passwordError()){
+          <div  class="err">{{ passwordError() }}</div>
+          }
           <p-button
             type="submit"
             label="Update Password"
             severity="secondary"
-            [loading]="savingPassword"
+            [loading]="savingPassword()"
           />
         </form>
       </div>
 
       <!-- Info card -->
-      <div class="wt-card mt-4">
-        <h6 style="font-size: 14px; font-weight: 600; margin-bottom: 12px">
-          Account Info
-        </h6>
-        <div
-          class="d-flex justify-content-between mb-2"
-          style="font-size: 13px"
-        >
-          <span class="text-muted">Role</span>
-          <span style="color: #3b82f6"
-            >{{ user?.isAdmin ? "Admin" : "Employee" }}</span
-          >
-        </div>
-        <div
-          class="d-flex justify-content-between mb-2"
-          style="font-size: 13px"
-        >
-          <span class="text-muted">Member since</span>
-          <span>{{ user?.createdAt | date: "MMM yyyy" }}</span>
-        </div>
-        <div class="d-flex justify-content-between" style="font-size: 13px">
-          <span class="text-muted">Status</span>
-          <span style="color: #22c55e">Active</span>
-        </div>
-      </div>
+      <app-user-info></app-user-info>
     </div>
   </div>
 </div>

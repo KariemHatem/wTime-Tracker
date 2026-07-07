@@ -63,16 +63,14 @@
       </ng-template>
       <ng-template #body let-s>
         <tr>
+          <td class="font-mono">{{ s.startTime | date: "MMM d, h:mm a" }}</td>
           <td class="font-mono">
-            {{ s.startTime | date: "MMM d, h:mm:ss a" }}
-          </td>
-          <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date: "MMM d, h:mm:ss a") : "—" }}
+            {{ s.endTime ? (s.endTime | date: "MMM d, h:mm a") : "—" }}
           </td>
           <td>
             <strong>{{ fmtMins(s.totalMinutes) }}</strong>
           </td>
-          <td class="font-mono">{{ s.date }}</td>
+          <td class="font-mono">{{ s.date | date: 'EEEE, MMMM d, y' }}</td>
         </tr>
       </ng-template>
     </app-data-table>

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -15,16 +15,11 @@ import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { AuthService } from "../../services/auth/auth.service";
 import { Users } from "src/app/services/profile/users";
-
-const DAYS = [
-  { label: "Sun", value: 0 },
-  { label: "Mon", value: 1 },
-  { label: "Tue", value: 2 },
-  { label: "Wed", value: 3 },
-  { label: "Thu", value: 4 },
-  { label: "Fri", value: 5 },
-  { label: "Sat", value: 6 },
-];
+import { DAYS } from "src/app/shared/const";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Toater } from "src/app/services/toater";
+import { UserInfo } from "./user-info/user-info";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
 
 @Component({
   selector: "app-settings",
@@ -38,35 +33,43 @@ const DAYS = [
     PasswordModule,
     CheckboxModule,
     ToastModule,
-  ],
+    UserInfo,
+    HeaderSection
+],
   providers: [MessageService],
   templateUrl: "./settings.html",
   styleUrl: "./settings.scss",
 })
 export class SettingsComponent implements OnInit {
+  // Priv Properties
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private profile = inject(Users);
+  private detroyref = inject(DestroyRef);
+  private toasterServices = inject(Toater);
+
+  // private msg: MessageService,
+
+  // Data
   profileForm!: FormGroup;
   passwordForm!: FormGroup;
-  savingProfile = false;
-  savingPassword = false;
-  passwordError = "";
+  savingProfile = signal(false);
+  savingPassword = signal(false);
+  passwordError = signal("");
   days = DAYS;
-  workingDays: number[] = [];
-
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private msg: MessageService,
-  ) {}
-
-  private profile =  inject(Users)
+  workingDays = signal<number[]>([]);
 
   get user() {
-    return this.auth.currentUser;
+    return this.authService.currentUser;
   }
 
   ngOnInit(): void {
+    this.profileBuild();
+  }
+
+  profileBuild() {
     const u = this.user!;
-    this.workingDays = [...(u.workingDays ?? [])];
+    this.workingDays.set([...(u.workingDays ?? [])]);
     this.profileForm = this.fb.group({
       fullName: [u.fullName, Validators.required],
       email: [u.email, [Validators.required, Validators.email]],
@@ -83,65 +86,68 @@ export class SettingsComponent implements OnInit {
   }
 
   isWorkingDay(d: number): boolean {
-    return this.workingDays.includes(d);
-  }
-  toggleDay(d: number): void {
-    this.workingDays = this.workingDays.includes(d)
-      ? this.workingDays.filter((x) => x !== d)
-      : [...this.workingDays, d].sort();
+    return this.workingDays().includes(d);
   }
 
+  toggleDay(d: number): void {
+    this.workingDays.update((days) =>
+      days.includes(d)
+        ? days.filter((x) => x !== d)
+        : [...days, d].sort((a, b) => a - b),
+    );
+  }
+
+  // Refresh User
+  refreshUser(): void {
+    this.authService
+      .refreshUser()
+      .pipe(takeUntilDestroyed(this.detroyref))
+      .subscribe();
+  }
+
+  // Save Profile
   saveProfile(): void {
     if (this.profileForm.invalid) return;
-    this.savingProfile = true;
+    this.savingProfile.set(true);
     this.profile
       .updateProfile({
         ...this.profileForm.value,
         workingDays: this.workingDays,
       })
+      .pipe(takeUntilDestroyed(this.detroyref))
       .subscribe({
         next: () => {
-          this.savingProfile = false;
-          this.msg.add({
-            severity: "success",
-            summary: "Saved",
-            detail: "Profile updated.",
-          });
+          this.savingProfile.set(false);
+          this.toasterServices.succesToaster("Profile Updated Successfully.");
         },
         error: () => {
-          this.savingProfile = false;
-          this.msg.add({
-            severity: "error",
-            summary: "Error",
-            detail: "Failed to save.",
-          });
+          this.savingProfile.set(false);
         },
       });
   }
 
   savePassword(): void {
-    this.passwordError = "";
+    this.passwordError.set("");
     const { currentPassword, newPassword, confirmPassword } =
       this.passwordForm.value;
     if (newPassword !== confirmPassword) {
-      this.passwordError = "Passwords do not match.";
+      this.passwordError.set("Passwords do not match.");
       return;
     }
-    this.savingPassword = true;
-    this.profile.updateProfile({ currentPassword, newPassword }).subscribe({
-      next: () => {
-        this.savingPassword = false;
-        this.passwordForm.reset();
-        this.msg.add({
-          severity: "success",
-          summary: "Updated",
-          detail: "Password changed.",
-        });
-      },
-      error: (e) => {
-        this.savingPassword = false;
-        this.passwordError = e?.error?.message || "Failed to update password.";
-      },
-    });
+    this.savingPassword.set(true);
+    this.profile
+      .updateProfile({ currentPassword, newPassword })
+      .pipe(takeUntilDestroyed(this.detroyref))
+      .subscribe({
+        next: () => {
+          this.savingPassword.set(false);
+          this.passwordForm.reset();
+          this.toasterServices.succesToaster("Password Updated Successfully.");
+        },
+        error: (e) => {
+          this.savingPassword.set(false);
+          this.toasterServices.warToaster("Failed to update password.");
+        },
+      });
   }
 }

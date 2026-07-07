@@ -1,0 +1,19 @@
+<div class="wt-card mt-4">
+  <h6 class="fw-semibold">Account Info</h6>
+  <div class="d-flex justify-content-between mb-2 role">
+    <span class="text-muted">Role</span>
+    <span class="role-info">{{ user?.isAdmin ? "Admin" : "Employee" }}</span>
+  </div>
+  <div class="d-flex justify-content-between mb-2 role">
+    <span class="text-muted">Member since</span>
+    <span>{{ user?.createdAt | date: "MMM d, h:mm a" }}</span>
+  </div>
+  <div class="d-flex justify-content-between role">
+    <span class="text-muted">Status</span>
+    @if(user?.isActive){
+    <span class="text-success fw-bold">Active</span>
+    } @else{
+    <span class="text-warning">Inactive</span>
+    }
+  </div>
+</div>
