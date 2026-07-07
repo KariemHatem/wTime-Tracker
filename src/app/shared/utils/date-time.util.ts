@@ -11,3 +11,7 @@ export function formatDateForApi(d: Date): string {
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
+
+export function formatDate(d: Date): string {
+  return d.toISOString().split("T")[0];
+}

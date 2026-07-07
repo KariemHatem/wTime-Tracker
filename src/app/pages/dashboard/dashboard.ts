@@ -4,6 +4,7 @@ import {
   OnDestroy,
   inject,
   DestroyRef,
+  signal,
 } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription, interval } from "rxjs";
@@ -20,6 +21,7 @@ import { WeeklyReport } from "../..//services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Toater } from "src/app/services/toater";
+import { formatMinutes, formatDate } from "src/app/shared/utils/date-time.util";
 
 @Component({
   selector: "app-dashboard",
@@ -45,23 +47,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private msg = inject(MessageService);
   private toastServices = inject(Toater);
   private destroyref = inject(DestroyRef);
+  private timerSub?: Subscription;
 
   // Data
-  progress?: TodayProgress;
-  weekly?: WeeklyReport;
-  todaySessions: WorkSession[] = [];
-  loadingSessions = true;
-  actionLoading = false;
-  isRunning = false;
-  elapsedSeconds = 0;
+  progress = signal<TodayProgress | undefined>(undefined);
+  weekly = signal<WeeklyReport | any>(undefined);
+  todaySessions = signal<WorkSession[]>([]);
+  loadingSessions = signal(true);
+  actionLoading = signal(false);
+  isRunning = signal(false);
+  elapsedSeconds = signal(0);
   today = new Date();
 
-  private timerSub?: Subscription;
+  // Helper Util
+  fmtMins = formatMinutes;
+  fmtDate = formatDate;
 
   get user() {
     return this.auth.currentUser;
   }
 
+  // Lifecycle
   ngOnInit(): void {
     this.loadProgress();
     this.WeeklyReport();
@@ -90,7 +96,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyref))
       .subscribe({
         next: (res) => {
-          this.progress = res;
+          this.progress.set(res);
         },
       });
   }
@@ -102,7 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyref))
       .subscribe({
         next: (res) => {
-          this.weekly = res;
+          this.weekly.set(res);
         },
       });
   }
@@ -114,8 +120,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyref))
       .subscribe({
         next: (res) => {
-          this.todaySessions = res;
-          this.loadingSessions = false;
+          this.todaySessions.set(res);
+          this.loadingSessions.set(false);
         },
       });
   }
@@ -125,87 +131,97 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.api
       .getActiveSession()
       .pipe(takeUntilDestroyed(this.destroyref))
-      .subscribe((s) => {
-        if (s?.isActive) {
-          this.isRunning = true;
-          this.startTimer(s.startTime);
-        }
+      .subscribe({
+        next: (res) => {
+          const session = res.session;
+          if (session && session.endTime === null) {
+            this.isRunning.set(true);
+            this.startTimer(session.startTime);
+          } else {
+            this.isRunning.set(false);
+          }
+        },
       });
   }
 
-  toggleSession(): void {
-    this.actionLoading = true;
-    if (this.isRunning) {
-      this.api.endSession().subscribe({
+  // Stop Session
+  private stopSession() {
+    this.api
+      .endSession()
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe({
         next: () => {
-          this.isRunning = false;
+          this.isRunning.set(false);
           this.stopTimer();
-          this.actionLoading = false;
+          this.actionLoading.set(false);
           this.loadAll();
+          this.toastServices.infoToaster("Session Stopped.");
         },
         error: () => {
-          this.actionLoading = false;
-          this.msg.add({
-            severity: "error",
-            summary: "Error",
-            detail: "Could not stop session.",
-          });
+          this.actionLoading.set(false);
+          this.toastServices.errorToaster("Could not stop session.");
         },
       });
-    } else {
-      this.api.startSession().subscribe({
+  }
+
+  // Start Session
+  private stratSession() {
+    this.api
+      .startSession()
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe({
         next: (s) => {
-          this.isRunning = true;
+          this.isRunning.set(true);
           this.startTimer(s.startTime);
-          this.actionLoading = false;
+          this.actionLoading.set(false);
           this.loadAll();
+          this.toastServices.infoToaster("Session started.");
         },
         error: () => {
-          this.actionLoading = false;
-          this.msg.add({
-            severity: "error",
-            summary: "Error",
-            detail: "Could not start session.",
-          });
+          this.actionLoading.set(false);
+          this.toastServices.errorToaster("Could not start session.");
         },
       });
+  }
+
+  // Toggle Session
+  toggleSession(): void {
+    this.actionLoading.set(true);
+    if (this.isRunning()) {
+      this.stopSession();
+    } else {
+      this.stratSession();
     }
   }
 
+  // Start Timer
   startTimer(startTime: string): void {
     const start = new Date(startTime);
-    this.elapsedSeconds = Math.floor((Date.now() - start.getTime()) / 1000);
-    this.timerSub = interval(1000).subscribe(() => this.elapsedSeconds++);
+    this.elapsedSeconds.set(Math.floor((Date.now() - start.getTime()) / 1000));
+    this.timerSub = interval(1000).subscribe(() => this.elapsedSeconds() + 1);
   }
 
+  // Stop Timer
   stopTimer(): void {
     this.timerSub?.unsubscribe();
-    this.elapsedSeconds = 0;
+    this.elapsedSeconds.set(0);
   }
 
+  // Timer Display
   get timerDisplay(): string {
-    const h = Math.floor(this.elapsedSeconds / 3600);
-    const m = Math.floor((this.elapsedSeconds % 3600) / 60);
-    const s = this.elapsedSeconds % 60;
+    const h = Math.floor(this.elapsedSeconds() / 3600);
+    const m = Math.floor((this.elapsedSeconds() % 3600) / 60);
+    const s = this.elapsedSeconds() % 60;
     return `${pad(h)}:${pad(m)}:${pad(s)}`;
   }
 
+  // Weekly Percent
   get weeklyPercent(): number {
-    if (!this.weekly || !this.weekly.totalTargetMinutes) return 0;
+    if (!this.weekly() || !this.weekly()?.totalTargetMinutes) return 0;
     return Math.round(
-      (this.weekly.totalWorkedMinutes / this.weekly.totalTargetMinutes) * 100,
+      (this.weekly().totalWorkedMinutes / this.weekly().totalTargetMinutes) *
+        100,
     );
-  }
-
-  fmtMins(mins?: number | null): string {
-    const n = mins ?? 0;
-    const h = Math.floor(n / 60),
-      m = n % 60;
-    return h === 0 ? `${m}m` : m === 0 ? `${h}h` : `${h}h ${m}m`;
-  }
-
-  fmtDate(d: Date): string {
-    return d.toISOString().split("T")[0];
   }
 }
 
