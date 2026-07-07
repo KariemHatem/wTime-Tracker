@@ -26,6 +26,7 @@ import {
   formatDate,
   pad,
 } from "src/app/shared/utils/date-time.util";
+import { HeaderSection } from "src/app/shared/header-section/header-section";
 
 @Component({
   selector: "app-dashboard",
@@ -38,7 +39,8 @@ import {
     TableModule,
     TagModule,
     ToastModule,
-  ],
+    HeaderSection
+],
   providers: [DatePipe],
   templateUrl: "./dashboard.html",
   styleUrl: "./dashboard.scss",
