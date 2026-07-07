@@ -150,6 +150,7 @@
           <th>Start</th>
           <th>End</th>
           <th>Duration</th>
+          <th>Date</th>
           <th>Status</th>
         </tr>
       </ng-template>
@@ -160,10 +161,9 @@
             {{ s.endTime ? (s.endTime | date:'HH:mm:ss') : '—' }}
           </td>
           <td><strong>{{ fmtMins(s.totalMinutes) }}</strong></td>
+          <td class="font-mono">{{ s.date }}</td>
           <td>
-            <span [class]="s.isActive ? 'badge-working' : 'badge-offline'">
-              {{ s.isActive ? 'Active' : 'Completed' }}
-            </span>
+            <span class="badge-working"> {{ 'Completed' }} </span>
           </td>
         </tr>
       </ng-template>
