@@ -12,8 +12,8 @@ export interface TodayProgress {
   workedMinutes: number;
   targetMinutes: number;
   progressPercent: number;
-  sessionsCount: number;
-  isGoalReached: boolean;
+  sessionStartTime: string;
+  isComplete: boolean;
 }
 
 export interface UserMonitoring {

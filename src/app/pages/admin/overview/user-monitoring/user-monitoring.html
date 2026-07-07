@@ -22,6 +22,7 @@
         <th>Last Login</th>
         <th>Hours Today</th>
         <th>This Week</th>
+        <th>status</th>
       </tr>
     </ng-template>
     <ng-template #body let-u>
@@ -40,6 +41,13 @@
         </td>
         <td><strong>{{ u.hoursToday?.toFixed(1) }}h</strong></td>
         <td class="hours-content">{{ u.hoursThisWeek?.toFixed(1) }}h</td>
+        <td>
+          <span
+            [class]="u.status === 'idle' ? 'badge-working' : u.status === 'offline' ?  'badge-offline' : 'badge-offline'"
+          >
+            {{ u.status === "idle" ? "idel" : "offline" }}
+          </span>
+        </td>
       </tr>
     </ng-template>
   </app-data-table>

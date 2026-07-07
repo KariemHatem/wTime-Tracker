@@ -92,10 +92,16 @@
         />
         <div class="mt-3 d-flex justify-content-between p-content">
           <span>Target: {{ fmtMins(progress()?.targetMinutes) }}</span>
-          <span class="text-success" *ngIf="progress()?.isGoalReached"
-            >🎯 Goal reached!</span
-          >
+          @if (progress()?.isComplete === true) {
+          <span class="text-success">🎯 Goal reached!</span>
+          }
         </div>
+        @if(progress()?.sessionStartTime){
+        <span class="p-content"
+          >Session Started At : {{progress()?.sessionStartTime | date:'MMM d,
+          y,h:mm:ss a'}}</span
+        >
+        }
       </div>
     </div>
 
@@ -112,18 +118,15 @@
           <span>Target: {{ fmtMins(weekly()?.totalTargetMinutes) }}</span>
           <span>{{ weeklyPercent() }}%</span>
         </div>
-        <div
-          *ngIf="(weekly()?.overtimeMinutes ?? 0) > 0"
-          class="mt-2 text-success w-overtime"
-        >
+        @if ((weekly()?.overtimeMinutes ?? 0) > 0) {
+        <div class="mt-2 text-success w-overtime">
           +{{ fmtMins(weekly()?.overtimeMinutes) }} overtime
         </div>
-        <div
-          *ngIf="(weekly()?.missingMinutes ?? 0) > 0"
-          class="mt-2 w-missing w-overtime"
-        >
+        } @if((weekly()?.missingMinutes ?? 0) > 0){
+        <div class="mt-2 w-missing w-overtime">
           −{{ fmtMins(weekly()?.missingMinutes) }} missing
         </div>
+        }
       </div>
       <ng-template #weeklyLoading>
         <div
@@ -151,20 +154,16 @@
           <th>End</th>
           <th>Duration</th>
           <th>Date</th>
-          <th>Status</th>
         </tr>
       </ng-template>
       <ng-template #body let-s>
         <tr>
-          <td class="font-mono">{{ s.startTime | date:'HH:mm:ss' }}</td>
+          <td class="font-mono">{{ s.startTime | date:'HH:mm:ss a' }}</td>
           <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date:'HH:mm:ss') : '—' }}
+            {{ s.endTime ? (s.endTime | date:'HH:mm:ss a') : '—' }}
           </td>
           <td><strong>{{ fmtMins(s.totalMinutes) }}</strong></td>
           <td class="font-mono">{{ s.date }}</td>
-          <td>
-            <span class="badge-working"> {{ 'Completed' }} </span>
-          </td>
         </tr>
       </ng-template>
     </app-data-table>
