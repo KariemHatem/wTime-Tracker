@@ -10,10 +10,12 @@ import { Report } from "src/app/services/reports/admin-report";
 import { DatePicker } from "primeng/datepicker";
 import { ButtonModule } from "primeng/button";
 import { FormsModule } from "@angular/forms";
+import { DatePipe } from "@angular/common";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-daily-report",
-  imports: [DatePicker, ButtonModule, FormsModule],
+  imports: [DatePicker, ButtonModule, FormsModule, DatePipe, DataTable],
   templateUrl: "./daily-report.html",
   styleUrl: "./daily-report.scss",
 })

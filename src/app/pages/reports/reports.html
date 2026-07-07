@@ -17,58 +17,6 @@
       <p-tabpanel [value]="0">
         <app-daily-report></app-daily-report>
         <!-- TABLE -->
-        <div class="wt-card">
-          <app-data-table
-            [value]="dailyRows()"
-            [loading]="loadingDaily()"
-            [paginated]="true"
-            [colspan]="5"
-            emptyMessage="No data for this date."
-          >
-            <ng-template #header>
-              <tr>
-                <th>Employee</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Worked</th>
-                <th>Target</th>
-                <th>Completion</th>
-              </tr>
-            </ng-template>
-            <ng-template #body let-r>
-              <tr>
-                <td>
-                  <strong>{{ r.userFullName }}</strong>
-                </td>
-                <td class="font-mono">
-                  {{ r.startTime ? (r.startTime | date: "HH:mm") : "—" }}
-                </td>
-                <td class="font-mono">
-                  {{ r.endTime ? (r.endTime | date: "HH:mm") : "—" }}
-                </td>
-                <td>
-                  <strong>{{ fmtMins(r.workedMinutes) }}</strong>
-                </td>
-                <td class="text-muted">{{ fmtMins(r.targetMinutes) }}</td>
-                <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="completion-bar">
-                      <div
-                        class="completion-fill"
-                        [style.width.%]="
-                              Math.min(100, r.completionPercent ?? 0)
-                            "
-                      ></div>
-                    </div>
-                    <span class="fw-semibold"
-                      >{{ (r.completionPercent ?? 0).toFixed(0) }}%</span
-                    >
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-          </app-data-table>
-        </div>
       </p-tabpanel>
 
       <!-- WEEKLY -->
