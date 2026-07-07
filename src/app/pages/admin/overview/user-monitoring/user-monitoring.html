@@ -37,7 +37,7 @@
           </span>
         </td> -->
         <td class="login-content">
-          {{ u.lastLogin ? (u.lastLogin | date:'MMM d, HH:mm') : '—' }}
+          {{ u.lastLogin ? (u.lastLogin | date:'MMM d, hh:mm a') : '—' }}
         </td>
         <td><strong>{{ u.hoursToday?.toFixed(1) }}h</strong></td>
         <td class="hours-content">{{ u.hoursThisWeek?.toFixed(1) }}h</td>

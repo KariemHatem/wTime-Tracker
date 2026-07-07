@@ -98,8 +98,8 @@
         </div>
         @if(progress()?.sessionStartTime){
         <span class="p-content"
-          >Session Started At : {{progress()?.sessionStartTime | date:'MMM d,
-          y,h:mm:ss a'}}</span
+          >Session Started At : {{progress()?.sessionStartTime | date:'MMM d, y,
+          h: mm: ss a'}}</span
         >
         }
       </div>
@@ -158,9 +158,9 @@
       </ng-template>
       <ng-template #body let-s>
         <tr>
-          <td class="font-mono">{{ s.startTime | date:'HH:mm:ss a' }}</td>
+          <td class="font-mono">{{ s.startTime | date:'hh:mm:ss a' }}</td>
           <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date:'HH:mm:ss a') : '—' }}
+            {{ s.endTime ? (s.endTime | date:'hh:mm:ss a') : '—' }}
           </td>
           <td><strong>{{ fmtMins(s.totalMinutes) }}</strong></td>
           <td class="font-mono">{{ s.date }}</td>
