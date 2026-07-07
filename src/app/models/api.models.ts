@@ -11,7 +11,7 @@ export interface WorkSession {
 export interface TodayProgress {
   workedMinutes: number;
   targetMinutes: number;
-  completionPercent: number;
+  progressPercent: number;
   sessionsCount: number;
   isGoalReached: boolean;
 }

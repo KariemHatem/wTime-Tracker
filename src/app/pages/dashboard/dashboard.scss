@@ -7,7 +7,8 @@
   color: var(--primary-color);
 }
 
-.calender {
+.calender,
+.w-missing {
   color: var(--text-warning);
 }
 
@@ -15,12 +16,15 @@
   color: #a78bfa;
 }
 
-.t-card {
+.t-card,
+.w-summary,
+.w-load {
   min-height: 200px;
 }
 
 .sesion-timer-label,
-.p-label {
+.p-label,
+.w-label {
   font-size: 12px;
   letter-spacing: 0.06em;
 }
@@ -32,4 +36,17 @@
 
 .p-content {
   font-size: 13px;
+}
+
+.w-overtime {
+  font-size: 12px;
+}
+
+.spin {
+  font-size: 24px;
+  color: var(--text-color-secondary);
+}
+
+.today-sessions {
+  font-size: 12px;
 }

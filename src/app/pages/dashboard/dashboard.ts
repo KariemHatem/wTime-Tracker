@@ -27,6 +27,7 @@ import {
   pad,
 } from "src/app/shared/utils/date-time.util";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
+import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 
 @Component({
   selector: "app-dashboard",
@@ -39,7 +40,8 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
     TableModule,
     TagModule,
     ToastModule,
-    HeaderSection
+    HeaderSection,
+    DataTable
 ],
   providers: [DatePipe],
   templateUrl: "./dashboard.html",
@@ -62,6 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   actionLoading = signal(false);
   isRunning = signal(false);
   elapsedSeconds = signal(0);
+  numOfSessions = signal(0);
   today = new Date();
 
   // Helper Util
@@ -124,6 +127,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.todaySessions.set(res);
+          this.numOfSessions.set(res.length);
           this.loadingSessions.set(false);
         },
       });
