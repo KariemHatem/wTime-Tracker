@@ -1,5 +1,32 @@
-// ── PrimeNG lara-dark-blue variable overrides → navy palette ──────────────────
+//  Global styles Default Light
 :root {
+  --surface-ground: #f4f6fa;
+  --surface-section: #ffffff;
+  --surface-card: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-border: rgba(15, 23, 42, 0.08);
+  --surface-hover: rgba(15, 23, 42, 0.04);
+  --text-color: #0f172a;
+  --text-warning: #f59e0b;
+  --text-color-secondary: #64748b;
+  --primary-color: #2563eb;
+  --primary-color-text: #ffffff;
+
+  --sidebar-w: 240px;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: rgba(15, 23, 42, 0.06);
+  --sidebar-link: rgba(15, 23, 42, 0.55);
+  --sidebar-link-hover: #0f172a;
+  --sidebar-link-active-bg: rgba(37, 99, 235, 0.1);
+  --sidebar-link-active-color: #2563eb;
+  --sidebar-section: rgba(15, 23, 42, 0.35);
+
+  --card-border: rgba(15, 23, 42, 0.08);
+  --card-bg: #ffffff;
+}
+
+// Global styles Dark Theme
+html.app-dark {
   --surface-ground: #07101f;
   --surface-section: #0c1528;
   --surface-card: #111d33;
@@ -12,8 +39,6 @@
   --primary-color: #3b82f6;
   --primary-color-text: #ffffff;
 
-  // sidebar
-  --sidebar-w: 240px;
   --sidebar-bg: #0c1528;
   --sidebar-border: rgba(148, 163, 184, 0.1);
   --sidebar-link: rgba(255, 255, 255, 0.55);
@@ -22,12 +47,11 @@
   --sidebar-link-active-color: #60a5fa;
   --sidebar-section: rgba(255, 255, 255, 0.3);
 
-  // cards
   --card-border: rgba(148, 163, 184, 0.12);
   --card-bg: #111d33;
 }
 
-// ── Global ─────────────────────────────────────────────────────────────────────
+// Global Styles
 *,
 *::before,
 *::after {
@@ -46,7 +70,7 @@ body {
   color: var(--text-color);
 }
 
-// ── Layout ─────────────────────────────────────────────────────────────────────
+// Layout
 .wt-shell {
   display: flex;
   height: 100vh;
@@ -234,7 +258,7 @@ p,
   font-size: 28px;
 }
 
-// ── Utility cards ──────────────────────────────────────────────────────────────
+// Utility cards
 .wt-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -269,7 +293,7 @@ p,
   color: var(--text-color-secondary);
 }
 
-// ── PrimeNG overrides ──────────────────────────────────────────────────────────
+// PrimeNG overrides
 .p-datatable {
   .p-datatable-thead > tr > th {
     background: rgba(255, 255, 255, 0.03) !important;
@@ -363,7 +387,7 @@ p,
   font-size: 13px;
 }
 
-// ── Login page ─────────────────────────────────────────────────────────────────
+// Login page
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -418,7 +442,7 @@ p,
   }
 }
 
-// ── Dashboard ──────────────────────────────────────────────────────────────────
+// Dashboard
 .timer-display {
   font-size: 48px;
   font-weight: 700;
@@ -442,7 +466,7 @@ p,
   color: var(--text-color-secondary);
 }
 
-// ── Status badges ──────────────────────────────────────────────────────────────
+// Status badges
 .badge-working {
   background: rgba(34, 197, 94, 0.15);
   color: #22c55e;
@@ -468,7 +492,7 @@ p,
   font-weight: 600;
 }
 
-// ── Misc ───────────────────────────────────────────────────────────────────────
+// Misc
 .text-muted {
   color: var(--text-color-secondary) !important;
 }

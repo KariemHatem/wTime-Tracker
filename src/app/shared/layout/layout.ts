@@ -2,6 +2,7 @@ import { Component, inject } from "@angular/core";
 import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../../services/auth/auth.service";
+import { Theme } from "src/app/services/theming/theme";
 @Component({
   selector: "app-layout",
   standalone: true,
@@ -12,6 +13,7 @@ import { AuthService } from "../../services/auth/auth.service";
 export class LayoutComponent {
   // Priv Prop
   private auth = inject(AuthService);
+  themeOption = inject(Theme);
 
   // Data Source
   userSignal = this.auth.userSignal;

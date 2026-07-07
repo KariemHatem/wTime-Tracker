@@ -27,3 +27,29 @@
     display: block;
   }
 }
+.preferences {
+  // border-top: 1px solid var(--sidebar-border);
+
+  .theme-btn {
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    span {
+      font-size: 14px;
+    }
+  }
+
+  .pi-moon {
+    color: var(--primary-color);
+  }
+
+  .pi-sun {
+    color: var(--text-warning);
+  }
+}

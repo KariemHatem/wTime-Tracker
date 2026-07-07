@@ -33,7 +33,7 @@
         routerLink="/settings"
         routerLinkActive="active"
       >
-        <i class="pi pi-cog"></i> <span>Settings</span>
+        <i class="pi pi-cog pi-spin"></i> <span>Settings</span>
       </a>
       <!-- Admin -->
       @if(userSignal()?.isAdmin){
@@ -80,7 +80,27 @@
       }
     </nav>
 
+    <div class="preferences">
+      <div class="wt-sidebar__section-label">
+        <span class="preferences-label">Preferences</span>
+      </div>
+      <!-- Theme -->
+      <div class="theme-btn mb-3">
+        <button (click)="themeOption.toggel()">
+          <i
+            class="pi"
+            [class.pi-moon]="themeOption.theme() === 'dark'"
+            [class.pi-sun]="themeOption.theme() === 'light'"
+          ></i>
+          <span class="text-muted">
+            {{themeOption.theme() === 'dark' ? 'Dark ' : 'Light '}} mode
+          </span>
+        </button>
+      </div>
+    </div>
+
     <div class="wt-sidebar__footer">
+      <!-- User info -->
       @if(userSignal()){
       <div class="user-info">
         <div class="avatar">{{ initials }}</div>
@@ -93,9 +113,12 @@
       </div>
       }
 
-      <button class="logout-btn" (click)="logout()">
-        <i class="pi pi-sign-out"></i> <span>Sign out</span>
-      </button>
+      <!-- Logout -->
+      <div class="logout">
+        <button class="logout-btn" (click)="logout()">
+          <i class="pi pi-sign-out"></i> <span>Sign out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
