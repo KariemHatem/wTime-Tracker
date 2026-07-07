@@ -20,14 +20,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             toastServices.errorToaster("Bad Request.");
             break;
           case 401:
-            toastServices.errorToaster("Unauthorized! Please log in again.");
-            if (localStorage.getItem("wt_token") === null) {
-              localStorage.removeItem("wt_token");
-              localStorage.removeItem("wt_user");
-              toastServices.errorToaster(
-                "Session expired! Please log in again.",
-              );
-            }
+            const hadToken = localStorage.getItem("wt_token") !== null;
+            localStorage.removeItem("wt_token");
+            localStorage.removeItem("wt_user");
+            toastServices.errorToaster(
+              hadToken
+                ? "Your session has expired. Please log in again."
+                : "Unauthorized! Please log in again.",
+            );
+
             router.navigate(["/login"]);
             break;
           case 403:

@@ -40,8 +40,10 @@
         type="submit"
         label="Sign in"
         styleClass="w-100"
+        class="d-flex align-items-center justify-content-center"
         [loading]="loading()"
         [disabled]="form.invalid"
+        [class.notallowed]="form.invalid"
       />
     </form>
   </div>

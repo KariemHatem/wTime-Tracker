@@ -5,3 +5,7 @@
   background: rgba(239, 68, 68, 0.08);
   border-radius: 8px;
 }
+
+:host ::ng-deep .notallowed button {
+  cursor: not-allowed !important;
+}
