@@ -5,6 +5,7 @@ import {
   inject,
   DestroyRef,
   signal,
+  computed,
 } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription, interval } from "rxjs";
@@ -13,7 +14,6 @@ import { ProgressBarModule } from "primeng/progressbar";
 import { TableModule } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
-import { MessageService } from "primeng/api";
 import { ApiService } from "../../services/api.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { TodayProgress, WorkSession } from "../../models/api.models";
@@ -21,7 +21,11 @@ import { WeeklyReport } from "../..//services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Toater } from "src/app/services/toater";
-import { formatMinutes, formatDate } from "src/app/shared/utils/date-time.util";
+import {
+  formatMinutes,
+  formatDate,
+  pad,
+} from "src/app/shared/utils/date-time.util";
 
 @Component({
   selector: "app-dashboard",
@@ -44,14 +48,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private report = inject(AdminReports);
   private api = inject(ApiService);
   public auth = inject(AuthService);
-  private msg = inject(MessageService);
   private toastServices = inject(Toater);
   private destroyref = inject(DestroyRef);
   private timerSub?: Subscription;
 
   // Data
   progress = signal<TodayProgress | undefined>(undefined);
-  weekly = signal<WeeklyReport | any>(undefined);
+  weekly = signal<WeeklyReport | undefined>(undefined);
   todaySessions = signal<WorkSession[]>([]);
   loadingSessions = signal(true);
   actionLoading = signal(false);
@@ -62,6 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // Helper Util
   fmtMins = formatMinutes;
   fmtDate = formatDate;
+  pad = pad;
 
   get user() {
     return this.auth.currentUser;
@@ -69,10 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit(): void {
-    this.loadProgress();
-    this.WeeklyReport();
-    this.listSessions();
-    this.activeSession();
+    this.loadAll();
   }
 
   ngOnDestroy(): void {
@@ -84,7 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // Loadd All
   private loadAll() {
     this.loadProgress();
-    this.WeeklyReport();
+    this.weeklyReport();
     this.listSessions();
     this.activeSession();
   }
@@ -102,7 +103,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Weekly Report
-  private WeeklyReport() {
+  private weeklyReport() {
     this.report
       .getWeeklyReport()
       .pipe(takeUntilDestroyed(this.destroyref))
@@ -165,7 +166,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Start Session
-  private stratSession() {
+  private startSession() {
     this.api
       .startSession()
       .pipe(takeUntilDestroyed(this.destroyref))
@@ -190,41 +191,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.isRunning()) {
       this.stopSession();
     } else {
-      this.stratSession();
+      this.startSession();
     }
   }
 
   // Start Timer
   startTimer(startTime: string): void {
+    this.stopTimer();
     const start = new Date(startTime);
     this.elapsedSeconds.set(Math.floor((Date.now() - start.getTime()) / 1000));
-    this.timerSub = interval(1000).subscribe(() => this.elapsedSeconds() + 1);
+    this.timerSub = interval(1000).subscribe(() =>
+      this.elapsedSeconds.update((s) => s + 1),
+    );
   }
 
   // Stop Timer
   stopTimer(): void {
     this.timerSub?.unsubscribe();
+    this.timerSub = undefined;
     this.elapsedSeconds.set(0);
   }
 
   // Timer Display
-  get timerDisplay(): string {
+  timerDisplay = computed(() => {
     const h = Math.floor(this.elapsedSeconds() / 3600);
     const m = Math.floor((this.elapsedSeconds() % 3600) / 60);
     const s = this.elapsedSeconds() % 60;
     return `${pad(h)}:${pad(m)}:${pad(s)}`;
-  }
+  });
 
   // Weekly Percent
-  get weeklyPercent(): number {
-    if (!this.weekly() || !this.weekly()?.totalTargetMinutes) return 0;
-    return Math.round(
-      (this.weekly().totalWorkedMinutes / this.weekly().totalTargetMinutes) *
-        100,
-    );
-  }
-}
-
-function pad(n: number): string {
-  return n.toString().padStart(2, "0");
+  weeklyPercent = computed(() => {
+    const w = this.weekly();
+    if (!w || !w.totalTargetMinutes) return 0;
+    return Math.round((w.totalWorkedMinutes / w.totalTargetMinutes) * 100);
+  });
 }

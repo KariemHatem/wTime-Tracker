@@ -15,3 +15,7 @@ export function formatDateForApi(d: Date): string {
 export function formatDate(d: Date): string {
   return d.toISOString().split("T")[0];
 }
+
+export function pad(n: number): string {
+  return n.toString().padStart(2, "0");
+}

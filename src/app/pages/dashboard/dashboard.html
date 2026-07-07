@@ -16,7 +16,7 @@
         <div class="stat-icon" style="color: #3b82f6">
           <i class="pi pi-clock"></i>
         </div>
-        <div class="stat-value">{{ fmtMins(progress?.workedMinutes) }}</div>
+        <div class="stat-value">{{ fmtMins(progress()?.workedMinutes) }}</div>
         <div class="stat-label">Worked Today</div>
       </div>
     </div>
@@ -26,7 +26,7 @@
           <i class="pi pi-check-circle"></i>
         </div>
         <div class="stat-value" style="color: #22c55e">
-          {{ progress?.completionPercent?.toFixed(0) ?? 0 }}%
+          {{ progress()?.completionPercent?.toFixed(0) ?? 0 }}%
         </div>
         <div class="stat-label">Goal Completion</div>
       </div>
@@ -36,7 +36,7 @@
         <div class="stat-icon" style="color: #f59e0b">
           <i class="pi pi-calendar"></i>
         </div>
-        <div class="stat-value">{{ progress?.sessionsCount ?? 0 }}</div>
+        <div class="stat-value">{{ progress()?.sessionsCount ?? 0 }}</div>
         <div class="stat-label">Sessions Today</div>
       </div>
     </div>
@@ -45,7 +45,7 @@
         <div class="stat-icon" style="color: #a78bfa">
           <i class="pi pi-flag"></i>
         </div>
-        <div class="stat-value">{{ fmtMins(progress?.targetMinutes) }}</div>
+        <div class="stat-value">{{ fmtMins(progress()?.targetMinutes) }}</div>
         <div class="stat-label">Daily Target</div>
       </div>
     </div>
@@ -68,16 +68,16 @@
         >
           Session Timer
         </h6>
-        <div class="timer-display" [class.timer-running]="isRunning">
-          {{ timerDisplay }}
+        <div class="timer-display" [class.timer-running]="isRunning()">
+          {{ timerDisplay() }}
         </div>
         <p class="text-muted" style="font-size: 12px; margin: 4px 0 16px">
-          {{ isRunning ? 'Session in progress' : 'No active session' }}
+          {{ isRunning() ? 'Session in progress' : 'No active session' }}
         </p>
         <p-button
-          [label]="isRunning ? 'Stop Session' : 'Start Session'"
-          [severity]="isRunning ? 'danger' : 'success'"
-          [loading]="actionLoading"
+          [label]="isRunning() ? 'Stop Session' : 'Start Session'"
+          [severity]="isRunning() ? 'danger' : 'success'"
+          [loading]="actionLoading()"
           (click)="toggleSession()"
         />
       </div>
@@ -101,22 +101,22 @@
           style="font-size: 13px"
         >
           <span class="text-muted"
-            >{{ fmtMins(progress?.workedMinutes) }} worked</span
+            >{{ fmtMins(progress()?.workedMinutes) }} worked</span
           >
           <span style="color: var(--primary-color)"
-            >{{ progress?.completionPercent?.toFixed(0) ?? 0 }}%</span
+            >{{ progress()?.completionPercent?.toFixed(0) ?? 0 }}%</span
           >
         </div>
         <p-progressBar
-          [value]="progress?.completionPercent ?? 0"
+          [value]="progress()?.completionPercent ?? 0"
           [showValue]="false"
         />
         <div
           class="mt-3 d-flex justify-content-between"
           style="font-size: 12px; color: var(--text-color-secondary)"
         >
-          <span>Target: {{ fmtMins(progress?.targetMinutes) }}</span>
-          <span *ngIf="progress?.isGoalReached" style="color: #22c55e"
+          <span>Target: {{ fmtMins(progress()?.targetMinutes) }}</span>
+          <span *ngIf="progress()?.isGoalReached" style="color: #22c55e"
             >🎯 Goal reached!</span
           >
         </div>
@@ -128,7 +128,7 @@
       <div
         class="wt-card h-100"
         style="min-height: 200px"
-        *ngIf="weekly; else weeklyLoading"
+        *ngIf="weekly(); else weeklyLoading"
       >
         <h6
           class="text-muted mb-3"
@@ -145,29 +145,29 @@
           style="font-size: 13px"
         >
           <span class="text-muted">Worked</span>
-          <strong>{{ fmtMins(weekly.totalWorkedMinutes) }}</strong>
+          <strong>{{ fmtMins(weekly()?.totalWorkedMinutes) }}</strong>
         </div>
         <p-progressBar [value]="weeklyPercent" [showValue]="false" />
         <div
           class="mt-2 d-flex justify-content-between"
           style="font-size: 12px; color: var(--text-color-secondary)"
         >
-          <span>Target: {{ fmtMins(weekly.totalTargetMinutes) }}</span>
-          <span>{{ weeklyPercent }}%</span>
+          <span>Target: {{ fmtMins(weekly()?.totalTargetMinutes) }}</span>
+          <span>{{ weeklyPercent() }}%</span>
         </div>
         <div
-          *ngIf="(weekly.overtimeMinutes ?? 0) > 0"
+          *ngIf="(weekly()?.overtimeMinutes ?? 0) > 0"
           class="mt-2"
           style="font-size: 12px; color: #22c55e"
         >
-          +{{ fmtMins(weekly.overtimeMinutes) }} overtime
+          +{{ fmtMins(weekly()?.overtimeMinutes) }} overtime
         </div>
         <div
-          *ngIf="(weekly.missingMinutes ?? 0) > 0"
+          *ngIf="(weekly()?.missingMinutes ?? 0) > 0"
           class="mt-2"
           style="font-size: 12px; color: #f59e0b"
         >
-          −{{ fmtMins(weekly.missingMinutes) }} missing
+          −{{ fmtMins(weekly()?.missingMinutes) }} missing
         </div>
       </div>
       <ng-template #weeklyLoading>
@@ -190,8 +190,8 @@
       Today's Sessions
     </h6>
     <p-table
-      [value]="todaySessions"
-      [loading]="loadingSessions"
+      [value]="todaySessions()"
+      [loading]="loadingSessions()"
       responsiveLayout="scroll"
     >
       <ng-template pTemplate="header">
