@@ -32,16 +32,14 @@
             </div>
             <div class="table-mail">{{ a.userEmail }}</div>
           </td>
+          <td class="font-mono">{{ a.loginTime | date:' MMMM d, h:mm a'}}</td>
           <td class="font-mono">
-            {{ a.loginTime | date:'MM/dd/yy h:mm:ss a'}}
-          </td>
-          <td class="font-mono">
-            <span *ngIf="a.logoutTime; else active"
-              >{{ a.logoutTime | date:'MM/dd/yy h:mm:ss a'}}</span
-            >
-            <ng-template #active
-              ><span class="active-label">Active</span></ng-template
-            >
+            @if(a.logoutTime){
+            <span>{{ a.logoutTime | date:' MMMM d, h:mm a'}}</span>
+            }@else {
+            <span>—</span>
+
+            }
           </td>
           <td class="font-mono table-address">{{ a.ipAddress || '—' }}</td>
           <td class="table-address">
