@@ -25,3 +25,10 @@ label,
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
 }
+
+@media (max-width: 768px) {
+  :host ::ng-deep.p-datepicker {
+    // position: relative !important;
+    right: 20px !important;
+  }
+}

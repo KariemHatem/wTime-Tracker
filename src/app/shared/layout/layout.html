@@ -12,67 +12,69 @@
         routerLink="/dashboard"
         routerLinkActive="active"
       >
-        <i class="pi pi-home"></i> Dashboard
+        <i class="pi pi-home"></i> <span>Dashboard</span>
       </a>
       <a
         class="wt-sidebar__link"
         routerLink="/sessions"
         routerLinkActive="active"
       >
-        <i class="pi pi-list"></i> Sessions
+        <i class="pi pi-list"></i> <span>Sessions</span>
       </a>
       <a
         class="wt-sidebar__link"
         routerLink="/reports"
         routerLinkActive="active"
       >
-        <i class="pi pi-chart-bar"></i> Reports
+        <i class="pi pi-chart-bar"></i> <span>Reports</span>
       </a>
       <a
         class="wt-sidebar__link"
         routerLink="/settings"
         routerLinkActive="active"
       >
-        <i class="pi pi-cog"></i> Settings
+        <i class="pi pi-cog"></i> <span>Settings</span>
       </a>
       <!-- Admin -->
       @if(userSignal()?.isAdmin){
       <ng-container>
-        <div class="wt-sidebar__section-label">Admin</div>
+        <div class="wt-sidebar__section-label admin">
+          <span class="admin">Admin</span>
+        </div>
         <a
           class="wt-sidebar__link"
           routerLink="/admin/overview"
           routerLinkActive="active"
         >
-          <i class="pi pi-th-large"></i> Overview
+          <i class="pi pi-th-large"></i> <span>Overview</span>
         </a>
         <a
           class="wt-sidebar__link"
           routerLink="/admin/users"
           routerLinkActive="active"
         >
-          <i class="pi pi-users"></i> Users
+          <i class="pi pi-users"></i> <span>Users</span>
         </a>
         <a
           class="wt-sidebar__link"
           routerLink="/admin/reports"
           routerLinkActive="active"
         >
-          <i class="pi pi-file"></i> Reports
+          <i class="pi pi-file"></i> <span>Reports</span>
         </a>
         <a
           class="wt-sidebar__link"
           routerLink="/admin/activity"
           routerLinkActive="active"
         >
-          <i class="pi pi-bolt"></i> Activity
+          <i class="pi pi-bolt"></i> <span>Activity</span>
         </a>
         <a
           class="wt-sidebar__link"
           routerLink="/admin/analytics"
           routerLinkActive="active"
         >
-          <i class="pi pi-chart-line"></i> Analytics
+          <i class="pi pi-chart-line"></i> <span>Analytics</span>
         </a>
       </ng-container>
       }
@@ -92,7 +94,7 @@
       }
 
       <button class="logout-btn" (click)="logout()">
-        <i class="pi pi-sign-out"></i> Sign out
+        <i class="pi pi-sign-out"></i> <span>Sign out</span>
       </button>
     </div>
   </aside>

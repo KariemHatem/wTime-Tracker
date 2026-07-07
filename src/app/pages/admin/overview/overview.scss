@@ -21,3 +21,9 @@
   font-size: 16px;
   margin: 0 5px;
 }
+
+@media (max-width: 768px) {
+  .wt-stat-card .stat-label {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,29 @@
+@media (max-width: 768px) {
+  .wt-sidebar,
+  .logout-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  span,
+  .user-name,
+  .user-email {
+    display: none;
+  }
+
+  .wt-sidebar {
+    width: 65px;
+    overflow: unset;
+  }
+
+  .wt-sidebar__footer .logout-btn i {
+    font-size: 18px;
+  }
+  .wt-sidebar__section-label {
+    margin: 16px 0;
+    padding: 0 0 !important;
+  }
+  .admin {
+    display: block;
+  }
+}

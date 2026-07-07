@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+  :host ::ng-deep .p-inputtext {
+    width: 100% !important;
+  }
+}

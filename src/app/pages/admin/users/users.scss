@@ -25,3 +25,12 @@ label,
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
 }
+
+@media (max-width: 768px) {
+  :host ::ng-deep .p-button-label {
+    font-size: 12px !important;
+  }
+  :host ::ng-deep .p-button {
+    width: 115px;
+  }
+}
