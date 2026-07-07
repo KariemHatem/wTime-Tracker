@@ -12,7 +12,7 @@
   <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #3b82f6">
+        <div class="stat-icon clock">
           <i class="pi pi-clock"></i>
         </div>
         <div class="stat-value">{{ fmtMins(progress()?.workedMinutes) }}</div>
@@ -21,10 +21,10 @@
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #22c55e">
+        <div class="stat-icon text-success">
           <i class="pi pi-check-circle"></i>
         </div>
-        <div class="stat-value" style="color: #22c55e">
+        <div class="stat-value text-success">
           {{ progress()?.completionPercent?.toFixed(0) ?? 0 }}%
         </div>
         <div class="stat-label">Goal Completion</div>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #f59e0b">
+        <div class="stat-icon calender">
           <i class="pi pi-calendar"></i>
         </div>
         <div class="stat-value">{{ progress()?.sessionsCount ?? 0 }}</div>
@@ -41,7 +41,7 @@
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #a78bfa">
+        <div class="stat-icon flag">
           <i class="pi pi-flag"></i>
         </div>
         <div class="stat-value">{{ fmtMins(progress()?.targetMinutes) }}</div>
