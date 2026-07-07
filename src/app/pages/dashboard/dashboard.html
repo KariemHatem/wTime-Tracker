@@ -1,51 +1,50 @@
-<div class="page-header d-flex align-items-start justify-content-between">
-  <div>
-    <h1 class="wt-section-title">Dashboard</h1>
-    <p class="wt-section-sub">{{ today | date:'EEEE, MMMM d, yyyy' }}</p>
-  </div>
-  <span style="font-size: 12px; color: var(--text-color-secondary)"
-    >{{ user?.fullName }}</span
-  >
+<div class="d-flex align-items-center justify-content-between">
+  <!-- Page Header -->
+  <app-header-section title="Dashboard">
+    {{ today | date:'EEEE, MMMM d, yyyy' }}
+  </app-header-section>
+  <span class="mx-5 fw-bold u-name fs-6">{{ user?.fullName }}</span>
 </div>
 
+<!-- Page Body -->
 <div class="page-body">
   <!-- Stats row -->
   <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #3b82f6">
+        <div class="stat-icon clock">
           <i class="pi pi-clock"></i>
         </div>
-        <div class="stat-value">{{ fmtMins(progress?.workedMinutes) }}</div>
+        <div class="stat-value">{{ fmtMins(progress()?.workedMinutes) }}</div>
         <div class="stat-label">Worked Today</div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #22c55e">
+        <div class="stat-icon text-success">
           <i class="pi pi-check-circle"></i>
         </div>
-        <div class="stat-value" style="color: #22c55e">
-          {{ progress?.completionPercent?.toFixed(0) ?? 0 }}%
+        <div class="stat-value text-success">
+          {{ progress()?.progressPercent?.toFixed(0) ?? 0 }}%
         </div>
         <div class="stat-label">Goal Completion</div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #f59e0b">
+        <div class="stat-icon calender">
           <i class="pi pi-calendar"></i>
         </div>
-        <div class="stat-value">{{ progress?.sessionsCount ?? 0 }}</div>
+        <div class="stat-value">{{ numOfSessions() }}</div>
         <div class="stat-label">Sessions Today</div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="wt-stat-card">
-        <div class="stat-icon" style="color: #a78bfa">
+        <div class="stat-icon flag">
           <i class="pi pi-flag"></i>
         </div>
-        <div class="stat-value">{{ fmtMins(progress?.targetMinutes) }}</div>
+        <div class="stat-value">{{ fmtMins(progress()?.targetMinutes) }}</div>
         <div class="stat-label">Daily Target</div>
       </div>
     </div>
@@ -55,29 +54,21 @@
     <!-- Timer -->
     <div class="col-12 col-lg-4">
       <div
-        class="wt-card h-100 text-center d-flex flex-column align-items-center justify-content-center"
-        style="min-height: 200px"
+        class="wt-card t-card h-100 text-center d-flex flex-column align-items-center justify-content-center"
       >
-        <h6
-          class="text-muted mb-2"
-          style="
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-          "
-        >
+        <h6 class="text-muted mb-2 text-uppercase sesion-timer-label">
           Session Timer
         </h6>
-        <div class="timer-display" [class.timer-running]="isRunning">
-          {{ timerDisplay }}
+        <div class="timer-display" [class.timer-running]="isRunning()">
+          {{ timerDisplay() }}
         </div>
-        <p class="text-muted" style="font-size: 12px; margin: 4px 0 16px">
-          {{ isRunning ? 'Session in progress' : 'No active session' }}
+        <p class="text-muted s-progress">
+          {{ isRunning() ? 'Session in progress' : 'No active session' }}
         </p>
         <p-button
-          [label]="isRunning ? 'Stop Session' : 'Start Session'"
-          [severity]="isRunning ? 'danger' : 'success'"
-          [loading]="actionLoading"
+          [label]="isRunning() ? 'Stop Session' : 'Start Session'"
+          [severity]="isRunning() ? 'danger' : 'success'"
+          [loading]="actionLoading()"
           (click)="toggleSession()"
         />
       </div>
@@ -86,37 +77,22 @@
     <!-- Progress ring / progress bar -->
     <div class="col-12 col-lg-4">
       <div class="wt-card h-100" style="min-height: 200px">
-        <h6
-          class="text-muted mb-3"
-          style="
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-          "
-        >
-          Today's Progress
-        </h6>
-        <div
-          class="mb-2 d-flex justify-content-between"
-          style="font-size: 13px"
-        >
+        <h6 class="text-muted mb-3 p-label text-uppercase">Today's Progress</h6>
+        <div class="mb-2 d-flex justify-content-between p-content">
           <span class="text-muted"
-            >{{ fmtMins(progress?.workedMinutes) }} worked</span
+            >{{ fmtMins(progress()?.workedMinutes) }} worked</span
           >
           <span style="color: var(--primary-color)"
-            >{{ progress?.completionPercent?.toFixed(0) ?? 0 }}%</span
+            >{{ progress()?.progressPercent?.toFixed(0) ?? 0 }}%</span
           >
         </div>
         <p-progressBar
-          [value]="progress?.completionPercent ?? 0"
+          [value]="progress()?.progressPercent ?? 0"
           [showValue]="false"
         />
-        <div
-          class="mt-3 d-flex justify-content-between"
-          style="font-size: 12px; color: var(--text-color-secondary)"
-        >
-          <span>Target: {{ fmtMins(progress?.targetMinutes) }}</span>
-          <span *ngIf="progress?.isGoalReached" style="color: #22c55e"
+        <div class="mt-3 d-flex justify-content-between p-content">
+          <span>Target: {{ fmtMins(progress()?.targetMinutes) }}</span>
+          <span class="text-success" *ngIf="progress()?.isGoalReached"
             >🎯 Goal reached!</span
           >
         </div>
@@ -125,60 +101,35 @@
 
     <!-- Weekly summary -->
     <div class="col-12 col-lg-4">
-      <div
-        class="wt-card h-100"
-        style="min-height: 200px"
-        *ngIf="weekly; else weeklyLoading"
-      >
-        <h6
-          class="text-muted mb-3"
-          style="
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-          "
-        >
-          This Week
-        </h6>
-        <div
-          class="mb-2 d-flex justify-content-between"
-          style="font-size: 13px"
-        >
+      <div class="wt-card h-100 w-summary" *ngIf="weekly(); else weeklyLoading">
+        <h6 class="text-muted mb-3 w-label text-uppercase">This Week</h6>
+        <div class="mb-2 d-flex justify-content-between p-content">
           <span class="text-muted">Worked</span>
-          <strong>{{ fmtMins(weekly.totalWorkedMinutes) }}</strong>
+          <strong>{{ fmtMins(weekly()?.totalWorkedMinutes) }}</strong>
         </div>
         <p-progressBar [value]="weeklyPercent" [showValue]="false" />
-        <div
-          class="mt-2 d-flex justify-content-between"
-          style="font-size: 12px; color: var(--text-color-secondary)"
-        >
-          <span>Target: {{ fmtMins(weekly.totalTargetMinutes) }}</span>
-          <span>{{ weeklyPercent }}%</span>
+        <div class="mt-2 d-flex justify-content-between p-content">
+          <span>Target: {{ fmtMins(weekly()?.totalTargetMinutes) }}</span>
+          <span>{{ weeklyPercent() }}%</span>
         </div>
         <div
-          *ngIf="(weekly.overtimeMinutes ?? 0) > 0"
-          class="mt-2"
-          style="font-size: 12px; color: #22c55e"
+          *ngIf="(weekly()?.overtimeMinutes ?? 0) > 0"
+          class="mt-2 text-success w-overtime"
         >
-          +{{ fmtMins(weekly.overtimeMinutes) }} overtime
+          +{{ fmtMins(weekly()?.overtimeMinutes) }} overtime
         </div>
         <div
-          *ngIf="(weekly.missingMinutes ?? 0) > 0"
-          class="mt-2"
-          style="font-size: 12px; color: #f59e0b"
+          *ngIf="(weekly()?.missingMinutes ?? 0) > 0"
+          class="mt-2 w-missing w-overtime"
         >
-          −{{ fmtMins(weekly.missingMinutes) }} missing
+          −{{ fmtMins(weekly()?.missingMinutes) }} missing
         </div>
       </div>
       <ng-template #weeklyLoading>
         <div
-          class="wt-card h-100 d-flex align-items-center justify-content-center"
-          style="min-height: 200px"
+          class="wt-card w-load h-100 d-flex align-items-center justify-content-center"
         >
-          <i
-            class="pi pi-spin pi-spinner"
-            style="font-size: 24px; color: var(--text-color-secondary)"
-          ></i>
+          <i class="pi pi-spin pi-spinner spin"></i>
         </div>
       </ng-template>
     </div>
@@ -186,15 +137,15 @@
 
   <!-- Today's sessions -->
   <div class="wt-card">
-    <h6 class="mb-3" style="font-size: 14px; font-weight: 600">
-      Today's Sessions
-    </h6>
-    <p-table
-      [value]="todaySessions"
-      [loading]="loadingSessions"
-      responsiveLayout="scroll"
+    <h6 class="mb-3 fw-semibold today-sessions">Today's Sessions</h6>
+    <app-data-table
+      [value]="todaySessions()"
+      [loading]="loadingSessions()"
+      [colspan]="5"
+      [paginated]="true"
+      emptyMessage=" No sessions today. Start your first one!"
     >
-      <ng-template pTemplate="header">
+      <ng-template #header>
         <tr>
           <th>Start</th>
           <th>End</th>
@@ -202,7 +153,7 @@
           <th>Status</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-s>
+      <ng-template #body let-s>
         <tr>
           <td class="font-mono">{{ s.startTime | date:'HH:mm:ss' }}</td>
           <td class="font-mono">
@@ -216,20 +167,6 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td
-            colspan="4"
-            style="
-              text-align: center;
-              padding: 32px;
-              color: var(--text-color-secondary);
-            "
-          >
-            No sessions today. Start your first one!
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    </app-data-table>
   </div>
 </div>

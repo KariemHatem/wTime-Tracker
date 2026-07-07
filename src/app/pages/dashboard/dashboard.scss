@@ -1,0 +1,52 @@
+.u-name,
+.p-content {
+  color: var(--text-color-secondary);
+}
+
+.clock {
+  color: var(--primary-color);
+}
+
+.calender,
+.w-missing {
+  color: var(--text-warning);
+}
+
+.flag {
+  color: #a78bfa;
+}
+
+.t-card,
+.w-summary,
+.w-load {
+  min-height: 200px;
+}
+
+.sesion-timer-label,
+.p-label,
+.w-label {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.s-progress {
+  font-size: 12px;
+  margin: 4px 0 16px;
+}
+
+.p-content {
+  font-size: 13px;
+}
+
+.w-overtime {
+  font-size: 12px;
+}
+
+.spin {
+  font-size: 24px;
+  color: var(--text-color-secondary);
+}
+
+.today-sessions {
+  font-size: 12px;
+}

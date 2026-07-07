@@ -23,8 +23,8 @@ export class ApiService {
     });
   }
 
-  getActiveSession(): Observable<WorkSession | null> {
-    return this.httpCall.get<WorkSession | null>(
+  getActiveSession(): Observable<{ session: WorkSession | null }> {
+    return this.httpCall.get<{ session: WorkSession | null }>(
       `${this.endPoint}/sessions/active`,
     );
   }

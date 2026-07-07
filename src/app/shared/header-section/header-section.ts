@@ -8,5 +8,5 @@ import { Component, input } from "@angular/core";
 })
 export class HeaderSection {
   title = input.required<string>();
-  subtitle = input.required<string>();
+  subtitle = input<string>();
 }
