@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  DestroyRef,
+} from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription, interval } from "rxjs";
 import { ButtonModule } from "primeng/button";
@@ -10,9 +16,10 @@ import { MessageService } from "primeng/api";
 import { ApiService } from "../../services/api.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { TodayProgress, WorkSession } from "../../models/api.models";
-import { MonthlyReport } from "src/app/services/analytics/analytics-model";
 import { WeeklyReport } from "../..//services/reports/admin-report";
 import { AdminReports } from "src/app/services/reports/admin-reports";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Toater } from "src/app/services/toater";
 
 @Component({
   selector: "app-dashboard",
@@ -31,7 +38,15 @@ import { AdminReports } from "src/app/services/reports/admin-reports";
   styleUrl: "./dashboard.scss",
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  // Priv Props
   private report = inject(AdminReports);
+  private api = inject(ApiService);
+  public auth = inject(AuthService);
+  private msg = inject(MessageService);
+  private toastServices = inject(Toater);
+  private destroyref = inject(DestroyRef);
+
+  // Data
   progress?: TodayProgress;
   weekly?: WeeklyReport;
   todaySessions: WorkSession[] = [];
@@ -42,50 +57,80 @@ export class DashboardComponent implements OnInit, OnDestroy {
   today = new Date();
 
   private timerSub?: Subscription;
-  private subs = new Subscription();
-
-  constructor(
-    private api: ApiService,
-    public auth: AuthService,
-    private msg: MessageService,
-  ) {}
 
   get user() {
     return this.auth.currentUser;
   }
 
   ngOnInit(): void {
-    this.loadAll();
+    this.loadProgress();
+    this.WeeklyReport();
+    this.listSessions();
+    this.activeSession();
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
     this.timerSub?.unsubscribe();
   }
 
-  loadAll(): void {
-    this.subs.add(
-      this.api.getTodayProgress().subscribe((p) => (this.progress = p)),
-    );
-    this.subs.add(
-      this.report.getWeeklyReport().subscribe((w) => (this.weekly = w)),
-    );
-    this.subs.add(
-      this.api
-        .listSessions(this.fmtDate(new Date()), this.fmtDate(new Date()))
-        .subscribe((s) => {
-          this.todaySessions = s;
+  // Priv Methods
+
+  // Loadd All
+  private loadAll() {
+    this.loadProgress();
+    this.WeeklyReport();
+    this.listSessions();
+    this.activeSession();
+  }
+
+  // Today Progress
+  private loadProgress() {
+    this.api
+      .getTodayProgress()
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe({
+        next: (res) => {
+          this.progress = res;
+        },
+      });
+  }
+
+  // Weekly Report
+  private WeeklyReport() {
+    this.report
+      .getWeeklyReport()
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe({
+        next: (res) => {
+          this.weekly = res;
+        },
+      });
+  }
+
+  // List sessions
+  private listSessions() {
+    this.api
+      .listSessions(this.fmtDate(new Date()), this.fmtDate(new Date()))
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe({
+        next: (res) => {
+          this.todaySessions = res;
           this.loadingSessions = false;
-        }),
-    );
-    this.subs.add(
-      this.api.getActiveSession().subscribe((s) => {
+        },
+      });
+  }
+
+  // Active Session
+  private activeSession(): void {
+    this.api
+      .getActiveSession()
+      .pipe(takeUntilDestroyed(this.destroyref))
+      .subscribe((s) => {
         if (s?.isActive) {
           this.isRunning = true;
           this.startTimer(s.startTime);
         }
-      }),
-    );
+      });
   }
 
   toggleSession(): void {
