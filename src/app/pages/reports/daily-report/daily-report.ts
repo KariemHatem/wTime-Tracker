@@ -51,6 +51,9 @@ export class DailyReport implements OnInit {
           this.dailyRows.set(res);
           this.loadingDaily.set(false);
         },
+        error: () => {
+          this.loadingDaily.set(false);
+        },
       });
   }
 

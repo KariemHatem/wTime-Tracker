@@ -37,6 +37,9 @@ export class UserMonitoring implements OnInit {
           this.monitoring = m;
           this.loading.set(false);
         },
+        error: () => {
+          this.loading.set(false);
+        },
       });
   }
 

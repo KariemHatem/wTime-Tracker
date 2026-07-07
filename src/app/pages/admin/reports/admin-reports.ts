@@ -65,6 +65,9 @@ export class AdminReportsComponent implements OnInit {
           this.report.set(res);
           this.loading.set(false);
         },
+        error: () => {
+          this.loading.set(false);
+        },
       });
   }
 

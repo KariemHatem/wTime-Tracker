@@ -48,6 +48,9 @@ export class AdminActivityComponent implements OnInit {
           this.activity = res;
           this.loading.set(false);
         },
+        error: () => {
+          this.loading.set(false);
+        },
       });
   }
 

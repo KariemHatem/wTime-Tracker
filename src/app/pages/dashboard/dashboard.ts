@@ -41,8 +41,8 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     TagModule,
     ToastModule,
     HeaderSection,
-    DataTable
-],
+    DataTable,
+  ],
   providers: [DatePipe],
   templateUrl: "./dashboard.html",
   styleUrl: "./dashboard.scss",
@@ -128,6 +128,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.todaySessions.set(res);
           this.numOfSessions.set(res.length);
+          this.loadingSessions.set(false);
+        },
+        error: () => {
           this.loadingSessions.set(false);
         },
       });

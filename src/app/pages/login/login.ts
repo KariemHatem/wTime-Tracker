@@ -68,8 +68,6 @@ export class LoginComponent implements OnInit {
 
         // Handle Error
         error: () => {
-          this.error.set("Invalid credentials.");
-          this.toastServices.errorToaster("Invalid credentials");
           this.loading.set(false);
         },
       });

@@ -41,8 +41,8 @@ import { Badge } from "src/app/shared/badge/badge";
     ConfirmDialogModule,
     HeaderSection,
     DataTable,
-    Badge
-],
+    Badge,
+  ],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",
 })
@@ -79,6 +79,9 @@ export class AdminUsersComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.users.set(res);
+          this.loading.set(false);
+        },
+        error: () => {
           this.loading.set(false);
         },
       });
@@ -171,6 +174,9 @@ export class AdminUsersComponent implements OnInit {
         this.toasterServices.succesToaster(
           id ? "User edited successfully." : "User created successfully.",
         );
+      },
+      error: () => {
+        this.saving.set(false);
       },
     });
   }
