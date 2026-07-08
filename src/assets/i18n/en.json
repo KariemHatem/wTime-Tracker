@@ -25,5 +25,19 @@
   },
 
   "PREFERENCES": "Preferences",
-  "SIGN_OUT": "Sign out"
+  "SIGN_OUT": "Sign out",
+
+  "ACTIVITY": {
+    "TITLE": "Login Activity",
+    "SUBTITLE": "Recent authentication events across your team",
+
+    "TABLE": {
+      "EMPTY": "No activity found.",
+      "USER": "User",
+      "LOGIN_TIME": "Login Time",
+      "LOGOUT_TIME": "Logout Time",
+      "IP_ADDRESS": "IP Address",
+      "DEVICE_BROWSER": "Device / Browser"
+    }
+  }
 }

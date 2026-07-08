@@ -1,7 +1,7 @@
 <!-- Page Header -->
 <app-header-section
-  title="Login Activity"
-  subtitle="Recent authentication events across your team"
+  [title]="'ACTIVITY.TITLE' | translate"
+  [subtitle]="'ACTIVITY.SUBTITLE' | translate"
 ></app-header-section>
 
 <!-- Page Body -->
@@ -12,16 +12,16 @@
       [value]="activity"
       [paginated]="true"
       [colspan]="5"
-      emptyMessage="No activity found."
+      [emptyMessage]="'ACTIVITY.TABLE.EMPTY' | translate"
       [loading]="loading()"
     >
       <ng-template #header>
         <tr>
-          <th>User</th>
-          <th>Login Time</th>
-          <th>Logout Time</th>
-          <th>IP Address</th>
-          <th>Device / Browser</th>
+          <th>{{ 'ACTIVITY.TABLE.USER' | translate }}</th>
+          <th>{{'ACTIVITY.TABLE.LOGIN_TIME' | translate}}</th>
+          <th>{{'ACTIVITY.TABLE.LOGOUT_TIME' | translate}}</th>
+          <th>{{'ACTIVITY.TABLE.IP_ADDRESS' | translate}}</th>
+          <th>{{'ACTIVITY.TABLE.DEVICE_BROWSER' | translate}}</th>
         </tr>
       </ng-template>
       <ng-template #body let-a>

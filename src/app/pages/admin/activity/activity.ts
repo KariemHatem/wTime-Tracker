@@ -8,7 +8,7 @@ import { Activity } from "./../../../services/activity/activity";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
-
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-admin-activity",
   standalone: true,
@@ -20,6 +20,7 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
     SelectModule,
     DataTable,
     HeaderSection,
+    TranslatePipe,
   ],
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
