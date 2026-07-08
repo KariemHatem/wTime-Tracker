@@ -302,6 +302,7 @@ p,
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    text-align: center !important;
   }
   .p-datatable-tbody > tr {
     background: transparent !important;
@@ -313,6 +314,7 @@ p,
   .p-datatable-tbody > tr > td {
     border: none !important;
     color: var(--text-color) !important;
+    text-align: center !important;
   }
   .p-paginator {
     background: transparent;

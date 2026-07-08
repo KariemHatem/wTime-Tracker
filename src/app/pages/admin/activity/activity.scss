@@ -18,3 +18,32 @@
 i {
   font-size: 13px;
 }
+
+.table-address div i {
+  color: var(--text-warning);
+  font-weight: 700;
+}
+
+.location-btn {
+  background: none;
+  color: var(--primary-color);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  &:hover {
+    text-decoration: underline;
+  }
+  i {
+    margin-right: 5px;
+  }
+}
+
+:host ::ng-deep .p-dialog-header {
+  padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+  :host ::ng-deep .p-dialog {
+    margin: 0 25px;
+  }
+}

@@ -28,18 +28,23 @@
       <ng-template #body let-a>
         <tr>
           <td>
-            <div class="fw-medium">
+            <div class="fw-medium text-primary-color">
               {{ a.userFullName || 'User ' + a.userId }}
             </div>
             <div class="table-mail">{{ a.userEmail }}</div>
           </td>
-          <td class="font-mono">{{ a.loginTime | date:' MMMM d, h:mm a'}}</td>
+          <td class="font-mono">
+            <span class="text-success fw-bold"
+              >{{ a.loginTime | date:' MMMM d, h:mm a'}}</span
+            >
+          </td>
           <td class="font-mono">
             @if(a.logoutTime){
-            <span>{{ a.logoutTime | date:' MMMM d, h:mm a'}}</span>
+            <span class="text-danger fw-bold"
+              >{{ a.logoutTime | date:' MMMM d, h:mm a'}}</span
+            >
             }@else {
             <span>—</span>
-
             }
           </td>
           <td class="font-mono table-address">{{ a.ipAddress || '—' }}</td>
@@ -51,13 +56,15 @@
           </td>
           <td>
             @if(a.latitude && a.longitude){
-            <button class="location-btn" (click)="openLocation(a)">
-              <i class="pi pi-map-marker"></i>
+            <button
+              class="location-btn d-inline-flex align-items-center border-0 fw-semibold"
+              (click)="openLocation(a)"
+            >
+              <i class="pi pi-map-marker text-danger fw-bold"></i>
               {{a.city}}, {{a.country}}
             </button>
             }@else {
-            <span>—</span>
-            }
+            <span class="font-mono">—</span> }
           </td>
         </tr>
       </ng-template>
