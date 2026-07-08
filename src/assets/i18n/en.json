@@ -1,0 +1,29 @@
+{
+  "SIDEBAR": {
+    "APP_NAME": "WorkTracker",
+    "DASHBOARD": "Dashboard",
+    "SESSIONS": "Sessions",
+    "REPORTS": "Reports",
+    "SETTINGS": "Settings"
+  },
+  "ADMIN": {
+    "TITLE": "Admin",
+    "OVERVIEW": "Overview",
+    "USERS": "Users",
+    "REPORTS": "Reports",
+    "ACTIVITY": "Activity",
+    "ANALYTICS": "Analytics"
+  },
+  "LANGUAGE": {
+    "ENGLISH": "English",
+    "ARABIC": "العربية"
+  },
+  "THEME": {
+    "LIGHT": "Light",
+    "DARK": "Dark",
+    "MODE": "mode"
+  },
+
+  "PREFERENCES": "Preferences",
+  "SIGN_OUT": "Sign out"
+}

@@ -30,7 +30,8 @@
 .preferences {
   // border-top: 1px solid var(--sidebar-border);
 
-  .theme-btn {
+  .theme-btn,
+  .lang-btn {
     button {
       border: none;
       background: none;
@@ -51,5 +52,9 @@
 
   .pi-sun {
     color: var(--text-warning);
+  }
+
+  .pi-language {
+    color: var(--primary-color);
   }
 }

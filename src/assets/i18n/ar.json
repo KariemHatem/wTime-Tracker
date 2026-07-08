@@ -1,0 +1,28 @@
+{
+  "SIDEBAR": {
+    "APP_NAME": "متابع العمل",
+    "DASHBOARD": "لوحة التحكم",
+    "SESSIONS": "الجلسات",
+    "REPORTS": "التقارير",
+    "SETTINGS": "الإعدادات"
+  },
+  "ADMIN": {
+    "TITLE": "الإدارة",
+    "OVERVIEW": "نظرة عامة",
+    "USERS": "المستخدمون",
+    "REPORTS": "التقارير",
+    "ACTIVITY": "النشاط",
+    "ANALYTICS": "التحليلات"
+  },
+  "LANGUAGE": {
+    "ENGLISH": "English",
+    "ARABIC": "العربية"
+  },
+  "THEME": {
+    "LIGHT": "فاتح",
+    "DARK": "داكن",
+    "MODE": "الوضع"
+  },
+  "PREFERENCES": "التفضيلات",
+  "SIGN_OUT": "تسجيل الخروج"
+}
