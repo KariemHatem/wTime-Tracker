@@ -5,10 +5,11 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ApiService } from "src/app/services/api.service";
 import { UserMonitoring as UserMonitor } from "../../../../models/api.models";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-user-monitoring",
-  imports: [CommonModule, DataTable],
+  imports: [CommonModule, DataTable, TranslatePipe],
   templateUrl: "./user-monitoring.html",
   styleUrl: "./user-monitoring.scss",
 })

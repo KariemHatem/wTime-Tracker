@@ -1,7 +1,7 @@
 <!-- Page Header -->
 <app-header-section
-  title="Admin Overview"
-  subtitle="Real-time workspace monitoring"
+  [title]="'ADMIN_OVERVIEW.TITLE' | translate"
+  [subtitle]="'ADMIN_OVERVIEW.SUBTITLE' | translate"
 ></app-header-section>
 <!-- Page Body -->
 <div class="page-body">
@@ -15,7 +15,7 @@
           <i [class]="'pi ' + s.icon"></i>
         </div>
         <div class="stat-value">{{ s.value }}</div>
-        <div class="stat-label">{{ s.label }}</div>
+        <div class="stat-label">{{ s.label |translate }}</div>
       </div>
     </div>
     }
@@ -26,26 +26,34 @@
       <div class="col-12 col-md-6">
         <!-- Hours this week -->
         <div class="wt-card">
-          <div class="stats-w mt-2 text-uppercase">This Week</div>
+          <div class="stats-w mt-2 text-uppercase">
+            {{ 'ADMIN_OVERVIEW.THIS_WEEK' | translate }}
+          </div>
           <div class="stats-h fw-bold">
             {{ stats()?.totalHoursThisWeek?.toFixed(1) }}<span class="h"
-              >h</span
+              >{{ 'ADMIN_OVERVIEW.HOUR' | translate }}</span
             >
           </div>
-          <div class="total-h mt-1">Total team hours</div>
+          <div class="total-h mt-1">
+            {{ 'ADMIN_OVERVIEW.TOTAL_TEAM_HOURS' | translate }}
+          </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6">
         <!-- Hours this month -->
         <div class="wt-card">
-          <div class="stats-m mt-2 text-uppercase">This Month</div>
+          <div class="stats-m mt-2 text-uppercase">
+            {{ 'ADMIN_OVERVIEW.THIS_MONTH' | translate }}
+          </div>
           <div class="stats-h-m fw-bold text-success">
             {{ stats()?.totalHoursThisMonth?.toFixed(1) }}<span class="h"
-              >h</span
+              >{{ 'ADMIN_OVERVIEW.HOUR' | translate }}</span
             >
           </div>
-          <div class="total-teams mt-1">Total team hours</div>
+          <div class="total-teams mt-1">
+            {{ 'ADMIN_OVERVIEW.TOTAL_TEAM_HOURS' | translate }}
+          </div>
         </div>
       </div>
     </div>

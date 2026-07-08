@@ -1,10 +1,10 @@
 <!-- Live monitoring -->
 <div class="wt-card mb-4">
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <h6 class="fw-semibold m-0">Live User Status</h6>
+    <h6 class="fw-semibold m-0">{{ 'USER_MONITORING.TITLE' | translate }}</h6>
     <div class="d-flex align-items-center gap-2 content">
       <span class="pulse"></span>
-      Live
+      {{ 'USER_MONITORING.LIVE' | translate }}
     </div>
   </div>
   <!-- Table -->
@@ -17,12 +17,11 @@
   >
     <ng-template #header>
       <tr>
-        <th>Employee</th>
-        <!-- <th>Status</th> -->
-        <th>Last Login</th>
-        <th>Hours Today</th>
-        <th>This Week</th>
-        <th>status</th>
+        <th>{{ 'USER_MONITORING.TABLE.EMPLOYEE' | translate }}</th>
+        <th>{{ 'USER_MONITORING.TABLE.LAST_LOGIN' | translate }}</th>
+        <th>{{ 'USER_MONITORING.TABLE.HOURS_TODAY' | translate }}</th>
+        <th>{{ 'USER_MONITORING.TABLE.THIS_WEEK' | translate }}</th>
+        <th>{{ 'USER_MONITORING.TABLE.STATUS' | translate }}</th>
       </tr>
     </ng-template>
     <ng-template #body let-u>
@@ -39,13 +38,22 @@
         <td class="login-content">
           {{ u.lastLogin ? (u.lastLogin | date:'MMM d, hh:mm a') : '—' }}
         </td>
-        <td><strong>{{ u.hoursToday?.toFixed(1) }}h</strong></td>
-        <td class="hours-content">{{ u.hoursThisWeek?.toFixed(1) }}h</td>
+        <td>
+          <strong
+            >{{ u.hoursToday?.toFixed(1) }} {{ u.hoursToday?.toFixed(1) }}{{
+            'USER_MONITORING.HOUR' | translate }}</strong
+          >
+        </td>
+        <td class="hours-content">
+          {{ u.hoursThisWeek?.toFixed(1) }} {{ u.hoursThisWeek?.toFixed(1) }}{{
+          'USER_MONITORING.HOUR' | translate }}
+        </td>
         <td>
           <span
             [class]="u.status === 'idle' ? 'badge-working' : u.status === 'offline' ?  'badge-offline' : 'badge-offline'"
           >
-            {{ u.status === "idle" ? "idel" : "offline" }}
+            {{ u.status === "idle" ? ('USER_MONITORING.STATUS.IDLE' | translate)
+            : ('USER_MONITORING.STATUS.OFFLINE' | translate) }}
           </span>
         </td>
       </tr>

@@ -14,10 +14,11 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { StatCard } from "src/app/shared/model";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { UserMonitoring } from "./user-monitoring/user-monitoring";
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-admin-overview",
   standalone: true,
-  imports: [CommonModule, HeaderSection, UserMonitoring],
+  imports: [CommonModule, HeaderSection, UserMonitoring, TranslatePipe],
   templateUrl: "./overview.html",
   styleUrl: "./overview.scss",
 })
@@ -59,25 +60,25 @@ export class AdminOverviewComponent implements OnInit {
     if (!s) return [];
     return [
       {
-        label: "Total Users",
+        label: "ADMIN_OVERVIEW.STATS.TOTAL_USERS",
         value: s.totalUsers,
         icon: "pi-users",
         color: "#3b82f6",
       },
       {
-        label: "Active Today",
+        label: "ADMIN_OVERVIEW.STATS.ACTIVE_TODAY",
         value: s.activeUsersToday,
         icon: "pi-bolt",
         color: "#22c55e",
       },
       {
-        label: "Total Logins",
+        label: "ADMIN_OVERVIEW.STATS.TOTAL_LOGINS",
         value: s.totalLogins,
         icon: "pi-sign-in",
         color: "#f59e0b",
       },
       {
-        label: "Avg Productivity",
+        label: "ADMIN_OVERVIEW.STATS.AVG_PRODUCTIVITY",
         value: `${Math.round(s.avgDailyProductivity)}%`,
         icon: "pi-chart-line",
         color: "#a78bfa",

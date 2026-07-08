@@ -79,5 +79,40 @@
       "TARGET": "Target",
       "PRODUCTIVITY": "Productivity"
     }
+  },
+  "ADMIN_OVERVIEW": {
+    "TITLE": "Admin Overview",
+    "SUBTITLE": "Real-time workspace monitoring",
+    "THIS_WEEK": "This Week",
+    "THIS_MONTH": "This Month",
+    "TOTAL_TEAM_HOURS": "Total team hours",
+    "HOUR": "h",
+
+    "STATS": {
+      "TOTAL_USERS": "Total Users",
+      "ACTIVE_TODAY": "Active Today",
+      "TOTAL_LOGINS": "Total Logins",
+      "AVG_PRODUCTIVITY": "Avg Productivity"
+    }
+  },
+  "USER_MONITORING": {
+    "TITLE": "Live User Status",
+    "LIVE": "Live",
+
+    "TABLE": {
+      "EMPTY": "No users found.",
+      "EMPLOYEE": "Employee",
+      "LAST_LOGIN": "Last Login",
+      "HOURS_TODAY": "Hours Today",
+      "THIS_WEEK": "This Week",
+      "STATUS": "Status"
+    },
+
+    "STATUS": {
+      "IDLE": "Idle",
+      "OFFLINE": "Offline"
+    },
+
+    "HOUR": "h"
   }
 }

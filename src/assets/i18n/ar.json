@@ -78,5 +78,40 @@
       "TARGET": "المستهدف",
       "PRODUCTIVITY": "الإنتاجية"
     }
+  },
+  "ADMIN_OVERVIEW": {
+    "TITLE": "نظرة عامة للإدارة",
+    "SUBTITLE": "مراقبة مساحة العمل في الوقت الفعلي",
+    "THIS_WEEK": "هذا الأسبوع",
+    "THIS_MONTH": "هذا الشهر",
+    "TOTAL_TEAM_HOURS": "إجمالي ساعات الفريق",
+    "HOUR": "س",
+
+    "STATS": {
+      "TOTAL_USERS": "إجمالي المستخدمين",
+      "ACTIVE_TODAY": "النشطون اليوم",
+      "TOTAL_LOGINS": "إجمالي عمليات تسجيل الدخول",
+      "AVG_PRODUCTIVITY": "متوسط الإنتاجية"
+    }
+  },
+  "USER_MONITORING": {
+    "TITLE": "حالة المستخدمين المباشرة",
+    "LIVE": "مباشر",
+
+    "TABLE": {
+      "EMPTY": "لا يوجد مستخدمون.",
+      "EMPLOYEE": "الموظف",
+      "LAST_LOGIN": "آخر تسجيل دخول",
+      "HOURS_TODAY": "ساعات اليوم",
+      "THIS_WEEK": "هذا الأسبوع",
+      "STATUS": "الحالة"
+    },
+
+    "STATUS": {
+      "IDLE": "خامل",
+      "OFFLINE": "غير متصل"
+    },
+
+    "HOUR": "س"
   }
 }
