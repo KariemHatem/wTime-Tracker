@@ -24,6 +24,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { Badge } from "src/app/shared/badge/badge";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-admin-users",
@@ -42,6 +43,7 @@ import { Badge } from "src/app/shared/badge/badge";
     HeaderSection,
     DataTable,
     Badge,
+    TranslatePipe,
   ],
   templateUrl: "./users.html",
   styleUrl: "./users.scss",

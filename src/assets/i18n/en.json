@@ -138,5 +138,46 @@
       "TARGET": "Target",
       "COMPLETION": "Completion"
     }
+  },
+  "USERS": {
+    "TITLE": "Users",
+    "SUBTITLE": "Manage your team members",
+
+    "ADD_USER": "Add User",
+    "EDIT_USER": "Edit User",
+    "CREATE_USER": "Create User",
+    "SAVE_CHANGES": "Save Changes",
+    "CANCEL": "Cancel",
+
+    "TABLE": {
+      "EMPTY": "No users found.",
+      "USER": "User",
+      "ROLE": "Role",
+      "TARGET": "Target",
+      "WORKING_DAYS": "Working Days",
+      "CREATE_DATE": "Create Date",
+      "ACTIONS": "Actions"
+    },
+
+    "ROLE": {
+      "ADMIN": "Admin",
+      "EMPLOYEE": "Employee"
+    },
+
+    "FORM": {
+      "FULL_NAME": "Full Name",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "DAILY_TARGET": "Daily Target (h)",
+      "ADMIN_ACCESS": "Admin access",
+      "WORKING_DAYS": "Working Days",
+
+      "TARGET_SUFFIX": "h/day",
+
+      "VALIDATION": {
+        "EMAIL": "Please enter a valid email address.",
+        "PASSWORD": "Password must be at least 6 characters."
+      }
+    }
   }
 }

@@ -1,13 +1,13 @@
 <div class="d-flex align-items-center justify-content-between">
   <!-- Page Header -->
   <app-header-section
-    title="Users"
-    subtitle="Manage your team members"
+    [title]="'USERS.TITLE' | translate"
+    [subtitle]="'USERS.SUBTITLE' | translate"
   ></app-header-section>
   <!-- Button -->
   <p-button
     class="btn-add"
-    label="Add User"
+    [label]="'USERS.ADD_USER' | translate"
     icon="pi pi-plus"
     (click)="openCreate()"
   />
@@ -20,18 +20,18 @@
       [value]="users()"
       [paginated]="true"
       [colspan]="5"
-      emptyMessage="No users found."
+      [emptyMessage]="'USERS.TABLE.EMPTY' | translate"
       [loading]="loading()"
       responsiveLayout="scroll"
     >
       <ng-template #header>
         <tr>
-          <th>User</th>
-          <th>Role</th>
-          <th>Target</th>
-          <th>Working Days</th>
-          <th>Create Date</th>
-          <th>Actions</th>
+          <th>{{ 'USERS.TABLE.USER' | translate }}</th>
+          <th>{{ 'USERS.TABLE.ROLE' | translate }}</th>
+          <th>{{ 'USERS.TABLE.TARGET' | translate }}</th>
+          <th>{{ 'USERS.TABLE.WORKING_DAYS' | translate }}</th>
+          <th>{{ 'USERS.TABLE.CREATE_DATE' | translate }}</th>
+          <th>{{ 'USERS.TABLE.ACTIONS' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template #body let-u>
@@ -45,11 +45,15 @@
             <app-badge
               [background]="u.isAdmin ? 'rgba(59,130,246,.15)' : 'rgba(148,163,184,.1)'"
               [color]="u.isAdmin ? '#60a5fa' : '#94a3b8'"
-              [label]="u.isAdmin ? 'Admin' : 'Employee'"
+              [label]="u.isAdmin   ? ('USERS.ROLE.ADMIN' | translate)
+    : ('USERS.ROLE.EMPLOYEE' | translate)"
             ></app-badge>
           </td>
 
-          <td>{{ u.targetHoursPerDay }}h/day</td>
+          <td>
+            {{ u.targetHoursPerDay }} {{ 'USERS.FORM.TARGET_SUFFIX' | translate
+            }}
+          </td>
           <td class="d-labels">{{ dayLabels(u.workingDays) }}</td>
           <td>{{ u.createdAt | date:'MMM d, y, h:mm:ss a' }}</td>
           <td>
@@ -78,28 +82,37 @@
 <p-dialog
   [(visible)]="showDialog"
   [modal]="true"
-  [header]="editId() ? 'Edit User' : 'Add User'"
+  [header]="editId()    ? ('USERS.EDIT_USER' | translate)
+      : ('USERS.ADD_USER' | translate)"
   [style]="{ width: '460px' }"
   [draggable]="false"
 >
   <form [formGroup]="form" (ngSubmit)="save()">
     <!-- Form  Name -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-1">Full Name</label>
+      <label class="text-muted d-block mb-1"
+        >{{ 'USERS.FORM.FULL_NAME' | translate }}</label
+      >
       <input pInputText formControlName="fullName" class="w-100" />
     </div>
     <!-- Form Email -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-1">Email</label>
+      <label class="text-muted d-block mb-1"
+        >{{ 'USERS.FORM.EMAIL' | translate }}</label
+      >
       <input pInputText type="email" formControlName="email" class="w-100" />
       @if(form.get('email')?.invalid && form.get('email')?.touched){
-      <small class="text-danger"> Please enter a valid email address. </small>
+      <small class="text-danger">
+        {{ 'USERS.FORM.VALIDATION.EMAIL' | translate }}
+      </small>
       }
     </div>
     <!-- Form Password -->
     @if(!editId()){
     <div class="field mb-3">
-      <label class="text-muted d-block mb-1">Password</label>
+      <label class="text-muted d-block mb-1"
+        >{{ 'USERS.FORM.PASSWORD' | translate }}</label
+      >
       <p-password
         formControlName="password"
         [feedback]="false"
@@ -109,7 +122,7 @@
       />
       @if(form.get('password')?.invalid && form.get('password')?.touched){
       <small class="text-danger">
-        Password must be at least 6 characters.
+        {{ 'USERS.FORM.VALIDATION.PASSWORD' | translate }}
       </small>
 
       }
@@ -118,7 +131,9 @@
     <div class="row g-3 mb-3">
       <div class="col">
         <!-- Form Target -->
-        <label class="text-muted d-block mb-1">Daily Target (h)</label>
+        <label class="text-muted d-block mb-1"
+          >{{ 'USERS.FORM.DAILY_TARGET' | translate }}</label
+        >
         <p-inputNumber
           formControlName="targetHoursPerDay"
           [min]="1"
@@ -131,13 +146,15 @@
       <div class="col d-flex align-items-end">
         <label class="d-flex align-items-center gap-2 admin-label">
           <p-checkbox formControlName="isAdmin" [binary]="true" />
-          Admin access
+          {{ 'USERS.FORM.ADMIN_ACCESS' | translate }}
         </label>
       </div>
     </div>
     <!-- Form Working Days -->
     <div class="field mb-3">
-      <label class="text-muted d-block mb-2">Working Days</label>
+      <label class="text-muted d-block mb-2"
+        >{{ 'USERS.FORM.WORKING_DAYS' | translate }}</label
+      >
       <div class="d-flex gap-2 flex-wrap">
         @for(day of days;track day.v){
         <button
@@ -157,13 +174,14 @@
   </form>
   <ng-template pTemplate="footer">
     <p-button
-      label="Cancel"
+      [label]="'USERS.CANCEL' | translate"
       severity="secondary"
       [text]="true"
       (click)="closeDialog()"
     />
     <p-button
-      [label]="editId() ? 'Save Changes' : 'Create User'"
+      [label]="editId()  ? ('USERS.SAVE_CHANGES' | translate)
+      : ('USERS.CREATE_USER' | translate)"
       (click)="save()"
       [loading]="saving()"
     />
