@@ -9,6 +9,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { TranslatePipe } from "@ngx-translate/core";
+import { Dialog } from "primeng/dialog";
+import { Location } from "src/app/shared/map/location/location";
 @Component({
   selector: "app-admin-activity",
   standalone: true,
@@ -21,7 +23,9 @@ import { TranslatePipe } from "@ngx-translate/core";
     DataTable,
     HeaderSection,
     TranslatePipe,
-  ],
+    Dialog,
+    Location
+],
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
 })
@@ -33,6 +37,8 @@ export class AdminActivityComponent implements OnInit {
   // Data
   activity: ActivityModel[] = [];
   loading = signal(true);
+  mapVisibile = signal(false);
+  selectedActivity = signal<ActivityModel | null>(null);
 
   ngOnInit(): void {
     this.load();
@@ -55,16 +61,27 @@ export class AdminActivityComponent implements OnInit {
       });
   }
 
+  // Location
+  openLocation(activity: ActivityModel): void {
+    this.selectedActivity.set(activity);
+    this.mapVisibile.set(true);
+  }
+
   deviceIcon(device?: string | null): string {
     return device?.toLowerCase().includes("mobile")
       ? "pi pi-mobile"
       : "pi pi-desktop";
   }
 
+  deviceLabel(a: ActivityModel): string {
+    return [a.device, a.operatingSystem].filter(Boolean).join(" / ") || "—";
+  }
   browserLabel(a: ActivityModel): string {
-    return (
-      [a.browser, a.device, a.operatingSystem].filter(Boolean).join(" / ") ||
-      "—"
-    );
+    const ua = a.browser || "";
+    if (/edg/i.test(ua)) return "Edge";
+    if (/chrome/i.test(ua)) return "Chrome";
+    if (/firefox/i.test(ua)) return "Firefox";
+    if (/safari/i.test(ua)) return "Safari";
+    return "Unknown";
   }
 }

@@ -22,6 +22,7 @@
           <th>{{'ACTIVITY.TABLE.LOGOUT_TIME' | translate}}</th>
           <th>{{'ACTIVITY.TABLE.IP_ADDRESS' | translate}}</th>
           <th>{{'ACTIVITY.TABLE.DEVICE_BROWSER' | translate}}</th>
+          <th>Location</th>
         </tr>
       </ng-template>
       <ng-template #body let-a>
@@ -45,11 +46,40 @@
           <td class="table-address">
             <div class="d-flex align-items-center gap-1">
               <i [class]="deviceIcon(a.device)" class="mx-2"></i>
-              {{ browserLabel(a) }}
+              {{ deviceLabel(a) }} / {{ browserLabel(a) }}
             </div>
+          </td>
+          <td>
+            @if(a.latitude && a.longitude){
+            <button class="location-btn" (click)="openLocation(a)">
+              <i class="pi pi-map-marker"></i>
+              {{a.city}}, {{a.country}}
+            </button>
+            }@else {
+            <span>—</span>
+            }
           </td>
         </tr>
       </ng-template>
     </app-data-table>
   </div>
 </div>
+
+<p-dialog
+  header="Location"
+  [modal]="true"
+  [closable]="true"
+  [style]="{width:'850px'}"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="mapVisibile"
+>
+  @if(selectedActivity();as sel){
+  <app-location
+    [latitude]="sel.latitude !== undefined ? sel.latitude : 0"
+    [longitude]="sel.longitude !== undefined ? sel.longitude : 0"
+    [city]="sel.city"
+    [country]="sel.country"
+  ></app-location>
+  }
+</p-dialog>

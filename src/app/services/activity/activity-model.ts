@@ -4,9 +4,13 @@ export interface ActivityModel {
   userFullName?: string;
   userEmail?: string;
   loginTime: string;
-  logoutTime?: string | null;
-  ipAddress?: string | null;
-  browser?: string | null;
-  operatingSystem?: string | null;
-  device?: string | null;
+  logoutTime?: string;
+  ipAddress?: string;
+  browser?: string;
+  operatingSystem?: string;
+  device?: string;
+  latitude?: number;
+  longitude?: number;
+  city?: string;
+  country?: string;
 }
