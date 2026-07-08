@@ -7,9 +7,10 @@ import { MonthlyAnalytics as mAnalytics } from "../../../../services/analytics/a
 import { buildBarData } from "src/app/shared/utils/builder-bar.util";
 import { UIChart } from "primeng/chart";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-monthly-analytics",
-  imports: [UIChart, DataTable],
+  imports: [UIChart, DataTable, TranslatePipe],
   templateUrl: "./monthly-analytics.html",
   styleUrl: "./monthly-analytics.scss",
 })

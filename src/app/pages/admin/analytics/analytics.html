@@ -1,15 +1,15 @@
 <!-- Page Header -->
 <app-header-section
-  title="Analytics"
-  subtitle="Team productivity trends and insights"
+  [title]="'ANALYTICS.TITLE' | translate"
+  [subtitle]="'ANALYTICS.SUBTITLE' | translate"
 ></app-header-section>
 
 <!-- Page Body -->
 <div class="page-body">
   <p-tabs [value]="0">
     <p-tablist>
-      <p-tab [value]="0">Weekly</p-tab>
-      <p-tab [value]="1">Monthly</p-tab>
+      <p-tab [value]="0">{{ 'ANALYTICS.TABS.WEEKLY' | translate }}</p-tab>
+      <p-tab [value]="1">{{ 'ANALYTICS.TABS.MONTHLY' | translate }}</p-tab>
     </p-tablist>
     <p-tabpanels>
       <!-- WEEKLY -->

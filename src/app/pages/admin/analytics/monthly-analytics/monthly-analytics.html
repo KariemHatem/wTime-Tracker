@@ -4,9 +4,12 @@
     <div class="col-12 col-lg-8">
       <div class="wt-card">
         <h6 class="mb-1 fw-semibold">
-          Hours by Week — {{ monthly()?.year }}/{{ fmtMonth(monthly()?.month) }}
+          {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}} — {{ monthly()?.year
+          }}/{{ fmtMonth(monthly()?.month) }}
         </h6>
-        <p class="text-muted mb-4">Worked vs. target per week</p>
+        <p class="text-muted mb-4">
+          {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}}
+        </p>
         <p-chart
           type="bar"
           [data]="monthlyBarData"
@@ -17,33 +20,41 @@
     </div>
     <div class="col-12 col-lg-4">
       <div class="wt-card mb-3">
-        <div class="text-muted mb-2 avg-hours-label">Avg Hours / Day</div>
+        <div class="text-muted mb-2 avg-hours-label">
+          {{'MONTHLY_ANALYTICS.AVG_HOURS_PER_DAY' | translate}}
+        </div>
         <div class="monthly-avg-hours fw-bold">
           {{ monthly()?.avgHoursWorked?.toFixed(1) ?? '—' }}h
         </div>
       </div>
       <div class="wt-card">
-        <div class="text-muted mb-3 ms-prod">Most Productive Days</div>
+        <div class="text-muted mb-3 ms-prod">
+          {{'MONTHLY_ANALYTICS.MOST_PRODUCTIVE_DAYS'|translate}}
+        </div>
         <div class="d-flex flex-wrap gap-2">
           @for(d of monthly()?.mostProductiveDays; track d){
           <span class="fw-semibold prod-span"> {{ d }} </span>
           }@empty {
-          <span class="text-muted no-data">No data yet</span>
+          <span class="text-muted no-data"
+            >{{ 'MONTHLY_ANALYTICS.NO_DATA' | translate}}</span
+          >
           }
         </div>
       </div>
     </div>
   </div>
   <div class="wt-card">
-    <h6 class="mb-3 fw-semibold">Weekly Breakdown</h6>
+    <h6 class="mb-3 fw-semibold">
+      {{'MONTHLY_ANALYTICS.WEEKLY_BREAKDOWN' |translate}}
+    </h6>
     <!-- TABLE -->
     <app-data-table [value]="monthly().weeks">
       <ng-template #header>
         <tr>
-          <th>Week</th>
-          <th>Worked</th>
-          <th>Target</th>
-          <th>Difference</th>
+          <th>{{'MONTHLY_ANALYTICS.TABLE.WEEK' |translate}}</th>
+          <th>{{'MONTHLY_ANALYTICS.TABLE.WORKED' |translate}}</th>
+          <th>{{'MONTHLY_ANALYTICS.TABLE.TARGET' |translate}}</th>
+          <th>{{'MONTHLY_ANALYTICS.TABLE.DIFFERENCE' |translate}}</th>
         </tr>
       </ng-template>
       <ng-template #body let-w>

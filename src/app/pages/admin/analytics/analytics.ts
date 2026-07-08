@@ -6,6 +6,7 @@ import { TableModule } from "primeng/table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { MonthlyAnalytics } from "./monthly-analytics/monthly-analytics";
 import { WeeklyAnalytics } from "./weekly-analytics/weekly-analytics";
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-admin-analytics",
   standalone: true,
@@ -17,6 +18,7 @@ import { WeeklyAnalytics } from "./weekly-analytics/weekly-analytics";
     HeaderSection,
     MonthlyAnalytics,
     WeeklyAnalytics,
+    TranslatePipe,
   ],
   templateUrl: "./analytics.html",
   styleUrl: "./analytics.scss",

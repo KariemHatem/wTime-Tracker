@@ -4,9 +4,13 @@
     <div class="col-12 col-lg-8">
       <div class="wt-card">
         <h6 class="mb-1 fw-semibold">
-          Daily Hours — Week of {{ weekly().weekStart | slice:0:10 }}
+          {{ 'WEEKLY_ANALYTICS.DAILY_HOURS' | translate }} — {{
+          'WEEKLY_ANALYTICS.WEEK_OF' | translate }} {{ weekly().weekStart |
+          slice:0:10 }}
         </h6>
-        <p class="text-muted mb-4">Worked vs. target per day</p>
+        <p class="text-muted mb-4">
+          {{ 'WEEKLY_ANALYTICS.WORKED_TARGET' | translate }}
+        </p>
         <p-chart
           type="bar"
           [data]="weeklyBarData"
@@ -17,8 +21,12 @@
     </div>
     <div class="col-12 col-lg-4">
       <div class="wt-card">
-        <h6 class="mb-1 fw-semibold">Daily Productivity %</h6>
-        <p class="text-muted mb-4">Completion rate</p>
+        <h6 class="mb-1 fw-semibold">
+          {{ 'WEEKLY_ANALYTICS.DAILY_PRODUCTIVITY' | translate }}
+        </h6>
+        <p class="text-muted mb-4">
+          {{ 'WEEKLY_ANALYTICS.COMPLETION_RATE' | translate }}
+        </p>
         <p-chart
           type="line"
           [data]="weeklyLineData"
@@ -29,16 +37,18 @@
     </div>
   </div>
   <div class="wt-card">
-    <h6 class="mb-3 fw-semibold">Day-by-Day Breakdown</h6>
+    <h6 class="mb-3 fw-semibold">
+      {{ 'WEEKLY_ANALYTICS.DAY_BREAKDOWN' | translate }}
+    </h6>
     <!-- TABLE -->
     <app-data-table [value]="weekly().days">
       <ng-template #header>
         <tr>
-          <th>Day</th>
-          <th>Date</th>
-          <th>Worked</th>
-          <th>Target</th>
-          <th>Productivity</th>
+          <th>{{ 'WEEKLY_ANALYTICS.TABLE.DAY' | translate }}</th>
+          <th>{{ 'WEEKLY_ANALYTICS.TABLE.DATE' | translate }}</th>
+          <th>{{ 'WEEKLY_ANALYTICS.TABLE.WORKED' | translate }}</th>
+          <th>{{ 'WEEKLY_ANALYTICS.TABLE.TARGET' | translate }}</th>
+          <th>{{ 'WEEKLY_ANALYTICS.TABLE.PRODUCTIVITY' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template #body let-d>

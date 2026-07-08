@@ -38,5 +38,45 @@
       "IP_ADDRESS": "عنوان IP",
       "DEVICE_BROWSER": "الجهاز / المتصفح"
     }
+  },
+  "ANALYTICS": {
+    "TITLE": "التحليلات",
+    "SUBTITLE": "اتجاهات وإحصائيات إنتاجية الفريق",
+    "TABS": {
+      "WEEKLY": "أسبوعي",
+      "MONTHLY": "شهري"
+    }
+  },
+
+  "MONTHLY_ANALYTICS": {
+    "HOURS_BY_WEEK": "ساعات العمل حسب الأسبوع",
+    "WORKED_TARGET": "الساعات المنجزة مقارنة بالساعات المستهدفة لكل أسبوع",
+    "AVG_HOURS_PER_DAY": "متوسط ساعات العمل يوميًا",
+    "MOST_PRODUCTIVE_DAYS": "أكثر الأيام إنتاجية",
+    "NO_DATA": "لا توجد بيانات حتى الآن",
+    "WEEKLY_BREAKDOWN": "تفاصيل الأسابيع",
+
+    "TABLE": {
+      "WEEK": "الأسبوع",
+      "WORKED": "المنجز",
+      "TARGET": "المستهدف",
+      "DIFFERENCE": "الفرق"
+    }
+  },
+  "WEEKLY_ANALYTICS": {
+    "DAILY_HOURS": "ساعات العمل اليومية",
+    "WEEK_OF": "أسبوع",
+    "WORKED_TARGET": "الساعات المنجزة مقارنة بالساعات المستهدفة لكل يوم",
+    "DAILY_PRODUCTIVITY": "الإنتاجية اليومية %",
+    "COMPLETION_RATE": "معدل الإنجاز",
+    "DAY_BREAKDOWN": "تفاصيل الأيام",
+
+    "TABLE": {
+      "DAY": "اليوم",
+      "DATE": "التاريخ",
+      "WORKED": "المنجز",
+      "TARGET": "المستهدف",
+      "PRODUCTIVITY": "الإنتاجية"
+    }
   }
 }

@@ -8,10 +8,11 @@ import { WeeklyAnalytics as wAnalytics } from "../../../../services/analytics/an
 import { UIChart } from "primeng/chart";
 import { CommonModule } from "@angular/common";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-weekly-analytics",
-  imports: [UIChart, CommonModule, DataTable],
+  imports: [UIChart, CommonModule, DataTable, TranslatePipe],
   templateUrl: "./weekly-analytics.html",
   styleUrl: "./weekly-analytics.scss",
 })

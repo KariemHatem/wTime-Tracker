@@ -39,5 +39,45 @@
       "IP_ADDRESS": "IP Address",
       "DEVICE_BROWSER": "Device / Browser"
     }
+  },
+
+  "ANALYTICS": {
+    "TITLE": "Analytics",
+    "SUBTITLE": "Team productivity trends and insights",
+    "TABS": {
+      "WEEKLY": "Weekly",
+      "MONTHLY": "Monthly"
+    }
+  },
+  "MONTHLY_ANALYTICS": {
+    "HOURS_BY_WEEK": "Hours by Week",
+    "WORKED_TARGET": "Worked vs. target per week",
+    "AVG_HOURS_PER_DAY": "Avg Hours / Day",
+    "MOST_PRODUCTIVE_DAYS": "Most Productive Days",
+    "NO_DATA": "No data yet",
+    "WEEKLY_BREAKDOWN": "Weekly Breakdown",
+
+    "TABLE": {
+      "WEEK": "Week",
+      "WORKED": "Worked",
+      "TARGET": "Target",
+      "DIFFERENCE": "Difference"
+    }
+  },
+  "WEEKLY_ANALYTICS": {
+    "DAILY_HOURS": "Daily Hours",
+    "WEEK_OF": "Week of",
+    "WORKED_TARGET": "Worked vs. target per day",
+    "DAILY_PRODUCTIVITY": "Daily Productivity %",
+    "COMPLETION_RATE": "Completion rate",
+    "DAY_BREAKDOWN": "Day-by-Day Breakdown",
+
+    "TABLE": {
+      "DAY": "Day",
+      "DATE": "Date",
+      "WORKED": "Worked",
+      "TARGET": "Target",
+      "PRODUCTIVITY": "Productivity"
+    }
   }
 }
