@@ -43,10 +43,10 @@
           <strong>{{ r.userFullName }}</strong>
         </td>
         <td class="font-mono">
-          {{ r.startTime ? (r.startTime | date: "HH:mm") : "—" }}
+          {{ r.startTime ? (r.startTime | date: "MMM d, h:mm a") : "—" }}
         </td>
         <td class="font-mono">
-          {{ r.endTime ? (r.endTime | date: "HH:mm") : "—" }}
+          {{ r.endTime ? (r.endTime | date: "MMM d, h:mm a") : "—" }}
         </td>
         <td>
           <strong>{{ fmtMins(r.workedMinutes) }}</strong>
