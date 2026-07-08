@@ -114,5 +114,29 @@
     },
 
     "HOUR": "h"
+  },
+  "ADMIN_REPORTS": {
+    "TITLE": "Admin Reports",
+    "SUBTITLE": "Daily team work summary",
+
+    "DATE": "Date",
+
+    "SUMMARY": {
+      "EMPLOYEES": "employees",
+      "WORKED": "worked",
+      "AVG": "avg"
+    },
+
+    "EXPORT_CSV": "Export CSV",
+
+    "TABLE": {
+      "EMPTY": "No data for this date.",
+      "EMPLOYEE": "Employee",
+      "START": "Start",
+      "END": "End",
+      "WORKED": "Worked",
+      "TARGET": "Target",
+      "COMPLETION": "Completion"
+    }
   }
 }

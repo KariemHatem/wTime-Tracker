@@ -20,6 +20,7 @@ import {
   formatMinutes,
   formatDateForApi,
 } from "src/app/shared/utils/date-time.util";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-admin-reports",
@@ -33,6 +34,7 @@ import {
     ButtonModule,
     HeaderSection,
     DataTable,
+    TranslatePipe,
   ],
   templateUrl: "./admin-reports.html",
   styleUrl: "./admin-reports.scss",

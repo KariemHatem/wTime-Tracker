@@ -1,14 +1,16 @@
 <!-- Page Header -->
 <app-header-section
-  title="Admin Reports"
-  subtitle="Daily team work summary"
+  [title]="'ADMIN_REPORTS.TITLE' | translate"
+  [subtitle]="'ADMIN_REPORTS.SUBTITLE' | translate"
 ></app-header-section>
 <!-- Page Body -->
 <div class="page-body">
   <div class="wt-card mb-4">
     <div class="d-flex align-items-center gap-3 flex-wrap">
       <div>
-        <label class="text-muted d-block mb-1">Date</label>
+        <label class="text-muted d-block mb-1">
+          {{ 'ADMIN_REPORTS.DATE' | translate }}</label
+        >
         <p-datepicker
           [(ngModel)]="selectedDate"
           dateFormat="yy-mm-dd"
@@ -19,18 +21,20 @@
       <div class="ms-auto d-flex align-items-center gap-3">
         @if(report().length){
         <span class="report-info">
-          {{ report().length }} employees · {{ fmtMins(totalWorked()) }} worked
-          · avg {{ avgCompletion() }}%
+          {{ report().length }} {{ 'ADMIN_REPORTS.SUMMARY.EMPLOYEES' | translate
+          }} · {{ fmtMins(totalWorked()) }} {{ 'ADMIN_REPORTS.SUMMARY.WORKED' |
+          translate }} · {{ 'ADMIN_REPORTS.SUMMARY.AVG' | translate }} {{
+          avgCompletion() }}%
         </span>
         }
 
         <p-button
           icon="pi pi-download"
-          label="Export CSV"
+          [label]="'ADMIN_REPORTS.EXPORT_CSV' | translate"
           severity="secondary"
           size="small"
           (click)="exportCsv()"
-          [disabled]="!report.length"
+          [disabled]="!report().length"
         />
       </div>
     </div>
@@ -43,16 +47,16 @@
       [loading]="loading()"
       [paginated]="true"
       [colspan]="5"
-      emptyMessage="No data for this date."
+      [emptyMessage]="'ADMIN_REPORTS.TABLE.EMPTY' | translate"
     >
       <ng-template #header>
         <tr>
-          <th>Employee</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Worked</th>
-          <th>Target</th>
-          <th>Completion</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.EMPLOYEE' | translate }}</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.START' | translate }}</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.END' | translate }}</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.WORKED' | translate }}</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.TARGET' | translate }}</th>
+          <th>{{ 'ADMIN_REPORTS.TABLE.COMPLETION' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template #body let-r>
