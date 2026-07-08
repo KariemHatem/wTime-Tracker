@@ -54,10 +54,33 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) return;
     this.loading.set(true);
     this.error.set("");
+
+    // Location
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          this.performLogin(pos.coords.latitude, pos.coords.longitude);
+        },
+        (err) => {
+          console.warn("Location permission denied or failed:", err.message);
+          this.performLogin(null, null);
+        },
+        { timeout: 5000, enableHighAccuracy: true },
+      );
+    } else {
+      this.performLogin(null, null);
+    }
+  }
+
+  private performLogin(
+    latitude: number | null,
+    longitude: number | null,
+  ): void {
     const { email, password } = this.form.value;
 
     this.auth
-      .login(email, password)
+      .login(email, password, latitude, longitude)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: any) => {
