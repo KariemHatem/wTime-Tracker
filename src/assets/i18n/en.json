@@ -221,5 +221,46 @@
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
     "SIGN_IN": "Sign in"
+  },
+  "REPORTS": {
+    "TITLE": "Reports",
+    "SUBTITLE": "Track your productivity over time",
+    "TABS": {
+      "DAILY": "Daily",
+      "WEEKLY": "Weekly",
+      "MONTHLY": "Monthly"
+    }
+  },
+  "DAILY_REPORT": {
+    "DATE": "Date",
+    "EXPORT_CSV": "Export CSV",
+    "EMPTY": "No data for this date.",
+    "TABLE": {
+      "EMPLOYEE": "Employee",
+      "START": "Start",
+      "END": "End",
+      "WORKED": "Worked",
+      "TARGET": "Target",
+      "COMPLETION": "Completion"
+    }
+  },
+  "MONTHLY_REPORT": {
+    "HOURS_BY_WEEK": "Hours by Week",
+    "SUMMARY": {
+      "TOTAL_WORKED": "Total Worked",
+      "TARGET": "Target",
+      "OVERTIME": "Overtime",
+      "PRODUCTIVITY": "Productivity"
+    }
+  },
+  "WEEKLY_REPORT": {
+    "WEEK_STARTING": "Week starting",
+    "HOURS_PER_DAY": "Hours per Day",
+    "SUMMARY": {
+      "WORKED": "Worked",
+      "TARGET": "Target",
+      "MISSING": "Missing",
+      "OVERTIME": "Overtime"
+    }
   }
 }

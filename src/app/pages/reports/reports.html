@@ -1,16 +1,16 @@
 <!-- Page Header -->
 <app-header-section
-  title="Reports"
-  subtitle="Track your productivity over time"
+  [title]="'REPORTS.TITLE' | translate"
+  [subtitle]="'REPORTS.SUBTITLE' | translate"
 ></app-header-section>
 
 <!-- Page Body -->
 <div class="page-body">
   <p-tabs [value]="0">
     <p-tablist>
-      <p-tab [value]="0">Daily</p-tab>
-      <p-tab [value]="1">Weekly</p-tab>
-      <p-tab [value]="2">Monthly</p-tab>
+      <p-tab [value]="0">{{ 'REPORTS.TABS.DAILY' | translate }}</p-tab>
+      <p-tab [value]="1">{{ 'REPORTS.TABS.WEEKLY' | translate }}</p-tab>
+      <p-tab [value]="2">{{ 'REPORTS.TABS.MONTHLY' | translate }}</p-tab>
     </p-tablist>
     <p-tabpanels>
       <!-- DAILY -->

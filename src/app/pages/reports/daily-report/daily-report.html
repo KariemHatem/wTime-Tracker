@@ -1,6 +1,8 @@
 <div class="d-flex align-items-center gap-3 mb-4 flex-wrap mt-3">
   <div>
-    <label class="d-block text-muted mb-1">Date</label>
+    <label class="d-block text-muted mb-1">
+      {{ 'DAILY_REPORT.DATE' | translate }}</label
+    >
     <p-datepicker
       [(ngModel)]="dailyDate"
       dateFormat="yy-mm-dd"
@@ -11,7 +13,7 @@
 
   <p-button
     icon="pi pi-download"
-    label="Export CSV"
+    [label]="'DAILY_REPORT.EXPORT_CSV' | translate"
     severity="secondary"
     size="small"
     (click)="exportDaily()"
@@ -25,16 +27,16 @@
     [loading]="loadingDaily()"
     [paginated]="true"
     [colspan]="5"
-    emptyMessage="No data for this date."
+    [emptyMessage]="'DAILY_REPORT.EMPTY' | translate"
   >
     <ng-template #header>
       <tr>
-        <th>Employee</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Worked</th>
-        <th>Target</th>
-        <th>Completion</th>
+        <th>{{ 'DAILY_REPORT.TABLE.EMPLOYEE' | translate }}</th>
+        <th>{{ 'DAILY_REPORT.TABLE.START' | translate }}</th>
+        <th>{{ 'DAILY_REPORT.TABLE.END' | translate }}</th>
+        <th>{{ 'DAILY_REPORT.TABLE.WORKED' | translate }}</th>
+        <th>{{ 'DAILY_REPORT.TABLE.TARGET' | translate }}</th>
+        <th>{{ 'DAILY_REPORT.TABLE.COMPLETION' | translate }}</th>
       </tr>
     </ng-template>
     <ng-template #body let-r>

@@ -12,10 +12,18 @@ import { ButtonModule } from "primeng/button";
 import { FormsModule } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-daily-report",
-  imports: [DatePicker, ButtonModule, FormsModule, DatePipe, DataTable],
+  imports: [
+    DatePicker,
+    ButtonModule,
+    FormsModule,
+    DatePipe,
+    DataTable,
+    TranslatePipe,
+  ],
   templateUrl: "./daily-report.html",
   styleUrl: "./daily-report.scss",
 })

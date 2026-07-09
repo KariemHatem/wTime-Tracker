@@ -5,7 +5,9 @@
 <!-- CHART -->
 @if(monthlyChartData){
 <div class="wt-card">
-  <h6 class="fw-semibold mb-3">Hours by Week</h6>
+  <h6 class="fw-semibold mb-3">
+    {{ 'MONTHLY_REPORT.HOURS_BY_WEEK' | translate }}
+  </h6>
   <p-chart
     type="bar"
     [data]="monthlyChartData"

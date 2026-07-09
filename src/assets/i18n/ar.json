@@ -219,5 +219,46 @@
     "PASSWORD": "كلمة المرور",
     "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
     "SIGN_IN": "تسجيل الدخول"
+  },
+  "REPORTS": {
+    "TITLE": "التقارير",
+    "SUBTITLE": "تابع إنتاجيتك مع مرور الوقت",
+    "TABS": {
+      "DAILY": "يومي",
+      "WEEKLY": "أسبوعي",
+      "MONTHLY": "شهري"
+    }
+  },
+  "DAILY_REPORT": {
+    "DATE": "التاريخ",
+    "EXPORT_CSV": "تصدير CSV",
+    "EMPTY": "لا توجد بيانات لهذا التاريخ.",
+    "TABLE": {
+      "EMPLOYEE": "الموظف",
+      "START": "البداية",
+      "END": "النهاية",
+      "WORKED": "المنجز",
+      "TARGET": "المستهدف",
+      "COMPLETION": "نسبة الإنجاز"
+    }
+  },
+  "MONTHLY_REPORT": {
+    "HOURS_BY_WEEK": "الساعات حسب الأسبوع",
+    "SUMMARY": {
+      "TOTAL_WORKED": "إجمالي المنجز",
+      "TARGET": "المستهدف",
+      "OVERTIME": "الوقت الإضافي",
+      "PRODUCTIVITY": "الإنتاجية"
+    }
+  },
+  "WEEKLY_REPORT": {
+    "WEEK_STARTING": "بداية الأسبوع",
+    "HOURS_PER_DAY": "الساعات لكل يوم",
+    "SUMMARY": {
+      "WORKED": "المنجز",
+      "TARGET": "المستهدف",
+      "MISSING": "المتبقي",
+      "OVERTIME": "الوقت الإضافي"
+    }
   }
 }

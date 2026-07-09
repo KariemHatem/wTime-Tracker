@@ -21,10 +21,11 @@ import { FormsModule } from "@angular/forms";
 import { ChartModule } from "primeng/chart";
 import { SummaryCards } from "src/app/shared/summary-cards/summary-cards";
 import { Summary } from "src/app/shared/model";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-weekly-report",
-  imports: [DatePicker, FormsModule, ChartModule, SummaryCards],
+  imports: [DatePicker, FormsModule, ChartModule, SummaryCards, TranslatePipe],
   templateUrl: "./weekly-report.html",
   styleUrl: "./weekly-report.scss",
 })
@@ -81,22 +82,22 @@ export class WeeklyReport implements OnInit {
     if (!sw) return [];
     return [
       {
-        label: "Worked",
+        label: "WEEKLY_REPORT.SUMMARY.WORKED",
         value: this.fmtMins(sw.totalWorkedMinutes),
         color: this.chartColors.workedBlue,
       },
       {
-        label: "Target",
+        label: "WEEKLY_REPORT.SUMMARY.TARGET",
         value: this.fmtMins(sw.totalTargetMinutes),
         color: "var(--text-color)",
       },
       {
-        label: "Missing",
+        label: "WEEKLY_REPORT.SUMMARY.MISSING",
         value: this.fmtMins(sw.missingMinutes ?? 0),
         color: "var(--text-warning)",
       },
       {
-        label: "Overtime",
+        label: "WEEKLY_REPORT.SUMMARY.OVERTIME",
         value: this.fmtMins(sw.overtimeMinutes ?? 0),
         color: this.chartColors.workedGreen,
       },

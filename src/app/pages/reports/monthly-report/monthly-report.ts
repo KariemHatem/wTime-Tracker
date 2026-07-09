@@ -16,10 +16,10 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UIChart } from "primeng/chart";
 import { Summary } from "src/app/shared/model";
 import { SummaryCards } from "src/app/shared/summary-cards/summary-cards";
-
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-monthly-report",
-  imports: [UIChart, SummaryCards],
+  imports: [UIChart, SummaryCards, TranslatePipe],
   templateUrl: "./monthly-report.html",
   styleUrl: "./monthly-report.scss",
 })
@@ -74,22 +74,22 @@ export class MonthlyReport implements OnInit {
     if (!sm) return [];
     return [
       {
-        label: "Total Worked",
+        label: "MONTHLY_REPORT.SUMMARY.TOTAL_WORKED",
         value: this.fmtMins(sm.totalWorkedMinutes),
         color: this.chartColors.workedBlue,
       },
       {
-        label: "Target",
+        label: "MONTHLY_REPORT.SUMMARY.TARGET",
         value: this.fmtMins(sm.totalTargetMinutes),
         color: "var(--text-color)",
       },
       {
-        label: "Overtime",
+        label: "MONTHLY_REPORT.SUMMARY.OVERTIME",
         value: this.fmtMins(sm.overtimeMinutes ?? 0),
         color: this.chartColors.workedGreen,
       },
       {
-        label: "Productivity",
+        label: "MONTHLY_REPORT.SUMMARY.PRODUCTIVITY",
         value: `${(sm.productivityPercent ?? 0).toFixed(0)}%`,
         color: "#a78bfa",
       },
