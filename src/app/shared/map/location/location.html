@@ -4,14 +4,14 @@
   <div class="location-info__row d-flex align-items-center gap-2">
     <!-- City -->
     <i class="pi pi-building"></i>
-    <span class="location-info__label fw-semibold text-uppercase">City :</span>
+    <span class="location-info__label fw-semibold text-uppercase">{{ 'ACTIVITY.CITY' | translate}} :</span>
     <span class="location-info__value fw-normal">{{ city() }}</span>
   </div>
   <div class="location-info__row d-flex align-items-center gap-2">
     <!-- Country -->
     <i class="pi pi-flag"></i>
     <span class="location-info__label fw-semibold text-uppercase"
-      >Country :</span
+      >{{ 'ACTIVITY.COUNTRY' | translate}} :</span
     >
     <span class="location-info__value fw-normal">{{ country() }}</span>
   </div>
@@ -21,7 +21,7 @@
     <!-- Address -->
     <i class="pi pi-map-marker"></i>
     <span class="location-info__label fw-semibold text-uppercase"
-      >Address :</span
+      >{{ 'ACTIVITY.ADDRESS' | translate}} :</span
     >
     <span class="location-info__value fw-normal">{{ address() }}</span>
   </div>

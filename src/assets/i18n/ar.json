@@ -36,8 +36,13 @@
       "LOGIN_TIME": "وقت تسجيل الدخول",
       "LOGOUT_TIME": "وقت تسجيل الخروج",
       "IP_ADDRESS": "عنوان IP",
-      "DEVICE_BROWSER": "الجهاز / المتصفح"
-    }
+      "DEVICE_BROWSER": "الجهاز / المتصفح",
+      "LOGIN_LOCATION": "موقع تسجيل دخول المستخدم"
+    },
+    "CURRENT_LOCATION": "الموقع الحالي",
+    "CITY": "المدينة",
+    "COUNTRY": "الدولة",
+    "ADDRESS": "العنوان"
   },
   "ANALYTICS": {
     "TITLE": "التحليلات",

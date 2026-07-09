@@ -37,8 +37,14 @@
       "LOGIN_TIME": "Login Time",
       "LOGOUT_TIME": "Logout Time",
       "IP_ADDRESS": "IP Address",
-      "DEVICE_BROWSER": "Device / Browser"
-    }
+      "DEVICE_BROWSER": "Device / Browser",
+      "LOGIN_LOCATION": "User Login Location"
+    },
+
+    "CURRENT_LOCATION": "Current Location",
+    "CITY": "City",
+    "COUNTRY": "Country",
+    "ADDRESS": "Address"
   },
 
   "ANALYTICS": {

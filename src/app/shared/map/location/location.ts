@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   input,
 } from "@angular/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import * as L from "leaflet";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -18,7 +19,7 @@ L.Icon.Default.mergeOptions({
 
 @Component({
   selector: "app-location",
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: "./location.html",
   styleUrl: "./location.scss",
 })

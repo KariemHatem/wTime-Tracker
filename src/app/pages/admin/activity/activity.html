@@ -22,7 +22,7 @@
           <th>{{'ACTIVITY.TABLE.LOGOUT_TIME' | translate}}</th>
           <th>{{'ACTIVITY.TABLE.IP_ADDRESS' | translate}}</th>
           <th>{{'ACTIVITY.TABLE.DEVICE_BROWSER' | translate}}</th>
-          <th>Location</th>
+          <th>{{'ACTIVITY.TABLE.LOGIN_LOCATION' | translate}}</th>
         </tr>
       </ng-template>
       <ng-template #body let-a>
@@ -73,7 +73,7 @@
 </div>
 
 <p-dialog
-  header="Location"
+  [header]="'ACTIVITY.CURRENT_LOCATION' | translate"
   [modal]="true"
   [closable]="true"
   [style]="{width:'850px'}"
