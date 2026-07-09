@@ -186,7 +186,7 @@
       }
     }
   },
-   "DASHBOARD": {
+  "DASHBOARD": {
     "TITLE": "Dashboard",
     "WORKED_TODAY": "Worked Today",
     "GOAL_COMPLETION": "Goal Completion",
@@ -213,5 +213,13 @@
       "DURATION": "Duration",
       "DATE": "Date"
     }
+  },
+  "LOGIN": {
+    "SUBTITLE": "Sign in to your workspace",
+    "EMAIL": "Email address",
+    "EMAIL_PLACEHOLDER": "you@company.com",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "SIGN_IN": "Sign in"
   }
 }

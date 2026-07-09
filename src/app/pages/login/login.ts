@@ -14,6 +14,7 @@ import { MessageModule } from "primeng/message";
 import { AuthService } from "../../services/auth/auth.service";
 import { Toater } from "src/app/services/toater";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-login",
@@ -25,6 +26,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     InputTextModule,
     PasswordModule,
     MessageModule,
+    TranslatePipe,
   ],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
           this.performLogin(pos.coords.latitude, pos.coords.longitude);
         },
         (err) => {
-          console.warn("Location permission denied or failed:", err.message);
+          this.toastServices.errorToaster(err.message);
           this.performLogin(null, null);
         },
         { timeout: 5000, enableHighAccuracy: true },

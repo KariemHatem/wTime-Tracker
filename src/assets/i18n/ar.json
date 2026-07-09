@@ -211,5 +211,13 @@
       "DURATION": "المدة",
       "DATE": "التاريخ"
     }
+  },
+  "LOGIN": {
+    "SUBTITLE": "سجّل الدخول إلى مساحة العمل الخاصة بك",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "you@company.com",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "SIGN_IN": "تسجيل الدخول"
   }
 }

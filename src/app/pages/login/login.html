@@ -3,18 +3,18 @@
     <div class="login-logo">
       <i class="pi pi-clock"></i>
       <h1>WorkTracker</h1>
-      <p>Sign in to your workspace</p>
+      <p>{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="field">
-        <label for="email">Email address</label>
+        <label for="email">{{ 'LOGIN.EMAIL' | translate }}</label>
         <input
           id="email"
           type="email"
           pInputText
           formControlName="email"
-          placeholder="you@company.com"
+          [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
           class="w-100"
           [class.ng-invalid]="
                 form.get('email')?.invalid && form.get('email')?.touched
@@ -22,7 +22,7 @@
         />
       </div>
       <div class="field">
-        <label for="password">Password</label>
+        <label for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <p-password
           id="password"
           formControlName="password"
@@ -30,7 +30,7 @@
           [toggleMask]="true"
           styleClass="w-100"
           inputStyleClass="w-100"
-          placeholder="Enter your password"
+          [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
         />
       </div>
       @if(error()){
@@ -38,7 +38,7 @@
       }
       <p-button
         type="submit"
-        label="Sign in"
+        [label]="'LOGIN.SIGN_IN' | translate"
         styleClass="w-100"
         class="d-flex align-items-center justify-content-center"
         [loading]="loading()"
