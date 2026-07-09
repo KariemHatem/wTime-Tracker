@@ -262,5 +262,22 @@
       "MISSING": "Missing",
       "OVERTIME": "Overtime"
     }
+  },
+  "SESSIONS": {
+    "TITLE": "Sessions",
+    "SUBTITLE": "Your work session history",
+    "FROM": "From",
+    "TO": "To",
+    "SUMMARY": {
+      "SESSIONS": "sessions",
+      "TOTAL": "total"
+    },
+    "TABLE": {
+      "EMPTY": "No sessions found for this period.",
+      "START": "Start",
+      "END": "End",
+      "DURATION": "Duration",
+      "DATE": "Date"
+    }
   }
 }

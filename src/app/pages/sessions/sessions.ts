@@ -18,7 +18,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { formatMinutes } from "src/app/shared/utils/date-time.util";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
-
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-sessions",
   standalone: true,
@@ -32,6 +32,7 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     TagModule,
     HeaderSection,
     DataTable,
+    TranslatePipe,
   ],
   templateUrl: "./sessions.html",
   styleUrl: "./sessions.scss",
