@@ -25,7 +25,7 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { Badge } from "src/app/shared/badge/badge";
 import { TranslatePipe } from "@ngx-translate/core";
-
+import { LanguageService } from "src/app/services/language-service";
 @Component({
   selector: "app-admin-users",
   standalone: true,
@@ -56,6 +56,7 @@ export class AdminUsersComponent implements OnInit {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private confirm = inject(ConfirmationService);
+  private lang = inject(LanguageService);
 
   // Data
   users = signal<User[]>([]);
@@ -174,7 +175,7 @@ export class AdminUsersComponent implements OnInit {
             .subscribe();
         }
         this.toasterServices.succesToaster(
-          id ? "User edited successfully." : "User created successfully.",
+          this.lang.translate(id ? "TOAST.UPDATED" : "TOAST.CREATED"),
         );
       },
       error: () => {
@@ -185,16 +186,23 @@ export class AdminUsersComponent implements OnInit {
 
   // Delete Confirmation
   confirmDelete(u: User): void {
+    const isEn = this.lang.lang() === "en";
     this.confirm.confirm({
-      message: `Delete ${u.fullName}! Are You Sure To Delete this user?`,
-      header: "Delete User",
+      message: isEn
+        ? "Are you sure you want to delete this user?"
+        : "هل أنت متأكد من حذف هذا المستخدم؟",
+      header: isEn ? "Delete User" : "حذف المستخدم",
       icon: "pi pi-exclamation-triangle",
       acceptButtonStyleClass: "p-button-danger",
+      acceptLabel: this.lang.translate("DIALOG.COMMON.YES"),
+      rejectLabel: this.lang.translate("DIALOG.COMMON.NO"),
       accept: () =>
         this.usersServices.deleteUser(u.id).subscribe({
           next: () => {
             this.load();
-            this.toasterServices.warToaster("User Deleted Successfully.");
+            this.toasterServices.warToaster(
+              this.lang.translate("TOAST.DELETED"),
+            );
           },
         }),
     });

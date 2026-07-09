@@ -29,6 +29,7 @@ import {
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
+import { LanguageService } from "src/app/services/language-service";
 
 @Component({
   selector: "app-dashboard",
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private api = inject(ApiService);
   public auth = inject(AuthService);
   private toastServices = inject(Toater);
+  private lang = inject(LanguageService);
   private destroyref = inject(DestroyRef);
   private timerSub?: Subscription;
 
@@ -167,11 +169,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.stopTimer();
           this.actionLoading.set(false);
           this.loadAll();
-          this.toastServices.infoToaster("Session Stopped.");
+          this.toastServices.infoToaster(
+            this.lang.translate("TOAST.SESSION_STOPPED"),
+          );
         },
         error: () => {
           this.actionLoading.set(false);
-          this.toastServices.errorToaster("Could not stop session.");
+          this.toastServices.errorToaster(
+            this.lang.translate("TOAST.SESSION_ERROR"),
+          );
         },
       });
   }
@@ -187,11 +193,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.startTimer(s.startTime);
           this.actionLoading.set(false);
           this.loadAll();
-          this.toastServices.infoToaster("Session started.");
+          this.toastServices.infoToaster(
+            this.lang.translate("TOAST.SESSION_STARTED"),
+          );
         },
         error: () => {
           this.actionLoading.set(false);
-          this.toastServices.errorToaster("Could not start session.");
+          this.toastServices.errorToaster(
+            this.lang.translate("TOAST.SESSION_ERROR_START"),
+          );
         },
       });
   }

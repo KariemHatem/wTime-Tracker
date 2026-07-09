@@ -3,10 +3,12 @@ import { catchError, throwError } from "rxjs";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
 import { Toater } from "../services/toater";
+import { LanguageService } from "../services/language-service";
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastServices = inject(Toater);
+  const lang = inject(LanguageService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -17,7 +19,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         // Server-side error
         switch (error.status) {
           case 400:
-            toastServices.errorToaster("Bad Request.");
+            toastServices.errorToaster(
+              lang.translate("TOAST.ERRORS.BAD_REQUEST"),
+            );
             break;
           case 401:
             const hadToken = localStorage.getItem("wt_token") !== null;
@@ -25,23 +29,23 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             localStorage.removeItem("wt_user");
             toastServices.errorToaster(
               hadToken
-                ? "Your session has expired. Please log in again."
-                : "Unauthorized! Please log in again.",
+                ? lang.translate("TOAST.ERRORS.SESSION_EXPIRED")
+                : lang.translate("TOAST.ERRORS.UNAUTHORIZED"),
             );
 
             router.navigate(["/login"]);
             break;
           case 403:
-            toastServices.errorToaster(
-              "Forbidden! You do not have permission.",
-            );
+            lang.translate("TOAST.ERRORS.FORBIDDEN");
             break;
           case 404:
-            toastServices.errorToaster("Resource not found.");
+            toastServices.errorToaster(
+              lang.translate("TOAST.ERRORS.NOT_FOUND"),
+            );
             break;
           case 500:
             toastServices.errorToaster(
-              "Internal Server Error! Try again later.",
+              lang.translate("TOAST.ERRORS.SERVER_ERROR"),
             );
             break;
           default:

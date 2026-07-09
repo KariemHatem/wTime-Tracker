@@ -307,5 +307,28 @@
     "EMPLOYEE": "Employee",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive"
+  },
+  "TOAST": {
+    "CREATED": "User Created Successfully.",
+    "UPDATED": "User Updated Successfully.",
+    "DELETED": "User Deleted Successfully.",
+    "SESSION_STARTED": "Session Started Successfully.",
+    "SESSION_STOPPED": "Session Stopped .",
+    "SESSION_ERROR": "Could Not Stop Session.",
+    "SESSION_ERROR_START": "Could Not Start Session.",
+    "ERRORS": {
+      "BAD_REQUEST": "Bad Request.",
+      "SESSION_EXPIRED": "Your session has expired. Please log in again.",
+      "UNAUTHORIZED": "Unauthorized! Please log in again.",
+      "FORBIDDEN": "Forbidden! You do not have permission.",
+      "NOT_FOUND": "Resource not found.",
+      "SERVER_ERROR": "Internal Server Error! Try again later."
+    }
+  },
+  "DIALOG": {
+    "COMMON": {
+      "YES": "Yes",
+      "NO": "No"
+    }
   }
 }
