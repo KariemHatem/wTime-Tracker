@@ -1,10 +1,11 @@
 import { Component, inject } from "@angular/core";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { DatePipe } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-user-info",
-  imports: [DatePipe],
+  imports: [DatePipe, TranslatePipe],
   templateUrl: "./user-info.html",
   styleUrl: "./user-info.scss",
 })

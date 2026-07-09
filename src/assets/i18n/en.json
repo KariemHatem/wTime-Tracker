@@ -297,5 +297,15 @@
     "ERRORS": {
       "PASSWORDS_DO_NOT_MATCH": "Passwords do not match."
     }
+  },
+  "ACCOUNT_INFO": {
+    "TITLE": "Account Info",
+    "ROLE": "Role",
+    "MEMBER_SINCE": "Member since",
+    "STATUS": "Status",
+    "ADMIN": "Admin",
+    "EMPLOYEE": "Employee",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
   }
 }

@@ -1,19 +1,28 @@
 <div class="wt-card mt-4">
-  <h6 class="fw-semibold">Account Info</h6>
+  <h6 class="fw-semibold">{{ 'ACCOUNT_INFO.TITLE' | translate }}</h6>
   <div class="d-flex justify-content-between mb-2 role">
-    <span class="text-muted">Role</span>
-    <span class="role-info">{{ user?.isAdmin ? "Admin" : "Employee" }}</span>
+    <span class="text-muted">{{ 'ACCOUNT_INFO.ROLE' | translate }}</span>
+    <span class="role-info"
+      >{{ (user?.isAdmin ? 'ACCOUNT_INFO.ADMIN' : 'ACCOUNT_INFO.EMPLOYEE') |
+      translate }}</span
+    >
   </div>
   <div class="d-flex justify-content-between mb-2 role">
-    <span class="text-muted">Member since</span>
+    <span class="text-muted"
+      >{{ 'ACCOUNT_INFO.MEMBER_SINCE' | translate }}</span
+    >
     <span>{{ user?.createdAt | date: "MMM d, h:mm a" }}</span>
   </div>
   <div class="d-flex justify-content-between role">
-    <span class="text-muted">Status</span>
+    <span class="text-muted">{{ 'ACCOUNT_INFO.STATUS' | translate }}</span>
     @if(user?.isActive){
-    <span class="text-success fw-bold">Active</span>
+    <span class="text-success fw-bold">
+      {{ 'ACCOUNT_INFO.ACTIVE' | translate }}
+    </span>
     } @else{
-    <span class="text-warning">Inactive</span>
+    <span class="text-warning">
+      {{ 'ACCOUNT_INFO.INACTIVE' | translate }}
+    </span>
     }
   </div>
 </div>
