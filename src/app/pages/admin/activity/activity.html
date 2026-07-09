@@ -49,7 +49,7 @@
           </td>
           <td class="font-mono table-address">{{ a.ipAddress || '—' }}</td>
           <td class="table-address">
-            <div class="d-flex align-items-center gap-1">
+            <div class="d-flex align-items-center justify-content-center gap-1">
               <i [class]="deviceIcon(a.device)" class="mx-2"></i>
               {{ deviceLabel(a) }} / {{ browserLabel(a) }}
             </div>
@@ -85,6 +85,7 @@
   <app-location
     [latitude]="sel.latitude !== undefined ? sel.latitude : 0"
     [longitude]="sel.longitude !== undefined ? sel.longitude : 0"
+    [address]="sel.address"
     [city]="sel.city"
     [country]="sel.country"
   ></app-location>

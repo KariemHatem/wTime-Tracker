@@ -13,4 +13,5 @@ export interface ActivityModel {
   longitude?: number;
   city?: string;
   country?: string;
+  address?: string;
 }

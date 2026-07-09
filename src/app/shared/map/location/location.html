@@ -1,2 +1,28 @@
-<p class="location-label">{{ city() }}, {{ country() }}</p>
 <div #mapContainer class="location-container"></div>
+<!-- Location info -->
+<div class="location-info d-flex flex-column gap-2">
+  <div class="location-info__row d-flex align-items-center gap-2">
+    <!-- City -->
+    <i class="pi pi-building"></i>
+    <span class="location-info__label fw-semibold text-uppercase">City :</span>
+    <span class="location-info__value fw-normal">{{ city() }}</span>
+  </div>
+  <div class="location-info__row d-flex align-items-center gap-2">
+    <!-- Country -->
+    <i class="pi pi-flag"></i>
+    <span class="location-info__label fw-semibold text-uppercase"
+      >Country :</span
+    >
+    <span class="location-info__value fw-normal">{{ country() }}</span>
+  </div>
+  <div
+    class="location-info__row d-flex align-items-center gap-2 location-info__row--address"
+  >
+    <!-- Address -->
+    <i class="pi pi-map-marker"></i>
+    <span class="location-info__label fw-semibold text-uppercase"
+      >Address :</span
+    >
+    <span class="location-info__value fw-normal">{{ address() }}</span>
+  </div>
+</div>

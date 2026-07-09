@@ -27,6 +27,7 @@ export class Location implements OnChanges, AfterViewInit {
   longitude = input<number>(0);
   city = input<string | null>();
   country = input<string | null>();
+  address = input<string | null>();
 
   @ViewChild("mapContainer") mapContainer!: ElementRef;
   private map?: L.Map;

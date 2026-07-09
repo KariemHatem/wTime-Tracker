@@ -1,12 +1,48 @@
-.location-label {
-  font-size: 18px;
-  color: var(--primary-color);
-  margin: 9px 0 12px;
-  text-align: center;
-  font-weight: 600;
-}
 .location-container {
   height: 320px;
   border-radius: 8px;
   overflow: hidden;
+}
+
+.location-info {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--surface-ground);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+
+  &__row {
+    font-size: 13px;
+    line-height: 1.5;
+
+    i {
+      font-size: 13px;
+      color: var(--text-color-secondary);
+      flex-shrink: 0;
+      width: 14px;
+      text-align: center;
+    }
+  }
+
+  &__label {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--text-color-secondary);
+    flex-shrink: 0;
+    min-width: 52px;
+  }
+
+  &__value {
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  &__row--address {
+    padding-top: 10px;
+    border-top: 1px solid var(--card-border);
+
+    .location-info__value {
+      color: var(--text-color-secondary);
+    }
+  }
 }
