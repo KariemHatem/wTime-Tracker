@@ -1,36 +1,94 @@
-import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
-import { adminGuard } from './guards/admin.guard';
-import { LayoutComponent } from './shared/layout/layout';
+import { Routes } from "@angular/router";
+import { authGuard } from "./guards/auth.guard";
+import { adminGuard } from "./guards/admin.guard";
+import { LayoutComponent } from "./shared/layout/layout";
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
   {
-    path: 'login',
-    loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent),
+    path: "login",
+    loadComponent: () =>
+      import("./pages/login/login").then((m) => m.LoginComponent),
   },
   {
-    path: '',
+    path: "",
     component: LayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.DashboardComponent) },
-      { path: 'sessions',  loadComponent: () => import('./pages/sessions/sessions').then(m => m.SessionsComponent) },
-      { path: 'reports',   loadComponent: () => import('./pages/reports/reports').then(m => m.ReportsComponent) },
-      { path: 'settings',  loadComponent: () => import('./pages/settings/settings').then(m => m.SettingsComponent) },
       {
-        path: 'admin',
+        path: "dashboard",
+        loadComponent: () =>
+          import("./pages/dashboard/dashboard").then(
+            (m) => m.DashboardComponent,
+          ),
+        title: "Dashboard",
+      },
+      {
+        path: "sessions",
+        loadComponent: () =>
+          import("./pages/sessions/sessions").then((m) => m.SessionsComponent),
+        title: "Sessions",
+      },
+      {
+        path: "reports",
+        loadComponent: () =>
+          import("./pages/reports/reports").then((m) => m.ReportsComponent),
+        title: "Reports",
+      },
+      {
+        path: "settings",
+        loadComponent: () =>
+          import("./pages/settings/settings").then((m) => m.SettingsComponent),
+        title: "Settings",
+      },
+      {
+        path: "admin",
         canActivate: [adminGuard],
         children: [
-          { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'overview',  loadComponent: () => import('./pages/admin/overview/overview').then(m => m.AdminOverviewComponent) },
-          { path: 'users',     loadComponent: () => import('./pages/admin/users/users').then(m => m.AdminUsersComponent) },
-          { path: 'reports',   loadComponent: () => import('./pages/admin/reports/admin-reports').then(m => m.AdminReportsComponent) },
-          { path: 'activity',  loadComponent: () => import('./pages/admin/activity/activity').then(m => m.AdminActivityComponent) },
-          { path: 'analytics', loadComponent: () => import('./pages/admin/analytics/analytics').then(m => m.AdminAnalyticsComponent) },
+          { path: "", redirectTo: "overview", pathMatch: "full" },
+          {
+            path: "overview",
+            loadComponent: () =>
+              import("./pages/admin/overview/overview").then(
+                (m) => m.AdminOverviewComponent,
+              ),
+            title: "Overview",
+          },
+          {
+            path: "users",
+            loadComponent: () =>
+              import("./pages/admin/users/users").then(
+                (m) => m.AdminUsersComponent,
+              ),
+            title: "Users",
+          },
+          {
+            path: "reports",
+            loadComponent: () =>
+              import("./pages/admin/reports/admin-reports").then(
+                (m) => m.AdminReportsComponent,
+              ),
+            title: "Admin Reports",
+          },
+          {
+            path: "activity",
+            loadComponent: () =>
+              import("./pages/admin/activity/activity").then(
+                (m) => m.AdminActivityComponent,
+              ),
+            title: "Activity",
+          },
+          {
+            path: "analytics",
+            loadComponent: () =>
+              import("./pages/admin/analytics/analytics").then(
+                (m) => m.AdminAnalyticsComponent,
+              ),
+            title: "Analytics",
+          },
         ],
       },
     ],
   },
-  { path: '**', redirectTo: '/dashboard' },
+  { path: "**", redirectTo: "/dashboard" },
 ];
