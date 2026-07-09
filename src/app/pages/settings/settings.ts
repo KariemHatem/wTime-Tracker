@@ -20,7 +20,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Toater } from "src/app/services/toater";
 import { UserInfo } from "./user-info/user-info";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
-
+import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-settings",
   standalone: true,
@@ -34,8 +34,9 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
     CheckboxModule,
     ToastModule,
     UserInfo,
-    HeaderSection
-],
+    HeaderSection,
+    TranslatePipe,
+  ],
   providers: [MessageService],
   templateUrl: "./settings.html",
   styleUrl: "./settings.scss",
@@ -131,7 +132,7 @@ export class SettingsComponent implements OnInit {
     const { currentPassword, newPassword, confirmPassword } =
       this.passwordForm.value;
     if (newPassword !== confirmPassword) {
-      this.passwordError.set("Passwords do not match.");
+      this.passwordError.set("SETTINGS.ERRORS.PASSWORDS_DO_NOT_MATCH");
       return;
     }
     this.savingPassword.set(true);

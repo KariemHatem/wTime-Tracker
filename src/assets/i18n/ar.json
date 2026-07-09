@@ -277,5 +277,23 @@
       "DURATION": "المدة",
       "DATE": "التاريخ"
     }
+  },
+  "SETTINGS": {
+    "TITLE": "الإعدادات",
+    "SUBTITLE": "إدارة ملفك الشخصي وتفضيلاتك",
+    "PROFILE": "الملف الشخصي",
+    "FULL_NAME": "الاسم الكامل",
+    "EMAIL": "البريد الإلكتروني",
+    "DAILY_TARGET": "الهدف اليومي (ساعات)",
+    "WORKING_DAYS": "أيام العمل",
+    "SAVE_PROFILE": "حفظ الملف الشخصي",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "CURRENT_PASSWORD": "كلمة المرور الحالية",
+    "NEW_PASSWORD": "كلمة المرور الجديدة",
+    "CONFIRM_NEW_PASSWORD": "تأكيد كلمة المرور الجديدة",
+    "UPDATE_PASSWORD": "تحديث كلمة المرور",
+    "ERRORS": {
+      "PASSWORDS_DO_NOT_MATCH": "كلمتا المرور غير متطابقتين."
+    }
   }
 }

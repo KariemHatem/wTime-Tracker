@@ -279,5 +279,23 @@
       "DURATION": "Duration",
       "DATE": "Date"
     }
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "SUBTITLE": "Manage your profile and preferences",
+    "PROFILE": "Profile",
+    "FULL_NAME": "Full Name",
+    "EMAIL": "Email",
+    "DAILY_TARGET": "Daily Target (hours)",
+    "WORKING_DAYS": "Working Days",
+    "SAVE_PROFILE": "Save Profile",
+    "CHANGE_PASSWORD": "Change Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+    "UPDATE_PASSWORD": "Update Password",
+    "ERRORS": {
+      "PASSWORDS_DO_NOT_MATCH": "Passwords do not match."
+    }
   }
 }

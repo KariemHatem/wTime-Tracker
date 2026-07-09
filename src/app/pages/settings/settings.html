@@ -1,8 +1,9 @@
 <!-- Page Header -->
 <app-header-section
-  title="Settings"
-  subtitle="Manage your profile and preferences"
-></app-header-section>
+  [title]="'SETTINGS.TITLE' | translate"
+  [subtitle]="'SETTINGS.SUBTITLE' | translate"
+>
+</app-header-section>
 
 <!-- Page Body -->
 <div class="page-body">
@@ -10,14 +11,18 @@
     <!-- Profile -->
     <div class="col-12 col-lg-6">
       <div class="wt-card">
-        <h6 class="fw-semibold">Profile</h6>
+        <h6 class="fw-semibold">{{ 'SETTINGS.PROFILE' | translate }}</h6>
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block">Full Name</label>
+            <label class="text-muted mb-1 d-block"
+              >{{ 'SETTINGS.FULL_NAME' | translate }}</label
+            >
             <input pInputText formControlName="fullName" class="w-100" />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block">Email</label>
+            <label class="text-muted mb-1 d-block">
+              {{ 'SETTINGS.EMAIL' | translate }}</label
+            >
             <input
               pInputText
               type="email"
@@ -26,7 +31,9 @@
             />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block">Daily Target (hours)</label>
+            <label class="text-muted mb-1 d-block"
+              >{{ 'SETTINGS.DAILY_TARGET' | translate }}</label
+            >
             <p-inputNumber
               formControlName="targetHoursPerDay"
               [min]="1"
@@ -37,7 +44,9 @@
             />
           </div>
           <div class="field mb-4">
-            <label class="text-muted mb-2 d-block">Working Days</label>
+            <label class="text-muted mb-2 d-block"
+              >{{ 'SETTINGS.WORKING_DAYS' | translate }}</label
+            >
             <div class="d-flex gap-2 flex-wrap">
               <button
                 *ngFor="let d of days"
@@ -56,7 +65,7 @@
           </div>
           <p-button
             type="submit"
-            label="Save Profile"
+            [label]="'SETTINGS.SAVE_PROFILE' | translate"
             [loading]="savingProfile()"
           />
         </form>
@@ -66,10 +75,12 @@
     <!-- Password -->
     <div class="col-12 col-lg-6">
       <div class="wt-card">
-        <h6>Change Password</h6>
+        <h6>{{ 'SETTINGS.CHANGE_PASSWORD' | translate }}</h6>
         <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block">Current Password</label>
+            <label class="text-muted mb-1 d-block"
+              >{{ 'SETTINGS.CURRENT_PASSWORD' | translate }}</label
+            >
             <p-password
               formControlName="currentPassword"
               [feedback]="false"
@@ -79,7 +90,9 @@
             />
           </div>
           <div class="field mb-3">
-            <label class="text-muted mb-1 d-block">New Password</label>
+            <label class="text-muted mb-1 d-block">
+              {{ 'SETTINGS.NEW_PASSWORD' | translate }}</label
+            >
             <p-password
               formControlName="newPassword"
               [toggleMask]="true"
@@ -88,7 +101,9 @@
             />
           </div>
           <div class="field mb-4">
-            <label class="text-muted mb-1 d-block">Confirm New Password</label>
+            <label class="text-muted mb-1 d-block"
+              >{{ 'SETTINGS.CONFIRM_NEW_PASSWORD' | translate }}</label
+            >
             <p-password
               formControlName="confirmPassword"
               [feedback]="false"
@@ -98,7 +113,7 @@
             />
           </div>
           @if(passwordError()){
-          <div  class="err">{{ passwordError() }}</div>
+          <div class="err">{{ passwordError() | translate }}</div>
           }
           <p-button
             type="submit"
