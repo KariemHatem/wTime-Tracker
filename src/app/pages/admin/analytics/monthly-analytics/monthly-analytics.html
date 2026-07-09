@@ -59,16 +59,26 @@
       </ng-template>
       <ng-template #body let-w>
         <tr>
-          <td><strong>Week {{ w.weekNumber }}</strong></td>
           <td>
-            <strong>{{ (w.workedMinutes/60).toFixed(1) }}h</strong>
+            <strong class="text-primary-color">Week {{ w.weekNumber }}</strong>
           </td>
-          <td class="text-muted">{{ (w.targetMinutes/60).toFixed(1) }}h</td>
+          <td>
+            <strong class="text-warning"
+              >{{ (w.workedMinutes/60).toFixed(1) }}h</strong
+            >
+          </td>
+          <td>
+            <span class="text-primary-color fw-bold"
+              >{{ (w.targetMinutes/60).toFixed(1) }}h</span
+            >
+          </td>
           <td
             [style.color]="(w.workedMinutes-w.targetMinutes)>=0?'#22c55e':'#f59e0b'"
           >
-            {{ (w.workedMinutes-w.targetMinutes) >= 0 ? '+' : '' }}{{
-            ((w.workedMinutes-w.targetMinutes)/60).toFixed(1) }}h
+            <span class="text-danger fw-bold"
+              >{{ (w.workedMinutes-w.targetMinutes) >= 0 ? '+' : '' }}{{
+              ((w.workedMinutes-w.targetMinutes)/60).toFixed(1) }}h</span
+            >
           </td>
         </tr>
       </ng-template>

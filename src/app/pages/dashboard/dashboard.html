@@ -181,12 +181,22 @@
       </ng-template>
       <ng-template #body let-s>
         <tr>
-          <td class="font-mono">{{ s.startTime | date:'hh:mm:ss a' }}</td>
-          <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date:'hh:mm:ss a') : '—' }}
+          <td>
+            <span class="fw-semibold text-success fs-6"
+              >{{ s.startTime | date:'hh:mm:ss a' }}</span
+            >
           </td>
-          <td><strong>{{ fmtMins(s.totalMinutes) }}</strong></td>
-          <td class="font-mono">{{ s.date }}</td>
+          <td>
+            <span class="fw-semibold text-danger fs-6"
+              >{{ s.endTime | date:'hh:mm:ss a' }}</span
+            >
+          </td>
+          <td>
+            <strong class="text-warning">{{ fmtMins(s.totalMinutes) }}</strong>
+          </td>
+          <td>
+            <span class="fw-semibold text-secondary fs-6">{{ s.date }}</span>
+          </td>
         </tr>
       </ng-template>
     </app-data-table>

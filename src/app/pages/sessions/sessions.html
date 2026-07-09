@@ -71,14 +71,24 @@
       </ng-template>
       <ng-template #body let-s>
         <tr>
-          <td class="font-mono">{{ s.startTime | date: "MMM d, h:mm a" }}</td>
-          <td class="font-mono">
-            {{ s.endTime ? (s.endTime | date: "MMM d, h:mm a") : "—" }}
+          <td>
+            <span class="fw-semibold text-success fs-6"
+              >{{ s.startTime | date: "MMM d, h:mm a" }}</span
+            >
           </td>
           <td>
-            <strong>{{ fmtMins(s.totalMinutes) }}</strong>
+            <span class="fw-semibold text-danger fs-6"
+              >{{ s.endTime ? (s.endTime | date: "MMM d, h:mm a") : "—" }}</span
+            >
           </td>
-          <td class="font-mono">{{ s.date | date: 'EEEE, MMMM d, y' }}</td>
+          <td>
+            <strong class="text-warning">{{ fmtMins(s.totalMinutes) }}</strong>
+          </td>
+          <td>
+            <span class="fw-semibold text-secondary fs-6"
+              >{{ s.date | date: 'EEEE, MMMM d, y' }}</span
+            >
+          </td>
         </tr>
       </ng-template>
     </app-data-table>

@@ -37,7 +37,7 @@
       <ng-template #body let-u>
         <tr>
           <td>
-            <div class="fw-semibold">{{ u.fullName }}</div>
+            <div class="fw-bold text-primary-color">{{ u.fullName }}</div>
             <div class="e-text">{{ u.email }}</div>
           </td>
           <td>
@@ -51,11 +51,21 @@
           </td>
 
           <td>
-            {{ u.targetHoursPerDay }} {{ 'USERS.FORM.TARGET_SUFFIX' | translate
-            }}
+            <span class="fw-semibold text-warning fs-6">
+              {{ u.targetHoursPerDay }} {{ 'USERS.FORM.TARGET_SUFFIX' |
+              translate }}</span
+            >
           </td>
-          <td class="d-labels">{{ dayLabels(u.workingDays) }}</td>
-          <td>{{ u.createdAt | date:'MMM d, y, h:mm:ss a' }}</td>
+          <td class="d-labels">
+            <span class="fw-bold text-primary-color"
+              >{{ dayLabels(u.workingDays) }}</span
+            >
+          </td>
+          <td>
+            <span class="fw-semibold text-secondary fs-6"
+              >{{ u.createdAt | date:'MMM d, y, h:mm:ss a' }}</span
+            >
+          </td>
           <td>
             <p-button
               icon="pi pi-pencil"

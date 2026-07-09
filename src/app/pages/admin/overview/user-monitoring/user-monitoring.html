@@ -27,7 +27,7 @@
     <ng-template #body let-u>
       <tr>
         <td>
-          <div class="fw-medium">{{ u.fullName }}</div>
+          <div class="fw-bold text-primary-color">{{ u.fullName }}</div>
           <div class="content">{{ u.email }}</div>
         </td>
         <!-- <td>
@@ -36,17 +36,22 @@
           </span>
         </td> -->
         <td class="login-content">
-          {{ u.lastLogin ? (u.lastLogin | date:'MMM d, hh:mm a') : '—' }}
+          <span class="fw-semibold text-danger fs-6">
+            {{ u.lastLogin ? (u.lastLogin | date:'MMM d, hh:mm a') : '—'
+            }}</span
+          >
         </td>
         <td>
-          <strong
+          <strong class="text-warning"
             >{{ u.hoursToday?.toFixed(1) }} {{ u.hoursToday?.toFixed(1) }}{{
             'USER_MONITORING.HOUR' | translate }}</strong
           >
         </td>
         <td class="hours-content">
-          {{ u.hoursThisWeek?.toFixed(1) }} {{ u.hoursThisWeek?.toFixed(1) }}{{
-          'USER_MONITORING.HOUR' | translate }}
+          <span class="text-primary-color fw-bold"
+            >{{ u.hoursThisWeek?.toFixed(1) }} {{ u.hoursThisWeek?.toFixed(1)
+            }}{{ 'USER_MONITORING.HOUR' | translate }}</span
+          >
         </td>
         <td>
           <span

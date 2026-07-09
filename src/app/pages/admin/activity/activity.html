@@ -28,30 +28,36 @@
       <ng-template #body let-a>
         <tr>
           <td>
-            <div class="fw-medium text-primary-color">
+            <div class="fw-bold text-primary-color">
               {{ a.userFullName || 'User ' + a.userId }}
             </div>
             <div class="table-mail">{{ a.userEmail }}</div>
           </td>
-          <td class="font-mono">
-            <span class="text-success fw-bold"
+          <td>
+            <span class="text-success fw-semibold fs-6"
               >{{ a.loginTime | date:' MMMM d, h:mm a'}}</span
             >
           </td>
-          <td class="font-mono">
+          <td>
             @if(a.logoutTime){
-            <span class="text-danger fw-bold"
+            <span class="text-danger fw-semibold fs-6"
               >{{ a.logoutTime | date:' MMMM d, h:mm a'}}</span
             >
             }@else {
             <span>—</span>
             }
           </td>
-          <td class="font-mono table-address">{{ a.ipAddress || '—' }}</td>
+          <td class="table-address">
+            <span class="fs-6 text-secondary fw-semibold"
+              >{{ a.ipAddress || '—' }}</span
+            >
+          </td>
           <td class="table-address">
             <div class="d-flex align-items-center justify-content-center gap-1">
               <i [class]="deviceIcon(a.device)" class="mx-2"></i>
-              {{ deviceLabel(a) }} / {{ browserLabel(a) }}
+              <span class="text-secondary fw-semibold"
+                >{{ deviceLabel(a) }} / {{ browserLabel(a) }}</span
+              >
             </div>
           </td>
           <td>

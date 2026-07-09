@@ -53,12 +53,18 @@
       </ng-template>
       <ng-template #body let-d>
         <tr>
-          <td><strong>{{ d.dayName }}</strong></td>
+          <td><strong class="text-primary-color">{{ d.dayName }}</strong></td>
           <td class="text-muted date">{{ fmtDay(d.date) }}</td>
           <td>
-            <strong>{{ (d.workedMinutes/60).toFixed(1) }}h</strong>
+            <strong class="text-warning"
+              >{{ (d.workedMinutes/60).toFixed(1) }}h</strong
+            >
           </td>
-          <td class="text-muted">{{ (d.targetMinutes/60).toFixed(1) }}h</td>
+          <td>
+            <span class="text-primary-color fw-bold"
+              >{{ (d.targetMinutes/60).toFixed(1) }}h</span
+            >
+          </td>
           <td>
             <div class="d-flex align-items-center justify-content-center gap-2">
               <div class="progress-bar">

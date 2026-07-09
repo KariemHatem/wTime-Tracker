@@ -42,18 +42,27 @@
     <ng-template #body let-r>
       <tr>
         <td>
-          <strong>{{ r.userFullName }}</strong>
-        </td>
-        <td class="font-mono">
-          {{ r.startTime ? (r.startTime | date: "MMM d, h:mm a") : "—" }}
-        </td>
-        <td class="font-mono">
-          {{ r.endTime ? (r.endTime | date: "MMM d, h:mm a") : "—" }}
+          <strong class="text-primary-color">{{ r.userFullName }}</strong>
         </td>
         <td>
-          <strong>{{ fmtMins(r.workedMinutes) }}</strong>
+          <span class="fw-semibold text-success fs-6">
+            {{ r.startTime ? (r.startTime | date: "MMM d, h:mm a") : "—"
+            }}</span
+          >
         </td>
-        <td class="text-muted">{{ fmtMins(r.targetMinutes) }}</td>
+        <td>
+          <span class="fw-semibold text-danger fs-6"
+            >{{ r.endTime ? (r.endTime | date: "MMM d, h:mm a") : "—" }}</span
+          >
+        </td>
+        <td>
+          <strong class="text-warning">{{ fmtMins(r.workedMinutes) }}</strong>
+        </td>
+        <td>
+          <span class="text-primary-color fw-bold"
+            >{{ fmtMins(r.targetMinutes) }}</span
+          >
+        </td>
         <td>
           <div class="d-flex align-items-center justify-content-center gap-2">
             <div class="completion-bar">
@@ -64,7 +73,7 @@
                             "
               ></div>
             </div>
-            <span class="fw-semibold"
+            <span class="fw-semibold text-success"
               >{{ (r.completionPercent ?? 0).toFixed(0) }}%</span
             >
           </div>
