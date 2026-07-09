@@ -185,5 +185,33 @@
         "PASSWORD": "Password must be at least 6 characters."
       }
     }
+  },
+   "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "WORKED_TODAY": "Worked Today",
+    "GOAL_COMPLETION": "Goal Completion",
+    "SESSIONS_TODAY": "Sessions Today",
+    "DAILY_TARGET": "Daily Target",
+    "SESSION_TIMER": "Session Timer",
+    "SESSION_IN_PROGRESS": "Session in Progress",
+    "NO_ACTIVE_SESSION": "No Active Session",
+    "START_SESSION": "Start Session",
+    "STOP_SESSION": "Stop Session",
+    "TODAYS_PROGRESS": "Today's Progress",
+    "WORKED": "worked",
+    "TARGET": "Target",
+    "GOAL_REACHED": "Goal Reached!",
+    "SESSION_STARTED_AT": "Session Started At",
+    "THIS_WEEK": "This Week",
+    "OVERTIME": "overtime",
+    "MISSING": "missing",
+    "TODAYS_SESSIONS": "Today's Sessions",
+    "NO_SESSIONS": "No sessions today. Start your first one!",
+    "TABLE": {
+      "START": "Start",
+      "END": "End",
+      "DURATION": "Duration",
+      "DATE": "Date"
+    }
   }
 }

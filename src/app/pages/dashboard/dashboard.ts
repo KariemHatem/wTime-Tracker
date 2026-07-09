@@ -28,6 +28,7 @@ import {
 } from "src/app/shared/utils/date-time.util";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-dashboard",
@@ -42,6 +43,7 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
     ToastModule,
     HeaderSection,
     DataTable,
+    TranslatePipe,
   ],
   providers: [DatePipe],
   templateUrl: "./dashboard.html",

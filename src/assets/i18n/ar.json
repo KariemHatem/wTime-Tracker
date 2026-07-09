@@ -183,5 +183,33 @@
         "PASSWORD": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل."
       }
     }
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة التحكم",
+    "WORKED_TODAY": "الوقت المنجز اليوم",
+    "GOAL_COMPLETION": "نسبة تحقيق الهدف",
+    "SESSIONS_TODAY": "جلسات اليوم",
+    "DAILY_TARGET": "الهدف اليومي",
+    "SESSION_TIMER": "مؤقت الجلسة",
+    "SESSION_IN_PROGRESS": "الجلسة قيد التنفيذ",
+    "NO_ACTIVE_SESSION": "لا توجد جلسة نشطة",
+    "START_SESSION": "بدء الجلسة",
+    "STOP_SESSION": "إيقاف الجلسة",
+    "TODAYS_PROGRESS": "تقدم اليوم",
+    "WORKED": "تم إنجازه",
+    "TARGET": "الهدف",
+    "GOAL_REACHED": "تم تحقيق الهدف!",
+    "SESSION_STARTED_AT": "بدأت الجلسة في",
+    "THIS_WEEK": "هذا الأسبوع",
+    "OVERTIME": "إضافي",
+    "MISSING": "متبقي",
+    "TODAYS_SESSIONS": "جلسات اليوم",
+    "NO_SESSIONS": "لا توجد جلسات اليوم. ابدأ جلستك الأولى!",
+    "TABLE": {
+      "START": "البداية",
+      "END": "النهاية",
+      "DURATION": "المدة",
+      "DATE": "التاريخ"
+    }
   }
 }

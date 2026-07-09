@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center justify-content-between">
   <!-- Page Header -->
-  <app-header-section title="Dashboard">
+  <app-header-section [title]="'DASHBOARD.TITLE' | translate">
     {{ today | date:'EEEE, MMMM d, yyyy' }}
   </app-header-section>
   <span class="mx-5 fw-bold u-name fs-6">{{ user?.fullName }}</span>
@@ -16,7 +16,7 @@
           <i class="pi pi-clock"></i>
         </div>
         <div class="stat-value">{{ fmtMins(progress()?.workedMinutes) }}</div>
-        <div class="stat-label">Worked Today</div>
+        <div class="stat-label">{{ 'DASHBOARD.WORKED_TODAY' | translate }}</div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
@@ -27,7 +27,9 @@
         <div class="stat-value text-success">
           {{ progress()?.progressPercent?.toFixed(0) ?? 0 }}%
         </div>
-        <div class="stat-label">Goal Completion</div>
+        <div class="stat-label">
+          {{ 'DASHBOARD.GOAL_COMPLETION' | translate }}
+        </div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
@@ -36,7 +38,9 @@
           <i class="pi pi-calendar"></i>
         </div>
         <div class="stat-value">{{ numOfSessions() }}</div>
-        <div class="stat-label">Sessions Today</div>
+        <div class="stat-label">
+          {{ 'DASHBOARD.SESSIONS_TODAY' | translate }}
+        </div>
       </div>
     </div>
     <div class="col-6 col-lg-3">
@@ -45,7 +49,7 @@
           <i class="pi pi-flag"></i>
         </div>
         <div class="stat-value">{{ fmtMins(progress()?.targetMinutes) }}</div>
-        <div class="stat-label">Daily Target</div>
+        <div class="stat-label">{{ 'DASHBOARD.DAILY_TARGET' | translate }}</div>
       </div>
     </div>
   </div>
@@ -57,16 +61,18 @@
         class="wt-card t-card h-100 text-center d-flex flex-column align-items-center justify-content-center"
       >
         <h6 class="text-muted mb-2 text-uppercase sesion-timer-label">
-          Session Timer
+          {{ 'DASHBOARD.SESSION_TIMER' | translate }}
         </h6>
         <div class="timer-display" [class.timer-running]="isRunning()">
           {{ timerDisplay() }}
         </div>
         <p class="text-muted s-progress">
-          {{ isRunning() ? 'Session in progress' : 'No active session' }}
+          {{ isRunning() ? ('DASHBOARD.SESSION_IN_PROGRESS' | translate) :
+          ('DASHBOARD.NO_ACTIVE_SESSION' | translate) }}
         </p>
         <p-button
-          [label]="isRunning() ? 'Stop Session' : 'Start Session'"
+          [label]="isRunning()  ? ('DASHBOARD.STOP_SESSION' | translate)
+      : ('DASHBOARD.START_SESSION' | translate)"
           [severity]="isRunning() ? 'danger' : 'success'"
           [loading]="actionLoading()"
           (click)="toggleSession()"
@@ -77,10 +83,13 @@
     <!-- Progress ring / progress bar -->
     <div class="col-12 col-lg-4">
       <div class="wt-card h-100" style="min-height: 200px">
-        <h6 class="text-muted mb-3 p-label text-uppercase">Today's Progress</h6>
+        <h6 class="text-muted mb-3 p-label text-uppercase">
+          {{ 'DASHBOARD.TODAYS_PROGRESS' | translate }}
+        </h6>
         <div class="mb-2 d-flex justify-content-between p-content">
           <span class="text-muted"
-            >{{ fmtMins(progress()?.workedMinutes) }} worked</span
+            >{{ fmtMins(progress()?.workedMinutes) }} {{ 'DASHBOARD.WORKED' |
+            translate }}</span
           >
           <span style="color: var(--primary-color)"
             >{{ progress()?.progressPercent?.toFixed(0) ?? 0 }}%</span
@@ -91,15 +100,20 @@
           [showValue]="false"
         />
         <div class="mt-3 d-flex justify-content-between p-content">
-          <span>Target: {{ fmtMins(progress()?.targetMinutes) }}</span>
+          <span
+            >{{ 'DASHBOARD.TARGET' | translate }}: {{
+            fmtMins(progress()?.targetMinutes) }}</span
+          >
           @if (progress()?.isComplete === true) {
-          <span class="text-success">🎯 Goal reached!</span>
+          <span class="text-success"
+            >🎯 {{ 'DASHBOARD.GOAL_REACHED' | translate }}</span
+          >
           }
         </div>
         @if(progress()?.sessionStartTime){
         <span class="p-content"
-          >Session Started At : {{progress()?.sessionStartTime | date:'MMM d, y,
-          h: mm: ss a'}}</span
+          >{{ 'DASHBOARD.SESSION_STARTED_AT' | translate }} :
+          {{progress()?.sessionStartTime | date:'MMM d, y, h: mm: ss a'}}</span
         >
         }
       </div>
@@ -108,23 +122,30 @@
     <!-- Weekly summary -->
     <div class="col-12 col-lg-4">
       <div class="wt-card h-100 w-summary" *ngIf="weekly(); else weeklyLoading">
-        <h6 class="text-muted mb-3 w-label text-uppercase">This Week</h6>
+        <h6 class="text-muted mb-3 w-label text-uppercase">
+          {{ 'DASHBOARD.THIS_WEEK' | translate }}
+        </h6>
         <div class="mb-2 d-flex justify-content-between p-content">
-          <span class="text-muted">Worked</span>
+          <span class="text-muted">{{ 'DASHBOARD.WORKED' | translate }}</span>
           <strong>{{ fmtMins(weekly()?.totalWorkedMinutes) }}</strong>
         </div>
         <p-progressBar [value]="weeklyPercent" [showValue]="false" />
         <div class="mt-2 d-flex justify-content-between p-content">
-          <span>Target: {{ fmtMins(weekly()?.totalTargetMinutes) }}</span>
+          <span
+            >{{ 'DASHBOARD.TARGET' | translate }}: {{
+            fmtMins(weekly()?.totalTargetMinutes) }}</span
+          >
           <span>{{ weeklyPercent() }}%</span>
         </div>
         @if ((weekly()?.overtimeMinutes ?? 0) > 0) {
         <div class="mt-2 text-success w-overtime">
-          +{{ fmtMins(weekly()?.overtimeMinutes) }} overtime
+          +{{ fmtMins(weekly()?.overtimeMinutes) }} {{ 'DASHBOARD.OVERTIME' |
+          translate }}
         </div>
         } @if((weekly()?.missingMinutes ?? 0) > 0){
         <div class="mt-2 w-missing w-overtime">
-          −{{ fmtMins(weekly()?.missingMinutes) }} missing
+          −{{ fmtMins(weekly()?.missingMinutes) }} {{ 'DASHBOARD.MISSING' |
+          translate }}
         </div>
         }
       </div>
@@ -140,20 +161,22 @@
 
   <!-- Today's sessions -->
   <div class="wt-card">
-    <h6 class="mb-3 fw-semibold today-sessions">Today's Sessions</h6>
+    <h6 class="mb-3 fw-semibold today-sessions">
+      {{ 'DASHBOARD.TODAYS_SESSIONS' | translate }}
+    </h6>
     <app-data-table
       [value]="todaySessions()"
       [loading]="loadingSessions()"
       [colspan]="5"
       [paginated]="true"
-      emptyMessage=" No sessions today. Start your first one!"
+      [emptyMessage]="'DASHBOARD.NO_SESSIONS' | translate"
     >
       <ng-template #header>
         <tr>
-          <th>Start</th>
-          <th>End</th>
-          <th>Duration</th>
-          <th>Date</th>
+          <th>{{ 'DASHBOARD.TABLE.START' | translate }}</th>
+          <th>{{ 'DASHBOARD.TABLE.END' | translate }}</th>
+          <th>{{ 'DASHBOARD.TABLE.DURATION' | translate }}</th>
+          <th>{{ 'DASHBOARD.TABLE.DATE' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template #body let-s>
