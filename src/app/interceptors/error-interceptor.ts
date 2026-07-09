@@ -6,6 +6,10 @@ import { Toater } from "../services/toater";
 import { LanguageService } from "../services/language-service";
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  if (req.url.includes("/assets/i18n/")) {
+    return next(req);
+  }
+
   const router = inject(Router);
   const toastServices = inject(Toater);
   const lang = inject(LanguageService);
