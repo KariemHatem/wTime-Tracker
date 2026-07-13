@@ -30,6 +30,7 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
 import { LanguageService } from "src/app/services/language-service";
+import { TimerTapVisibilty } from "src/app/services/timer-tap-visibilty";
 
 @Component({
   selector: "app-dashboard",
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private toastServices = inject(Toater);
   private lang = inject(LanguageService);
   private destroyref = inject(DestroyRef);
+  private tapVisibilty = inject(TimerTapVisibilty);
   private timerSub?: Subscription;
 
   // Data
@@ -221,9 +223,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.stopTimer();
     const start = new Date(startTime);
     this.elapsedSeconds.set(Math.floor((Date.now() - start.getTime()) / 1000));
-    this.timerSub = interval(1000).subscribe(() =>
-      this.elapsedSeconds.update((s) => s + 1),
-    );
+    this.timerSub = interval(1000).subscribe(() => {
+      this.elapsedSeconds.update((s) => s + 1);
+      // Update Title With Timer
+      this.tapVisibilty.updateTitle(this.timerDisplay());
+    });
   }
 
   // Stop Timer
@@ -231,6 +235,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timerSub?.unsubscribe();
     this.timerSub = undefined;
     this.elapsedSeconds.set(0);
+    this.tapVisibilty.stop();
   }
 
   // Timer Display
