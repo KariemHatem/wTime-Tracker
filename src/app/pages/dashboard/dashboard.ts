@@ -8,7 +8,7 @@ import {
   computed,
 } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
-import { Subscription, interval } from "rxjs";
+import { Subscription, finalize, interval } from "rxjs";
 import { ButtonModule } from "primeng/button";
 import { ProgressBarModule } from "primeng/progressbar";
 import { TableModule } from "primeng/table";
@@ -164,19 +164,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private stopSession() {
     this.api
       .endSession()
-      .pipe(takeUntilDestroyed(this.destroyref))
+      .pipe(
+        takeUntilDestroyed(this.destroyref),
+        finalize(() => this.actionLoading.set(false)),
+      )
       .subscribe({
         next: () => {
           this.isRunning.set(false);
           this.stopTimer();
-          this.actionLoading.set(false);
           this.loadAll();
           this.toastServices.infoToaster(
             this.lang.translate("TOAST.SESSION_STOPPED"),
           );
         },
         error: () => {
-          this.actionLoading.set(false);
           this.toastServices.errorToaster(
             this.lang.translate("TOAST.SESSION_ERROR"),
           );
@@ -188,19 +189,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private startSession() {
     this.api
       .startSession()
-      .pipe(takeUntilDestroyed(this.destroyref))
+      .pipe(
+        takeUntilDestroyed(this.destroyref),
+        finalize(() => this.actionLoading.set(false)),
+      )
       .subscribe({
         next: (s) => {
           this.isRunning.set(true);
           this.startTimer(s.startTime);
-          this.actionLoading.set(false);
           this.loadAll();
           this.toastServices.infoToaster(
             this.lang.translate("TOAST.SESSION_STARTED"),
           );
         },
         error: () => {
-          this.actionLoading.set(false);
           this.toastServices.errorToaster(
             this.lang.translate("TOAST.SESSION_ERROR_START"),
           );
@@ -210,6 +212,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Toggle Session
   toggleSession(): void {
+    // Ignore Clicks While Loading
+    if (this.actionLoading()) return;
     this.actionLoading.set(true);
     if (this.isRunning()) {
       this.stopSession();
