@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+  signal,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -15,6 +22,7 @@ import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-activity",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     DatePipe,

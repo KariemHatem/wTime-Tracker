@@ -90,7 +90,7 @@
   [resizable]="false"
   [(visible)]="mapVisibile"
 >
-  @if(selectedActivity();as sel){
+  @if(selectedActivity();as sel){ @defer (when mapVisibile()) {
   <app-location
     [latitude]="sel.latitude !== undefined ? sel.latitude : 0"
     [longitude]="sel.longitude !== undefined ? sel.longitude : 0"
@@ -98,5 +98,5 @@
     [city]="sel.city"
     [country]="sel.country"
   ></app-location>
-  }
+  } }
 </p-dialog>
