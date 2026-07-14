@@ -1,11 +1,11 @@
 import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { OverviewService } from "src/app/services/overview/overview-service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ApiService } from "src/app/services/api.service";
 import { UserMonitoring as UserMonitor } from "../../../../models/api.models";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-user-monitoring",
@@ -15,7 +15,6 @@ import { TranslatePipe } from "@ngx-translate/core";
 })
 export class UserMonitoring implements OnInit {
   // Priv Properties
-  private overviewService = inject(OverviewService);
   private api = inject(ApiService);
   private destroyRef = inject(DestroyRef);
 
@@ -32,14 +31,13 @@ export class UserMonitoring implements OnInit {
   private getUserMonitoring() {
     this.api
       .getUsersMonitoring()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (m) => {
           this.monitoring = m;
-          this.loading.set(false);
-        },
-        error: () => {
-          this.loading.set(false);
         },
       });
   }

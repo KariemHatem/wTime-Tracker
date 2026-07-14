@@ -11,6 +11,7 @@ import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Dialog } from "primeng/dialog";
 import { Location } from "src/app/shared/map/location/location";
+import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-activity",
   standalone: true,
@@ -24,8 +25,8 @@ import { Location } from "src/app/shared/map/location/location";
     HeaderSection,
     TranslatePipe,
     Dialog,
-    Location
-],
+    Location,
+  ],
   templateUrl: "./activity.html",
   styleUrl: "./activity.scss",
 })
@@ -35,7 +36,7 @@ export class AdminActivityComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   // Data
-  activity: ActivityModel[] = [];
+  activity = signal<ActivityModel[]>([]);
   loading = signal(true);
   mapVisibile = signal(false);
   selectedActivity = signal<ActivityModel | null>(null);
@@ -49,14 +50,13 @@ export class AdminActivityComponent implements OnInit {
     // this.params.pageNumber.set(0);
     this.activityServices
       .getLoginActivity()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res) => {
-          this.activity = res;
-          this.loading.set(false);
-        },
-        error: () => {
-          this.loading.set(false);
+          this.activity.set(res);
         },
       });
   }

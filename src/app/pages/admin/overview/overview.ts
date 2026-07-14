@@ -15,6 +15,7 @@ import { StatCard } from "src/app/shared/model";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { UserMonitoring } from "./user-monitoring/user-monitoring";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-overview",
   standalone: true,
@@ -43,14 +44,13 @@ export class AdminOverviewComponent implements OnInit {
   private getAdmins() {
     this.overviewService
       .getAdminStats()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.stats.set(res);
-          this.loading.set(false);
-        },
-        error: () => {
-          this.loading.set(false);
         },
       });
   }

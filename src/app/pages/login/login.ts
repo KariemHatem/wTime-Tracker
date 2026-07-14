@@ -15,6 +15,7 @@ import { AuthService } from "../../services/auth/auth.service";
 import { Toater } from "src/app/services/toater";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs";
 
 @Component({
   selector: "app-login",
@@ -42,7 +43,6 @@ export class LoginComponent implements OnInit {
   // Data Source
   form!: FormGroup;
   loading = signal(false);
-  error = signal("");
 
   // Lifecycle
   ngOnInit(): void {
@@ -55,10 +55,8 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.form.invalid) return;
     this.loading.set(true);
-    this.error.set("");
 
     // Location
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -83,17 +81,14 @@ export class LoginComponent implements OnInit {
 
     this.auth
       .login(email, password, latitude, longitude)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res: any) => {
-          this.loading.set(false);
           this.toastServices.succesToaster("Login successful");
           this.router.navigate(["/dashboard"]);
-        },
-
-        // Handle Error
-        error: () => {
-          this.loading.set(false);
         },
       });
   }

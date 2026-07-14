@@ -19,6 +19,7 @@ import { formatMinutes } from "src/app/shared/utils/date-time.util";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-sessions",
   standalone: true,
@@ -62,13 +63,14 @@ export class SessionsComponent implements OnInit {
     this.loading.set(true);
     this.apiService
       .listSessions(this.fmt(this.fromDate), this.fmt(this.toDate))
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.sessions.set(res);
-          this.loading.set(false);
         },
-        error: () => this.loading.set(false),
       });
   }
 

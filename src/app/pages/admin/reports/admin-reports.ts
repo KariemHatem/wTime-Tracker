@@ -21,6 +21,7 @@ import {
   formatDateForApi,
 } from "src/app/shared/utils/date-time.util";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-admin-reports",
@@ -61,14 +62,13 @@ export class AdminReportsComponent implements OnInit {
     this.loading.set(true);
     this.reports
       .getDailyReport(this.fmt(this.selectedDate))
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.report.set(res);
-          this.loading.set(false);
-        },
-        error: () => {
-          this.loading.set(false);
         },
       });
   }

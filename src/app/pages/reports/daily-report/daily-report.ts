@@ -13,6 +13,7 @@ import { FormsModule } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-daily-report",
@@ -53,14 +54,13 @@ export class DailyReport implements OnInit {
     this.loadingDaily.set(true);
     this.report
       .getDailyReport(this.fmt(this.dailyDate))
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loadingDaily.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.dailyRows.set(res);
-          this.loadingDaily.set(false);
-        },
-        error: () => {
-          this.loadingDaily.set(false);
         },
       });
   }

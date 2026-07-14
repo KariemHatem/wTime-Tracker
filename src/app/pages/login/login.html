@@ -34,9 +34,7 @@
           [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
         />
       </div>
-      @if(error()){
-      <div class="mb-3 login-err">{{ error() }}</div>
-      }
+
       <p-button
         type="submit"
         [label]="'LOGIN.SIGN_IN' | translate"

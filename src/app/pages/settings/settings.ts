@@ -21,6 +21,7 @@ import { Toater } from "src/app/services/toater";
 import { UserInfo } from "./user-info/user-info";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { TranslatePipe } from "@ngx-translate/core";
+import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-settings",
   standalone: true,
@@ -113,16 +114,15 @@ export class SettingsComponent implements OnInit {
     this.profile
       .updateProfile({
         ...this.profileForm.value,
-        workingDays: this.workingDays,
+        workingDays: this.workingDays(),
       })
-      .pipe(takeUntilDestroyed(this.detroyref))
+      .pipe(
+        takeUntilDestroyed(this.detroyref),
+        finalize(() => this.savingProfile.set(false)),
+      )
       .subscribe({
         next: () => {
-          this.savingProfile.set(false);
           this.toasterServices.succesToaster("Profile Updated Successfully.");
-        },
-        error: () => {
-          this.savingProfile.set(false);
         },
       });
   }
@@ -138,15 +138,16 @@ export class SettingsComponent implements OnInit {
     this.savingPassword.set(true);
     this.profile
       .updateProfile({ currentPassword, newPassword })
-      .pipe(takeUntilDestroyed(this.detroyref))
+      .pipe(
+        takeUntilDestroyed(this.detroyref),
+        finalize(() => this.savingPassword.set(false)),
+      )
       .subscribe({
         next: () => {
-          this.savingPassword.set(false);
           this.passwordForm.reset();
           this.toasterServices.succesToaster("Password Updated Successfully.");
         },
         error: (e) => {
-          this.savingPassword.set(false);
           this.toasterServices.warToaster("Failed to update password.");
         },
       });

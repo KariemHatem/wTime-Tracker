@@ -26,6 +26,7 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { Badge } from "src/app/shared/badge/badge";
 import { TranslatePipe } from "@ngx-translate/core";
 import { LanguageService } from "src/app/services/language-service";
+import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-users",
   standalone: true,
@@ -78,14 +79,13 @@ export class AdminUsersComponent implements OnInit {
     this.loading.set(true);
     this.usersServices
       .listUsers()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.users.set(res);
-          this.loading.set(false);
-        },
-        error: () => {
-          this.loading.set(false);
         },
       });
   }
@@ -161,27 +161,28 @@ export class AdminUsersComponent implements OnInit {
           workingDays: this.workingDays(),
         });
 
-    obs.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: () => {
-        this.saving.set(false);
-        this.showDialog.set(false);
-        this.load();
+    obs
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.saving.set(false)),
+      )
+      .subscribe({
+        next: () => {
+          this.showDialog.set(false);
+          this.load();
 
-        // Refresh User Data
-        if (id && this.auth.currentUser?.id === id) {
-          this.auth
-            .refreshUser()
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-        }
-        this.toasterServices.succesToaster(
-          this.lang.translate(id ? "TOAST.UPDATED" : "TOAST.CREATED"),
-        );
-      },
-      error: () => {
-        this.saving.set(false);
-      },
-    });
+          // Refresh User Data
+          if (id && this.auth.currentUser?.id === id) {
+            this.auth
+              .refreshUser()
+              .pipe(takeUntilDestroyed(this.destroyRef))
+              .subscribe();
+          }
+          this.toasterServices.succesToaster(
+            this.lang.translate(id ? "TOAST.UPDATED" : "TOAST.CREATED"),
+          );
+        },
+      });
   }
 
   // Delete Confirmation
