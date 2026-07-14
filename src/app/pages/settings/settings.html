@@ -67,6 +67,8 @@
             type="submit"
             [label]="'SETTINGS.SAVE_PROFILE' | translate"
             [loading]="savingProfile()"
+            [disabled]="profileForm.invalid"
+            [class.notAllowed]="profileForm.invalid"
           />
         </form>
       </div>
@@ -120,6 +122,8 @@
             label="Update Password"
             severity="secondary"
             [loading]="savingPassword()"
+            [disabled]="passwordForm.invalid"
+            [class.notAllowed]="passwordForm.invalid"
           />
         </form>
       </div>

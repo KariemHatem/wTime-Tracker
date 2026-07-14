@@ -19,3 +19,7 @@ button {
   font-size: 13px;
   margin-bottom: 12px;
 }
+
+:host ::ng-deep .notAllowed button {
+  cursor: not-allowed !important;
+}
