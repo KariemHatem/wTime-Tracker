@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ChartData } from "chart.js";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
@@ -10,6 +17,7 @@ import { DataTable } from "src/app/shared/data-table/data-table/data-table";
 import { TranslatePipe } from "@ngx-translate/core";
 @Component({
   selector: "app-monthly-analytics",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UIChart, DataTable, TranslatePipe],
   templateUrl: "./monthly-analytics.html",
   styleUrl: "./monthly-analytics.scss",

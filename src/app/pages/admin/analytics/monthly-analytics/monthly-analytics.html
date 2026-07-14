@@ -1,90 +1,88 @@
 @if(monthly(); as m){
-<ng-container>
-  <div class="row g-3 mb-4 pt-3">
-    <div class="col-12 col-lg-8">
-      <div class="wt-card">
-        <h6 class="mb-1 fw-semibold">
-          {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}} — {{ monthly()?.year
-          }}/{{ fmtMonth(monthly()?.month) }}
-        </h6>
-        <p class="text-muted mb-4">
-          {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}}
-        </p>
-        <p-chart
-          type="bar"
-          [data]="monthlyBarData"
-          [options]="chartOpts"
-          height="220"
-        />
+<div class="row g-3 mb-4 pt-3">
+  <div class="col-12 col-lg-8">
+    <div class="wt-card">
+      <h6 class="mb-1 fw-semibold">
+        {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}} — {{m?.year }}/{{
+        fmtMonth(monthly()?.month) }}
+      </h6>
+      <p class="text-muted mb-4">
+        {{'MONTHLY_ANALYTICS.HOURS_BY_WEEK' |translate}}
+      </p>
+      <p-chart
+        type="bar"
+        [data]="monthlyBarData"
+        [options]="chartOpts"
+        height="220"
+      />
+    </div>
+  </div>
+  <div class="col-12 col-lg-4">
+    <div class="wt-card mb-3">
+      <div class="text-muted mb-2 avg-hours-label">
+        {{'MONTHLY_ANALYTICS.AVG_HOURS_PER_DAY' | translate}}
+      </div>
+      <div class="monthly-avg-hours fw-bold">
+        {{m?.avgHoursWorked?.toFixed(1) ?? '—' }}h
       </div>
     </div>
-    <div class="col-12 col-lg-4">
-      <div class="wt-card mb-3">
-        <div class="text-muted mb-2 avg-hours-label">
-          {{'MONTHLY_ANALYTICS.AVG_HOURS_PER_DAY' | translate}}
-        </div>
-        <div class="monthly-avg-hours fw-bold">
-          {{ monthly()?.avgHoursWorked?.toFixed(1) ?? '—' }}h
-        </div>
+    <div class="wt-card">
+      <div class="text-muted mb-3 ms-prod">
+        {{'MONTHLY_ANALYTICS.MOST_PRODUCTIVE_DAYS'|translate}}
       </div>
-      <div class="wt-card">
-        <div class="text-muted mb-3 ms-prod">
-          {{'MONTHLY_ANALYTICS.MOST_PRODUCTIVE_DAYS'|translate}}
-        </div>
-        <div class="d-flex flex-wrap gap-2">
-          @for(d of monthly()?.mostProductiveDays; track d){
-          <span class="fw-semibold prod-span"> {{ d }} </span>
-          }@empty {
-          <span class="text-muted no-data"
-            >{{ 'MONTHLY_ANALYTICS.NO_DATA' | translate}}</span
-          >
-          }
-        </div>
+      <div class="d-flex flex-wrap gap-2">
+        @for(d of m?.mostProductiveDays; track d){
+        <span class="fw-semibold prod-span"> {{ d }} </span>
+        }@empty {
+        <span class="text-muted no-data"
+          >{{ 'MONTHLY_ANALYTICS.NO_DATA' | translate}}</span
+        >
+        }
       </div>
     </div>
   </div>
-  <div class="wt-card">
-    <h6 class="mb-3 fw-semibold">
-      {{'MONTHLY_ANALYTICS.WEEKLY_BREAKDOWN' |translate}}
-    </h6>
-    <!-- TABLE -->
-    <app-data-table [value]="monthly().weeks">
-      <ng-template #header>
-        <tr>
-          <th>{{'MONTHLY_ANALYTICS.TABLE.WEEK' |translate}}</th>
-          <th>{{'MONTHLY_ANALYTICS.TABLE.WORKED' |translate}}</th>
-          <th>{{'MONTHLY_ANALYTICS.TABLE.TARGET' |translate}}</th>
-          <th>{{'MONTHLY_ANALYTICS.TABLE.DIFFERENCE' |translate}}</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-w>
-        <tr>
-          <td>
-            <strong class="text-primary-color">Week {{ w.weekNumber }}</strong>
-          </td>
-          <td>
-            <strong class="text-warning"
-              >{{ (w.workedMinutes/60).toFixed(1) }}h</strong
-            >
-          </td>
-          <td>
-            <span class="text-primary-color fw-bold"
-              >{{ (w.targetMinutes/60).toFixed(1) }}h</span
-            >
-          </td>
-          <td
-            [style.color]="(w.workedMinutes-w.targetMinutes)>=0?'#22c55e':'#f59e0b'"
+</div>
+<div class="wt-card">
+  <h6 class="mb-3 fw-semibold">
+    {{'MONTHLY_ANALYTICS.WEEKLY_BREAKDOWN' |translate}}
+  </h6>
+  <!-- TABLE -->
+  <app-data-table [value]="m.weeks">
+    <ng-template #header>
+      <tr>
+        <th>{{'MONTHLY_ANALYTICS.TABLE.WEEK' |translate}}</th>
+        <th>{{'MONTHLY_ANALYTICS.TABLE.WORKED' |translate}}</th>
+        <th>{{'MONTHLY_ANALYTICS.TABLE.TARGET' |translate}}</th>
+        <th>{{'MONTHLY_ANALYTICS.TABLE.DIFFERENCE' |translate}}</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-w>
+      <tr>
+        <td>
+          <strong class="text-primary-color">Week {{ w.weekNumber }}</strong>
+        </td>
+        <td>
+          <strong class="text-warning"
+            >{{ (w.workedMinutes/60).toFixed(1) }}h</strong
           >
-            <span class="text-danger fw-bold"
-              >{{ (w.workedMinutes-w.targetMinutes) >= 0 ? '+' : '' }}{{
-              ((w.workedMinutes-w.targetMinutes)/60).toFixed(1) }}h</span
-            >
-          </td>
-        </tr>
-      </ng-template>
-    </app-data-table>
-  </div>
-</ng-container>
+        </td>
+        <td>
+          <span class="text-primary-color fw-bold"
+            >{{ (w.targetMinutes/60).toFixed(1) }}h</span
+          >
+        </td>
+        <td
+          [style.color]="(w.workedMinutes-w.targetMinutes)>=0?'#22c55e':'#f59e0b'"
+        >
+          <span class="text-danger fw-bold"
+            >{{ (w.workedMinutes-w.targetMinutes) >= 0 ? '+' : '' }}{{
+            ((w.workedMinutes-w.targetMinutes)/60).toFixed(1) }}h</span
+          >
+        </td>
+      </tr>
+    </ng-template>
+  </app-data-table>
+</div>
 }@else {
 <div class="loading-spinner">
   <i class="pi pi-spin pi-spinner"></i>

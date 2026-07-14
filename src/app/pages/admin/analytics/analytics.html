@@ -6,7 +6,7 @@
 
 <!-- Page Body -->
 <div class="page-body">
-  <p-tabs [value]="0">
+  <p-tabs [(value)]="activeTab">
     <p-tablist>
       <p-tab [value]="0">{{ 'ANALYTICS.TABS.WEEKLY' | translate }}</p-tab>
       <p-tab [value]="1">{{ 'ANALYTICS.TABS.MONTHLY' | translate }}</p-tab>
@@ -14,12 +14,16 @@
     <p-tabpanels>
       <!-- WEEKLY -->
       <p-tabpanel [value]="0">
+        @defer (when activeTab() === 0) {
         <app-weekly-analytics></app-weekly-analytics>
+        }
       </p-tabpanel>
 
       <!-- MONTHLY -->
       <p-tabpanel [value]="1">
+        @defer (when activeTab() === 1) {
         <app-monthly-analytics></app-monthly-analytics>
+        }
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>

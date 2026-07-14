@@ -1,8 +1,6 @@
-import { Component, OnInit, inject, DestroyRef } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TabsModule } from "primeng/tabs";
-import { ChartModule } from "primeng/chart";
-import { TableModule } from "primeng/table";
 import { HeaderSection } from "src/app/shared/header-section/header-section";
 import { MonthlyAnalytics } from "./monthly-analytics/monthly-analytics";
 import { WeeklyAnalytics } from "./weekly-analytics/weekly-analytics";
@@ -13,8 +11,6 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [
     CommonModule,
     TabsModule,
-    ChartModule,
-    TableModule,
     HeaderSection,
     MonthlyAnalytics,
     WeeklyAnalytics,
@@ -23,4 +19,6 @@ import { TranslatePipe } from "@ngx-translate/core";
   templateUrl: "./analytics.html",
   styleUrl: "./analytics.scss",
 })
-export class AdminAnalyticsComponent {}
+export class AdminAnalyticsComponent {
+  activeTab = signal(0);
+}

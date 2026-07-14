@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ChartData } from "chart.js";
 import { AnalyticsService } from "src/app/services/analytics/analytics-service";
@@ -12,6 +19,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "app-weekly-analytics",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UIChart, CommonModule, DataTable, TranslatePipe],
   templateUrl: "./weekly-analytics.html",
   styleUrl: "./weekly-analytics.scss",
@@ -22,7 +30,7 @@ export class WeeklyAnalytics implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   // Data Properties
-  weekly = signal<wAnalytics | any>(undefined);
+  weekly = signal<wAnalytics | undefined>(undefined);
 
   weeklyBarData?: ChartData<"bar">;
   weeklyLineData?: ChartData<"line">;

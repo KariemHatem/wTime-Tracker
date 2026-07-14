@@ -1,88 +1,86 @@
 @if(weekly(); as w){
-<ng-container>
-  <div class="row g-3 mb-4 pt-3">
-    <div class="col-12 col-lg-8">
-      <div class="wt-card">
-        <h6 class="mb-1 fw-semibold">
-          {{ 'WEEKLY_ANALYTICS.DAILY_HOURS' | translate }} — {{
-          'WEEKLY_ANALYTICS.WEEK_OF' | translate }} {{ weekly().weekStart |
-          slice:0:10 }}
-        </h6>
-        <p class="text-muted mb-4">
-          {{ 'WEEKLY_ANALYTICS.WORKED_TARGET' | translate }}
-        </p>
-        <p-chart
-          type="bar"
-          [data]="weeklyBarData"
-          [options]="chartOpts"
-          height="220"
-        />
-      </div>
-    </div>
-    <div class="col-12 col-lg-4">
-      <div class="wt-card">
-        <h6 class="mb-1 fw-semibold">
-          {{ 'WEEKLY_ANALYTICS.DAILY_PRODUCTIVITY' | translate }}
-        </h6>
-        <p class="text-muted mb-4">
-          {{ 'WEEKLY_ANALYTICS.COMPLETION_RATE' | translate }}
-        </p>
-        <p-chart
-          type="line"
-          [data]="weeklyLineData"
-          [options]="lineOpts"
-          height="220"
-        />
-      </div>
+
+<div class="row g-3 mb-4 pt-3">
+  <div class="col-12 col-lg-8">
+    <div class="wt-card">
+      <h6 class="mb-1 fw-semibold">
+        {{ 'WEEKLY_ANALYTICS.DAILY_HOURS' | translate }} — {{
+        'WEEKLY_ANALYTICS.WEEK_OF' | translate }} {{ w.weekStart | slice:0:10 }}
+      </h6>
+      <p class="text-muted mb-4">
+        {{ 'WEEKLY_ANALYTICS.WORKED_TARGET' | translate }}
+      </p>
+      <p-chart
+        type="bar"
+        [data]="weeklyBarData"
+        [options]="chartOpts"
+        height="220"
+      />
     </div>
   </div>
-  <div class="wt-card">
-    <h6 class="mb-3 fw-semibold">
-      {{ 'WEEKLY_ANALYTICS.DAY_BREAKDOWN' | translate }}
-    </h6>
-    <!-- TABLE -->
-    <app-data-table [value]="weekly().days">
-      <ng-template #header>
-        <tr>
-          <th>{{ 'WEEKLY_ANALYTICS.TABLE.DAY' | translate }}</th>
-          <th>{{ 'WEEKLY_ANALYTICS.TABLE.DATE' | translate }}</th>
-          <th>{{ 'WEEKLY_ANALYTICS.TABLE.WORKED' | translate }}</th>
-          <th>{{ 'WEEKLY_ANALYTICS.TABLE.TARGET' | translate }}</th>
-          <th>{{ 'WEEKLY_ANALYTICS.TABLE.PRODUCTIVITY' | translate }}</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-d>
-        <tr>
-          <td><strong class="text-primary-color">{{ d.dayName }}</strong></td>
-          <td class="text-muted date">{{ fmtDay(d.date) }}</td>
-          <td>
-            <strong class="text-warning"
-              >{{ (d.workedMinutes/60).toFixed(1) }}h</strong
-            >
-          </td>
-          <td>
-            <span class="text-primary-color fw-bold"
-              >{{ (d.targetMinutes/60).toFixed(1) }}h</span
-            >
-          </td>
-          <td>
-            <div class="d-flex align-items-center justify-content-center gap-2">
-              <div class="progress-bar">
-                <div
-                  class="progress-fill"
-                  [style.width.%]="Math.min(100, d.productivityPercent)"
-                ></div>
-              </div>
-              <span class="fw-semibold prod-span"
-                >{{ d.productivityPercent.toFixed(0) }}%</span
-              >
+  <div class="col-12 col-lg-4">
+    <div class="wt-card">
+      <h6 class="mb-1 fw-semibold">
+        {{ 'WEEKLY_ANALYTICS.DAILY_PRODUCTIVITY' | translate }}
+      </h6>
+      <p class="text-muted mb-4">
+        {{ 'WEEKLY_ANALYTICS.COMPLETION_RATE' | translate }}
+      </p>
+      <p-chart
+        type="line"
+        [data]="weeklyLineData"
+        [options]="lineOpts"
+        height="220"
+      />
+    </div>
+  </div>
+</div>
+<div class="wt-card">
+  <h6 class="mb-3 fw-semibold">
+    {{ 'WEEKLY_ANALYTICS.DAY_BREAKDOWN' | translate }}
+  </h6>
+  <!-- TABLE -->
+  <app-data-table [value]="w.days">
+    <ng-template #header>
+      <tr>
+        <th>{{ 'WEEKLY_ANALYTICS.TABLE.DAY' | translate }}</th>
+        <th>{{ 'WEEKLY_ANALYTICS.TABLE.DATE' | translate }}</th>
+        <th>{{ 'WEEKLY_ANALYTICS.TABLE.WORKED' | translate }}</th>
+        <th>{{ 'WEEKLY_ANALYTICS.TABLE.TARGET' | translate }}</th>
+        <th>{{ 'WEEKLY_ANALYTICS.TABLE.PRODUCTIVITY' | translate }}</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-d>
+      <tr>
+        <td><strong class="text-primary-color">{{ d.dayName }}</strong></td>
+        <td class="text-muted date">{{ fmtDay(d.date) }}</td>
+        <td>
+          <strong class="text-warning"
+            >{{ (d.workedMinutes/60).toFixed(1) }}h</strong
+          >
+        </td>
+        <td>
+          <span class="text-primary-color fw-bold"
+            >{{ (d.targetMinutes/60).toFixed(1) }}h</span
+          >
+        </td>
+        <td>
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                [style.width.%]="Math.min(100, d.productivityPercent)"
+              ></div>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-    </app-data-table>
-  </div>
-</ng-container>
+            <span class="fw-semibold prod-span"
+              >{{ d.productivityPercent.toFixed(0) }}%</span
+            >
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </app-data-table>
+</div>
 }@else {
 <div class="loading-spinner">
   <i class="pi pi-spin pi-spinner"></i>
