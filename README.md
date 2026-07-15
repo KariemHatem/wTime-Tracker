@@ -16,7 +16,6 @@ It combines simple daily time tracking for employees with rich, security-conscio
 
 ### ⏱️ Time Tracking
 - Real-time work session timer (start/stop tracking)
-- **Take a Break** — pause the timer without ending your session; state survives a page refresh
 - Daily, weekly, and monthly productivity reports per user
 - Configurable target working hours and working days per user
 
