@@ -89,6 +89,7 @@
 </div>
 
 <!-- User dialog -->
+@defer (when showDialog()) {
 <p-dialog
   [(visible)]="showDialog"
   [modal]="true"
@@ -197,3 +198,4 @@
     />
   </ng-template>
 </p-dialog>
+}

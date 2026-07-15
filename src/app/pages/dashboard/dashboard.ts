@@ -6,6 +6,7 @@ import {
   DestroyRef,
   signal,
   computed,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { Subscription, finalize, interval } from "rxjs";
@@ -35,6 +36,7 @@ import { TimerTapVisibilty } from "src/app/services/timer-tap-visibilty";
 @Component({
   selector: "app-dashboard",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     DatePipe,
@@ -129,15 +131,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private listSessions() {
     this.api
       .listSessions(this.fmtDate(new Date()), this.fmtDate(new Date()))
-      .pipe(takeUntilDestroyed(this.destroyref))
+      .pipe(
+        takeUntilDestroyed(this.destroyref),
+        finalize(() => this.loadingSessions.set(false)),
+      )
       .subscribe({
         next: (res) => {
           this.todaySessions.set(res);
           this.numOfSessions.set(res.length);
-          this.loadingSessions.set(false);
-        },
-        error: () => {
-          this.loadingSessions.set(false);
         },
       });
   }

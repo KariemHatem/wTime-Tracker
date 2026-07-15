@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+  signal,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ApiService } from "src/app/services/api.service";
@@ -9,6 +16,7 @@ import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-user-monitoring",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, DataTable, TranslatePipe],
   templateUrl: "./user-monitoring.html",
   styleUrl: "./user-monitoring.scss",

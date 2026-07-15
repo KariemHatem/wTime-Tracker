@@ -12,7 +12,7 @@
       <!-- Stat Card  -->
       <div class="wt-stat-card">
         <div class="stat-icon" [style.color]="s.color">
-          <i [class]="'pi ' + s.icon"></i>
+          <i [class]="s.icon"></i>
         </div>
         <div class="stat-value">{{ s.value }}</div>
         <div class="stat-label">{{ s.label |translate }}</div>
@@ -21,7 +21,7 @@
     }
 
     <!-- Hours summary -->
-    @if(stats()){
+    @if(stats(); as s ){
     <div class="row g-3 mt-1 m-auto w-100">
       <div class="col-12 col-md-6">
         <!-- Hours this week -->
@@ -30,7 +30,7 @@
             {{ 'ADMIN_OVERVIEW.THIS_WEEK' | translate }}
           </div>
           <div class="stats-h fw-bold">
-            {{ stats()?.totalHoursThisWeek?.toFixed(1) }}<span class="h"
+            {{ s.totalHoursThisWeek.toFixed(1) }}<span class="h"
               >{{ 'ADMIN_OVERVIEW.HOUR' | translate }}</span
             >
           </div>
@@ -47,7 +47,7 @@
             {{ 'ADMIN_OVERVIEW.THIS_MONTH' | translate }}
           </div>
           <div class="stats-h-m fw-bold text-success">
-            {{ stats()?.totalHoursThisMonth?.toFixed(1) }}<span class="h"
+            {{ s.totalHoursThisMonth.toFixed(1) }}<span class="h"
               >{{ 'ADMIN_OVERVIEW.HOUR' | translate }}</span
             >
           </div>

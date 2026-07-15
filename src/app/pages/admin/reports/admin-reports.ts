@@ -5,8 +5,9 @@ import {
   DestroyRef,
   signal,
   computed,
+  ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
 import { DatePickerModule } from "primeng/datepicker";
@@ -26,8 +27,8 @@ import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-reports",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     DatePipe,
     FormsModule,
     TableModule,

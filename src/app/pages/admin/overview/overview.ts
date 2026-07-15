@@ -5,9 +5,8 @@ import {
   inject,
   DestroyRef,
   signal,
+  ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { ApiService } from "../../../services/api.service";
 import { OverviewService } from "src/app/services/overview/overview-service";
 import { AdminStats } from "src/app/services/overview/admin-stats";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -18,15 +17,15 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-overview",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, HeaderSection, UserMonitoring, TranslatePipe],
+  imports: [HeaderSection, UserMonitoring, TranslatePipe],
   templateUrl: "./overview.html",
   styleUrl: "./overview.scss",
 })
 export class AdminOverviewComponent implements OnInit {
   // Priv Properties
   private overviewService = inject(OverviewService);
-  private api = inject(ApiService);
   private destroyRef = inject(DestroyRef);
 
   // Data Properties
@@ -62,25 +61,25 @@ export class AdminOverviewComponent implements OnInit {
       {
         label: "ADMIN_OVERVIEW.STATS.TOTAL_USERS",
         value: s.totalUsers,
-        icon: "pi-users",
+        icon: "pi pi-users",
         color: "#3b82f6",
       },
       {
         label: "ADMIN_OVERVIEW.STATS.ACTIVE_TODAY",
         value: s.activeUsersToday,
-        icon: "pi-bolt",
+        icon: "pi pi-bolt",
         color: "#22c55e",
       },
       {
         label: "ADMIN_OVERVIEW.STATS.TOTAL_LOGINS",
         value: s.totalLogins,
-        icon: "pi-sign-in",
+        icon: "pi pi-sign-in",
         color: "#f59e0b",
       },
       {
         label: "ADMIN_OVERVIEW.STATS.AVG_PRODUCTIVITY",
         value: `${Math.round(s.avgDailyProductivity)}%`,
-        icon: "pi-chart-line",
+        icon: "pi pi-chart-line",
         color: "#a78bfa",
       },
     ];

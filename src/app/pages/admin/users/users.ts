@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, DestroyRef, signal } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+  signal,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
@@ -30,6 +37,7 @@ import { finalize } from "rxjs/operators";
 @Component({
   selector: "app-admin-users",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -198,14 +206,17 @@ export class AdminUsersComponent implements OnInit {
       acceptLabel: this.lang.translate("DIALOG.COMMON.YES"),
       rejectLabel: this.lang.translate("DIALOG.COMMON.NO"),
       accept: () =>
-        this.usersServices.deleteUser(u.id).subscribe({
-          next: () => {
-            this.load();
-            this.toasterServices.warToaster(
-              this.lang.translate("TOAST.DELETED"),
-            );
-          },
-        }),
+        this.usersServices
+          .deleteUser(u.id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: () => {
+              this.load();
+              this.toasterServices.warToaster(
+                this.lang.translate("TOAST.DELETED"),
+              );
+            },
+          }),
     });
   }
 

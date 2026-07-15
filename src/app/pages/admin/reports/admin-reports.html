@@ -19,9 +19,9 @@
         />
       </div>
       <div class="ms-auto d-flex align-items-center gap-3">
-        @if(report().length){
+        @if(report().length; as len){
         <span class="report-info">
-          {{ report().length }} {{ 'ADMIN_REPORTS.SUMMARY.EMPLOYEES' | translate
+          {{ len }} {{ 'ADMIN_REPORTS.SUMMARY.EMPLOYEES' | translate
           }} · {{ fmtMins(totalWorked()) }} {{ 'ADMIN_REPORTS.SUMMARY.WORKED' |
           translate }} · {{ 'ADMIN_REPORTS.SUMMARY.AVG' | translate }} {{
           avgCompletion() }}%
